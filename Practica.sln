@@ -26,17 +26,19 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Practica.WebGUI", "Practica
 		SlnRelativePath = "Practica.WebGUI\"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Practica.Service", "Practica.Service\Practica.Service.csproj", "{E7567614-DC55-4383-9696-8D58998168ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Practica.Service", "Practica.Service\Practica.Service.csproj", "{E7567614-DC55-4383-9696-8D58998168ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Practica.Core", "Practica.Core\Practica.Core.csproj", "{ED34D6D2-A80F-4F61-9696-CFA6C101ED20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Practica.Core", "Practica.Core\Practica.Core.csproj", "{ED34D6D2-A80F-4F61-9696-CFA6C101ED20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Practica.Data", "Practica.Data\Practica.Data.csproj", "{9BE4A28B-0B98-40C1-976F-E8B3B802E5F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Practica.Data", "Practica.Data\Practica.Data.csproj", "{9BE4A28B-0B98-40C1-976F-E8B3B802E5F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{2123633A-8D9D-414C-B05B-14177BEB67BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{CED6A29B-B585-4BD0-BBCE-6094981B7DA3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{283F6D8C-9C0D-4496-A6B1-A00BF2A17C7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestPractica.Data", "UnitTestPractica.Data\UnitTestPractica.Data.csproj", "{6E8216BF-210A-403D-A523-DC3DC1A4264D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +66,10 @@ Global
 		{9BE4A28B-0B98-40C1-976F-E8B3B802E5F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BE4A28B-0B98-40C1-976F-E8B3B802E5F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BE4A28B-0B98-40C1-976F-E8B3B802E5F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E8216BF-210A-403D-A523-DC3DC1A4264D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E8216BF-210A-403D-A523-DC3DC1A4264D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E8216BF-210A-403D-A523-DC3DC1A4264D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E8216BF-210A-403D-A523-DC3DC1A4264D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{E7567614-DC55-4383-9696-8D58998168ED} = {2123633A-8D9D-414C-B05B-14177BEB67BF}
 		{ED34D6D2-A80F-4F61-9696-CFA6C101ED20} = {2123633A-8D9D-414C-B05B-14177BEB67BF}
 		{9BE4A28B-0B98-40C1-976F-E8B3B802E5F0} = {2123633A-8D9D-414C-B05B-14177BEB67BF}
+		{6E8216BF-210A-403D-A523-DC3DC1A4264D} = {283F6D8C-9C0D-4496-A6B1-A00BF2A17C7F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2CAD21BE-1E2A-4D0F-A175-039FF173D41D}

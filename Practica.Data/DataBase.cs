@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace Practica.Data
@@ -10,21 +11,26 @@ namespace Practica.Data
     {
         private const string TEMPLATE_CONNECTION_STRING_NAME = "practicaTemplateConnectionString";
 
-        internal readonly string _connectionstring;
+        internal readonly string _connectionstring = "Server=DESKTOP-28P3VE1;Database=practica;Trusted_Connection=True";
 
         private SqlConnection conn;
 
         public DataBase()
         {
-            _connectionstring = "Server=DESKTOP-28P3VE1;Database=practica;Trusted_Connection=True";
             conn = new SqlConnection(_connectionstring);
             conn.Open();
         }
 
-        public void runQuery(String query)
+        public DbDataReader ExecuteQuery(String query)
         {
             SqlCommand command = new SqlCommand(query, conn);
-            
+            return  command.ExecuteReader();
+        }
+
+        public int ExecuteUpdate(String query)
+        {
+            SqlCommand command = new SqlCommand(query, conn);
+            return command.ExecuteNonQuery();
         }
     }
 }

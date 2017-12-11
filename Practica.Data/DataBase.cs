@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace Practica.Data
 {
-    public class DataBase
+    public class DataBase:IDisposable
     {
         private const string TEMPLATE_CONNECTION_STRING_NAME = "practicaTemplateConnectionString";
 
@@ -31,6 +31,11 @@ namespace Practica.Data
         {
             SqlCommand command = new SqlCommand(query, conn);
             return command.ExecuteNonQuery();
+        }
+
+        public void Dispose()
+        {
+            conn.Dispose();
         }
     }
 }

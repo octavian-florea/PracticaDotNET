@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Practica.Service;
+using Practica.Data;
+using Practica.Core;
+using System.Collections.Generic;
 
 namespace Practica.WebAPI.Controllers
 {
@@ -12,12 +14,16 @@ namespace Practica.WebAPI.Controllers
     [Route("api/Activity")]
     public class ActivityController : Controller
     {
+
+        ActivityService _activityService = new ActivityService(new ActivityQueryRepository());
+
         // GET: api/Activity
         [HttpGet]
-        public IEnumerable<string> Get()
+        //public IEnumerable<string> Get()
+        public List<Activity> Get(string title)
         {
-            Activity activity = new Activity();
-            return activity.GetActivity();
+            ActivityFilter activityFilter = new ActivityFilter(title);
+            return _activityService.Find(activityFilter);
         }
 
         // GET: api/Activity/5

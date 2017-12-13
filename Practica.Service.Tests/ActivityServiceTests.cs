@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
 using NSubstitute;
-using NUnit.Framework;
+using System;
 using Practica.Core;
 using Practica.Service;
 using System.Collections.Generic;
@@ -19,16 +19,16 @@ namespace Practica.Service.Tests
         }
 
         [Test]
-        public void Filter()
+        public void TestActivityFilter()
         {
             // arrange
             var activityService = new ActivityService(_activityQueryRepository);
-            Dictionary<String, String> filters = new Dictionary<String, String>();
+            ActivityFilter activityFilter = new ActivityFilter("");
             var activityQueryRepositoryResult = getActivityQueryRepositoryResult();
-            _activityQueryRepository.Find(filters).Returns(activityQueryRepositoryResult);
+            _activityQueryRepository.Find(activityFilter).Returns(activityQueryRepositoryResult);
 
             // act
-            var result = activityService.Find(filters);
+            var result = activityService.Find(activityFilter);
 
             // assert
             Assert.AreEqual(2, result.Count);

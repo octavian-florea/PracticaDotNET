@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Practica.Core
 {
-    public interface IRepository
+    public interface IIntershipRepository: IRepository
     {
-        void Add();
-        void Remove();
-
+        Internship Get(string id);
     }
 }

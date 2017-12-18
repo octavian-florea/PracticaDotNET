@@ -6,7 +6,7 @@ namespace Practica.Core
 {
     public class Internship : Activity
     {
-        public Internship(int id, string title, string description, DateTime startDate, DateTime endDate) : base(id, title, description, startDate, endDate)
+        public Internship(string id, string title, string description, DateTime startDate, DateTime endDate) : base(id, title, description, startDate, endDate)
         {
 
         }

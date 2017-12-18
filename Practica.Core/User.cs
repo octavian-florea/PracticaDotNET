@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Practica.Core
 {
-    public interface IRepository
+    class User
     {
-
     }
 }

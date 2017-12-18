@@ -20,10 +20,17 @@ namespace Practica.Data
 
             using (DataBase dataBase = new DataBase())
             {
+                // build sql
+                String sql = "SELECT * FROM activity WHERE title like '%@title%'";
 
-                String sql = "SELECT * FROM activity "+BuildSQLActivityFilter(filters);
+                // build parameters
+                Dictionary<string, string> parameters = new Dictionary<string, string>
+                {
+                    { "title", filters.Title }
+                };
 
-                using (DbDataReader reader = dataBase.ExecuteQuery(sql))
+                // execute sql
+                using (DbDataReader reader = dataBase.ExecuteQuery(sql, parameters))
                 {
                     while (reader.Read())
                     {
@@ -37,21 +44,13 @@ namespace Practica.Data
 
         public Activity ActivityBuilder(DbDataReader reader)
         {
-            int id = (int)reader["Id"];
+            string id = reader["Id"].ToString();
             string title = reader["Title"].ToString();
             string description = reader["Description"].ToString();
             DateTime startDate = reader.GetDateTime(reader.GetOrdinal("Start_date"));
             DateTime endDate = reader.GetDateTime(reader.GetOrdinal("End_date"));
             return new Activity(id, title, description, startDate, endDate);
         }
-
-        public String BuildSQLActivityFilter(ActivityFilter filters)
-        {
-            string sqlFilter = "";
-            sqlFilter = "WHERE title like '%" + filters.Title + "%'";
-            return sqlFilter;
-        }
-
 
         public List<String> getActivity()
         {

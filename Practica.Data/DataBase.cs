@@ -13,29 +13,57 @@ namespace Practica.Data
 
         internal readonly string _connectionstring = "Server=DESKTOP-28P3VE1;Database=practica;Trusted_Connection=True";
 
-        private SqlConnection conn;
+        public DataBase(){ }
 
-        public DataBase()
+        public DbDataReader ExecuteQuery(String query, IDictionary<string,string> parameters = null)
         {
-            conn = new SqlConnection(_connectionstring);
-            conn.Open();
+            using (SqlConnection conn = getOpenConnection())
+            {
+                using (SqlCommand command = new SqlCommand(query, conn))
+                {
+                    if (parameters != null)
+                    {
+                        foreach (var key in parameters.Keys)
+                        {
+                            command.Parameters.AddWithValue($"@{key}", parameters[key]);
+                        }
+                    }
+
+                    return command.ExecuteReader();
+                }
+            }
         }
 
-        public DbDataReader ExecuteQuery(String query)
+        public int ExecuteUpdate(String query, IDictionary<string, string> parameters = null)
         {
-            SqlCommand command = new SqlCommand(query, conn);
-            return  command.ExecuteReader();
-        }
+            using (SqlConnection conn = getOpenConnection())
+            {
+                using (SqlCommand command = new SqlCommand(query, conn))
+                {
+                    if (parameters != null)
+                    {
+                        foreach (var key in parameters.Keys)
+                        {
+                            command.Parameters.AddWithValue($"@{key}", parameters[key]);
+                        }
+                    }
 
-        public int ExecuteUpdate(String query)
-        {
-            SqlCommand command = new SqlCommand(query, conn);
-            return command.ExecuteNonQuery();
+                    return command.ExecuteNonQuery();
+                }
+            }
         }
 
         public void Dispose()
         {
-            conn.Dispose();
+            
         }
+
+        public SqlConnection getOpenConnection()
+        {
+            SqlConnection conn = new SqlConnection(_connectionstring);
+            conn.Open();
+            return conn;
+        }
+
     }
 }

@@ -5,13 +5,13 @@ namespace Practica.Core
 {
     public class Activity
     {
-        private int Id { get; set; }
-        private string Title { get; set; }
-        private string Description { get; set; }
-        private DateTime StartDate { get; set; }
-        private DateTime EndDate { get; set; }
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
-        public Activity(int id, string title, string description, DateTime startDate, DateTime endDate)
+        public Activity(string id, string title, string description, DateTime startDate, DateTime endDate)
         {
             Id = id;
             Title = title;

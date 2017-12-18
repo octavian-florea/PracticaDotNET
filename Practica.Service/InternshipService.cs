@@ -16,5 +16,15 @@ namespace Practica.Service
         {
             return _intershipRepository.Get(id);
         }
+
+        public void Add(Internship internship)
+        {
+            _intershipRepository.Add(internship);
+        }
+
+        public bool Remove(string id)
+        {
+            return _intershipRepository.Remove(id);
+        }
     }
 }

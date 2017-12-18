@@ -51,19 +51,26 @@ namespace Practica.Data
         {
             using (DataBase dataBase = new DataBase())
             {
-                // build sql
-                String sql = "INSERT INTO activity (id, title, description, startDate, endDate) VALUES (@id, @title, @description, @startDate, @endDate)";
+                string sql = "";
+                // build sql insert or update
+                if (Get(internship.Id) == null)
+                {
+                    sql = "INSERT INTO activity (id, title, description, startDate, endDate) VALUES (@id, @title, @description, @startDate, @endDate)";
+                }
+                else
+                {
+                    sql = "UPDATE activity SET title=@title, description=@description, startDate=@startDate, endDate=@endDate WHERE id=@id ";
+                }
 
                 // build parameters
                 Dictionary<string, string> parameters = new Dictionary<string, string>
-                {
-                    {"id", internship.Id},
-                    {"title", internship.Title },
-                    {"description", internship.Description },
-                    {"startDate", internship.StartDate.ToString("yyyy-MM-dd") },
-                    {"endDate", internship.EndDate.ToString("yyyy-MM-dd") },
-
-                };
+                    {
+                         {"id", internship.Id},
+                         {"title", internship.Title },
+                         {"description", internship.Description },
+                         {"startDate", internship.StartDate.ToString("yyyy-MM-dd") },
+                         {"endDate", internship.EndDate.ToString("yyyy-MM-dd") },
+                    };
 
                 // execute sql
                 dataBase.ExecuteUpdate(sql, parameters);

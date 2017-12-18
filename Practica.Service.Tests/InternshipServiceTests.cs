@@ -36,7 +36,7 @@ namespace Practica.Service.Tests
 
         private Internship getIntershipRepositoryResult()
         {
-            return new Internship(1, "Junior Java", "This is a junior java position", new DateTime(), new DateTime());
+            return new Internship("1", "Junior Java", "This is a junior java position", new DateTime(), new DateTime());
         }
 
     }

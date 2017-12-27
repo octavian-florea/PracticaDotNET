@@ -51,7 +51,7 @@ namespace Practica.Data
             {
                 string sql = "";
                 // build sql insert or update
-                if (Get(User.Id) == null)
+                if (Get(user.Id) == null)
                 {
                     sql = "INSERT INTO activity (id, name, email, role) VALUES (@id, @name, @email, @role)";
                 }

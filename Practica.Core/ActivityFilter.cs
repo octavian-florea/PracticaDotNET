@@ -8,6 +8,11 @@ namespace Practica.Core
     {
         public string Title { get; set; }
 
+        public ActivityFilter()
+        {
+            Title = "";
+        }
+
         public ActivityFilter(string title)
         {
             Title = title;

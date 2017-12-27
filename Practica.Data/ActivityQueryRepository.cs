@@ -24,10 +24,11 @@ namespace Practica.Data
                 String sql = "SELECT * FROM activity WHERE title like '%@title%'";
 
                 // build parameters
-                Dictionary<string, string> parameters = new Dictionary<string, string>
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                if (!String.IsNullOrEmpty(filters.Title))
                 {
-                    { "title", filters.Title }
-                };
+                    parameters.Add("title", filters.Title);
+                }
 
                 // execute sql
                 using (DbDataReader reader = dataBase.ExecuteQuery(sql, parameters))

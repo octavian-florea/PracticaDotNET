@@ -8,16 +8,15 @@ using Practica.Data;
 using Practica.Core;
 using System.Collections.Generic;
 
-namespace Practica.WebAPI.Controllers
+namespace Practica.WebAPI
 {
     [Produces("application/json")]
-    [Route("api/Activity")]
+    [Route("api/v1/activity")]
     public class ActivityController : Controller
     {
 
         ActivityService _activityService = new ActivityService(new ActivityQueryRepository());
 
-        // GET: api/Activity
         [HttpGet]
         //public IEnumerable<string> Get()
         public List<Activity> Get(string title)
@@ -27,7 +26,7 @@ namespace Practica.WebAPI.Controllers
         }
 
         // GET: api/Activity/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";

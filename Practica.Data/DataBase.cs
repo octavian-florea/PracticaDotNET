@@ -4,6 +4,7 @@ using System.Text;
 using System.Configuration;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace Practica.Data
 {
@@ -17,7 +18,8 @@ namespace Practica.Data
 
         public DbDataReader ExecuteQuery(String query, IDictionary<string,string> parameters = null)
         {
-            using (SqlConnection conn = getOpenConnection())
+            SqlConnection conn = getOpenConnection();
+            try
             {
                 using (SqlCommand command = new SqlCommand(query, conn))
                 {
@@ -29,8 +31,13 @@ namespace Practica.Data
                         }
                     }
 
-                    return command.ExecuteReader();
+                    return command.ExecuteReader(CommandBehavior.CloseConnection);
                 }
+            }
+            catch
+            {
+                conn.Close();
+                throw;
             }
         }
 

@@ -22,13 +22,13 @@ namespace Practica.Service.Tests
         public void TestGetIntershipById()
         {
             // arrange
-            var id = "1";
+            var id = 1;
             var intershipService = new InternshipService(_intershipRepository);
             var intershipRepositoryResult = getIntershipRepositoryResult();
             _intershipRepository.Get(id).Returns(intershipRepositoryResult);
 
             // act
-            var result = intershipService.GetInternshipById(id);
+            var result = intershipService.GetById(id);
 
             // assert
             Assert.AreEqual(expected: intershipRepositoryResult, actual: result);
@@ -36,7 +36,8 @@ namespace Practica.Service.Tests
 
         private Internship getIntershipRepositoryResult()
         {
-            return new Internship("1", "Junior Java", "This is a junior java position", new DateTime(), new DateTime());
+            //return new Internship("1", "Junior Java", "This is a junior java position", new DateTime(), new DateTime());
+            return new Internship();
         }
 
     }

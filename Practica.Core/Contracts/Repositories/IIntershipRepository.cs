@@ -6,8 +6,8 @@ namespace Practica.Core
 {
     public interface IIntershipRepository: IRepository
     {
-        Internship Get(string id);
+        Internship Get(int id);
         void Add(Internship internship);
-        bool Remove(string id);
+        bool Remove(int id);
     }
 }

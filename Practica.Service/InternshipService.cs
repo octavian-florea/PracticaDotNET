@@ -1,9 +1,10 @@
 ﻿using Practica.Core;
 using System;
+using System.Collections.Generic;
 
 namespace Practica.Service
 {
-    public class InternshipService
+    public class InternshipService: IInternshipService
     {
         private readonly IIntershipRepository _intershipRepository;
 
@@ -12,17 +13,33 @@ namespace Practica.Service
             _intershipRepository = intershipRepository;
         }
 
-        public Internship GetInternshipById(string id)
+        public Internship GetById(int id)
         {
             return _intershipRepository.Get(id);
         }
 
-        public void Add(Internship internship)
+        public IEnumerable<Internship> GetAll()
         {
-            _intershipRepository.Add(internship);
+            return null;
         }
 
-        public bool Remove(string id)
+        public Internship Create(Internship internship)
+        {
+           // if (String.IsNullOrEmpty(internship.Id))
+            //{
+            //    internship.Id = Guid.NewGuid().ToString();
+           // }
+            _intershipRepository.Add(internship);
+            return internship;
+        }
+
+        public bool Update(Internship internship)
+        {
+            _intershipRepository.Add(internship);
+            return true;
+        }
+
+        public bool Delete(int id)
         {
             return _intershipRepository.Remove(id);
         }

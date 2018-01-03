@@ -10,7 +10,7 @@ namespace Practica.Data
     public class IntershipRepository : IIntershipRepository
     {
 
-        public Internship Get(string id)
+        public Internship Get(int id)
         {
             Internship internship =  null;
 
@@ -22,7 +22,7 @@ namespace Practica.Data
                 // build parameters
                 Dictionary<string, string> parameters = new Dictionary<string, string>
                 {
-                    {"id", id}
+                    {"id", id.ToString()}
                 };
 
                 // execute sql
@@ -39,12 +39,13 @@ namespace Practica.Data
 
         public Internship IntershipBuilder(DbDataReader reader)
         {
-            string id = reader["Id"].ToString();
-            string title = reader["Title"].ToString();
-            string description = reader["Description"].ToString();
-            DateTime startDate = reader.GetDateTime(reader.GetOrdinal("Start_date"));
-            DateTime endDate = reader.GetDateTime(reader.GetOrdinal("End_date"));
-            return new Internship(id, title, description, startDate, endDate);
+            Internship intership = new Internship();
+            intership.Id = (int)reader["Id"];
+            intership.Title = reader["Title"].ToString();
+            intership.Description = reader["Description"].ToString();
+            intership.StartDate = reader.GetDateTime(reader.GetOrdinal("Start_date"));
+            intership.EndDate = reader.GetDateTime(reader.GetOrdinal("End_date"));
+            return intership;
         }
 
         public void Add(Internship internship)
@@ -55,17 +56,17 @@ namespace Practica.Data
                 // build sql insert or update
                 if (Get(internship.Id) == null)
                 {
-                    sql = "INSERT INTO activity (id, title, description, startDate, endDate) VALUES (@id, @title, @description, @startDate, @endDate)";
+                    sql = "INSERT INTO activity (id, title, description, start_date, end_date) VALUES (@id, @title, @description, @startDate, @endDate)";
                 }
                 else
                 {
-                    sql = "UPDATE activity SET title=@title, description=@description, startDate=@startDate, endDate=@endDate WHERE id=@id ";
+                    sql = "UPDATE activity SET title=@title, description=@description, start_date=@startDate, end_date=@endDate WHERE id=@id ";
                 }
 
                 // build parameters
                 Dictionary<string, string> parameters = new Dictionary<string, string>
                     {
-                         {"id", internship.Id},
+                         {"id", internship.Id.ToString()},
                          {"title", internship.Title },
                          {"description", internship.Description },
                          {"startDate", internship.StartDate.ToString("yyyy-MM-dd") },
@@ -77,7 +78,7 @@ namespace Practica.Data
             }
         }
 
-        public bool Remove(string id)
+        public bool Remove(int id)
         {
             using (DataBase dataBase = new DataBase())
             {
@@ -87,7 +88,7 @@ namespace Practica.Data
                 // build parameters
                 Dictionary<string, string> parameters = new Dictionary<string, string>
                 {
-                    {"id", id}
+                    {"id", id.ToString()}
                 };
 
                 // execute sql

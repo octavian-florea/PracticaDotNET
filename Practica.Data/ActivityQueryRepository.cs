@@ -45,12 +45,13 @@ namespace Practica.Data
 
         public Activity ActivityBuilder(DbDataReader reader)
         {
-            string id = reader["Id"].ToString();
-            string title = reader["Title"].ToString();
-            string description = reader["Description"].ToString();
-            DateTime startDate = reader.GetDateTime(reader.GetOrdinal("Start_date"));
-            DateTime endDate = reader.GetDateTime(reader.GetOrdinal("End_date"));
-            return new Activity(id, title, description, startDate, endDate);
+            Activity activity = new Activity();
+            activity.Id = (int)reader["Id"];
+            activity.Title = reader["Title"].ToString();
+            activity.Description = reader["Description"].ToString();
+            activity.StartDate = reader.GetDateTime(reader.GetOrdinal("Start_date"));
+            activity.EndDate = reader.GetDateTime(reader.GetOrdinal("End_date"));
+            return activity;
         }
 
         public List<String> getActivity()

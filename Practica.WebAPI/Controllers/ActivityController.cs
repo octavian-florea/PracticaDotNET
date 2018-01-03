@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Practica.WebAPI
 {
     [Produces("application/json")]
-    [Route("api/v1/activity")]
+    [Route("api/activity")]
     public class ActivityController : Controller
     {
 

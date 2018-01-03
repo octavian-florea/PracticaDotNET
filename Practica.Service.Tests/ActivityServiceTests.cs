@@ -38,8 +38,8 @@ namespace Practica.Service.Tests
         {
             return new List<Activity>
             {
-                new Activity("1", "Junior Java", "This is a junior java position", new DateTime(), new DateTime()),
-                new Activity("2", "Junior C#", "This is a junior c# position", new DateTime(), new DateTime())
+                //new Activity("1", "Junior Java", "This is a junior java position", new DateTime(), new DateTime()),
+                //new Activity("2", "Junior C#", "This is a junior c# position", new DateTime(), new DateTime())
             };
         }
 

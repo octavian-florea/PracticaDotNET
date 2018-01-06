@@ -5,16 +5,9 @@ using System.Data.Common;
 
 namespace Practica.Core
 {
-    public class ActivityDto
+    public class ActivityCreateDto
     {
-        public int Id { get; set; }
-
-        public string UserId { get; set; }
-
-        public bool Published { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
+        [Required]
         public DateTime UnpublishDate { get; set; }
 
         [Required]
@@ -22,22 +15,25 @@ namespace Practica.Core
         public string Type { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Title { get; set; }
 
-        [MaxLength(200)]
         public string Description { get; set; }
 
+        [Required]
         public DateTime StartDate { get; set; }
 
+        [Required]
         public DateTime EndDate { get; set; }
 
+        [Required]
         [MaxLength(50)]
         public string City { get; set; }
 
         [MaxLength(200)]
         public string Addres { get; set; }
 
+        [Required]
         public int Seats { get; set; }
         
     }

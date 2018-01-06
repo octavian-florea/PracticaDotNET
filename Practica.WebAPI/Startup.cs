@@ -102,7 +102,7 @@ namespace Practica.WebAPI
                 cfg.CreateMap<Activity, ActivityDto>();
                 cfg.CreateMap<ActivityDto, Activity>();
                 cfg.CreateMap<ActivityUpdateDto, Activity>();
-            
+                cfg.CreateMap<ActivityCreateDto, Activity>();
             });
 
             app.UseMvc();

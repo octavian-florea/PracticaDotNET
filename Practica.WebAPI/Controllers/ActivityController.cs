@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Identity;
 
 namespace Practica.WebAPI
 {
@@ -21,18 +22,21 @@ namespace Practica.WebAPI
     public class ActivityController : Controller
     {
 
-        ActivityService _activityService = new ActivityService(new ActivityQueryRepository());
-        IActivityRepository _activityRepository;
-        PracticaContext _context;
-        ILogger<ActivityController> _logger;
+        private ActivityService _activityService = new ActivityService(new ActivityQueryRepository());
+        private IActivityRepository _activityRepository;
+        private PracticaContext _context;
+        private ILogger<ActivityController> _logger;
+        private UserManager<PracticaUser> _userManager;
 
         public ActivityController(PracticaContext context, 
             IActivityRepository activityRepository,
-            ILogger<ActivityController> logger)
+            ILogger<ActivityController> logger,
+            UserManager<PracticaUser> userManager)
         {
             _activityRepository = activityRepository;
             _logger = logger;
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -75,26 +79,27 @@ namespace Practica.WebAPI
         }
 
         [HttpPost]
-        public IActionResult CreateActivity([FromBody]ActivityDto activityDto)
+        public IActionResult CreateActivity([FromBody]ActivityCreateDto activityCreateDto)
         {
             try
             {
-                if (activityDto == null)
+                if (activityCreateDto == null)
                 {
                     return BadRequest();
                 }
 
                 // create the new object
-                var activity = Mapper.Map<Activity>(activityDto);
+                var activityEntity = Mapper.Map<Activity>(activityCreateDto);
+                activityEntity.UserId= _userManager.GetUserId(HttpContext.User);
 
-                _activityRepository.Add(activity);
+                _activityRepository.Add(activityEntity);
 
                 if (!_activityRepository.Save())
                 {
                     return StatusCode(500, "A problem happend while handeling your request.");
                 }
 
-                var activityDtoToReturn = Mapper.Map<ActivityDto>(activity);
+                var activityDtoToReturn = Mapper.Map<ActivityDto>(activityEntity);
 
                 return CreatedAtRoute("GetIntershipById", new { id = activityDtoToReturn.Id }, activityDtoToReturn);
             }

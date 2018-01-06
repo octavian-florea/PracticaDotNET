@@ -7,6 +7,6 @@ namespace Practica.Core
 {
     public class PracticaUser: IdentityUser
     {
- 
+        public ICollection<Activity> Activities { get; set; }
     }
 }

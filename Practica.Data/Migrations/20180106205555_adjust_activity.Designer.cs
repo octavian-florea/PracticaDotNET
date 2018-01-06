@@ -11,9 +11,10 @@ using System;
 namespace Practica.Data.Migrations
 {
     [DbContext(typeof(PracticaContext))]
-    partial class PracticaContextModelSnapshot : ModelSnapshot
+    [Migration("20180106205555_adjust_activity")]
+    partial class adjust_activity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,15 +165,9 @@ namespace Practica.Data.Migrations
 
                     b.Property<DateTime>("UnpublishDate");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(450);
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Type");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Activities");
                 });
@@ -298,19 +293,6 @@ namespace Practica.Data.Migrations
                 {
                     b.HasOne("Practica.Core.PracticaUser")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Practica.Core.Activity", b =>
-                {
-                    b.HasOne("Practica.Core.ActivityType", "ActivityType")
-                        .WithMany("Activities")
-                        .HasForeignKey("Type")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Practica.Core.PracticaUser", "PracticaUser")
-                        .WithMany("Activities")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

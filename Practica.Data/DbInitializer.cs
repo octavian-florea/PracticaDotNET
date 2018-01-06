@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Practica.Data
 {
@@ -12,13 +13,13 @@ namespace Practica.Data
     {
         private RoleManager<IdentityRole> _roleMgr;
         private UserManager<PracticaUser> _userMgr;
-        
+        private PracticaContext _context;
 
-
-        public DbInitializer(UserManager<PracticaUser> userMgr, RoleManager<IdentityRole> roleMgr)
+        public DbInitializer(UserManager<PracticaUser> userMgr, RoleManager<IdentityRole> roleMgr, PracticaContext context)
         {
             _userMgr = userMgr;
             _roleMgr = roleMgr;
+            _context = context;
         }
 
         public async Task Seed()
@@ -49,6 +50,38 @@ namespace Practica.Data
                     throw new InvalidOperationException("Failed to build user and roles");
                 }
 
+            }
+
+            // Add Activity type
+            var activityType = _context.ActivityTypes.FirstOrDefault();
+            if(activityType == null)
+            {
+                ICollection<ActivityType> activityTypes = new List<ActivityType>();
+                activityTypes.Add(
+                    new ActivityType() {
+                        Code = "practica",
+                        Description = "practica"
+                    }
+                    );
+
+                activityTypes.Add(
+                    new ActivityType()
+                    {
+                        Code = "curs",
+                        Description = "curs"
+                    }
+                    );
+
+                activityTypes.Add(
+                    new ActivityType()
+                    {
+                        Code = "eveniment",
+                        Description = "eveniment"
+                    }
+                    );
+
+                _context.ActivityTypes.AddRange(activityTypes);
+                _context.SaveChanges();
             }
         }
     }

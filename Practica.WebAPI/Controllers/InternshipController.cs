@@ -7,7 +7,6 @@ using Practica.Service;
 using Practica.Core;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
-using Practica.WebAPI.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Practica.Data;
 

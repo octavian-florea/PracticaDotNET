@@ -7,47 +7,207 @@ using Practica.Service;
 using Practica.Data;
 using Practica.Core;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Practica.WebAPI
 {
+    [Authorize]
     [Produces("application/json")]
-    [Route("api/activity")]
+    [Route("api/activities")]
+    [ValidateModel]
     public class ActivityController : Controller
     {
 
         ActivityService _activityService = new ActivityService(new ActivityQueryRepository());
+        IActivityRepository _activityRepository;
+        PracticaContext _context;
+        ILogger<ActivityController> _logger;
+
+        public ActivityController(PracticaContext context, 
+            IActivityRepository activityRepository,
+            ILogger<ActivityController> logger)
+        {
+            _activityRepository = activityRepository;
+            _logger = logger;
+            _context = context;
+        }
 
         [HttpGet]
-        //public IEnumerable<string> Get()
-        public List<Activity> Get(string title)
+        public IActionResult GetActivities()
         {
-            ActivityFilter activityFilter = new ActivityFilter(title);
-            return _activityService.Find(activityFilter);
+            try
+            {
+                var activities = _activityRepository.GetAll();
+
+                var result = AutoMapper.Mapper.Map<IEnumerable<ActivityDto>>(activities);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"An exception was thrown: ", ex);
+                return StatusCode(500, "A problem happend while handeling your request.");
+            }
         }
 
-        // GET: api/Activity/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}", Name ="GetActivity")]
+        public IActionResult GetActivity(int id)
         {
-            return "value";
+            try
+            {
+                var activity = _activityRepository.Get(id);
+                if (activity == null)
+                {
+                    _logger.LogInformation($"Acitvity with id {id} was not found");
+                    return NotFound();
+                }
+
+                var activityDto = AutoMapper.Mapper.Map<ActivityDto>(activity);
+                return Ok(activityDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"An exception was thrown: ", ex);
+                return StatusCode(500, "A problem happend while handeling your request.");
+            }
         }
-        
-        // POST: api/Activity
+
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult CreateActivity([FromBody]ActivityDto activityDto)
         {
+            try
+            {
+                if (activityDto == null)
+                {
+                    return BadRequest();
+                }
+
+                // create the new object
+                var activity = Mapper.Map<Activity>(activityDto);
+
+                _activityRepository.Add(activity);
+
+                if (!_activityRepository.Save())
+                {
+                    return StatusCode(500, "A problem happend while handeling your request.");
+                }
+
+                var activityDtoToReturn = Mapper.Map<ActivityDto>(activity);
+
+                return CreatedAtRoute("GetIntershipById", new { id = activityDtoToReturn.Id }, activityDtoToReturn);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"An exception was thrown: ", ex);
+                return StatusCode(500, "A problem happend while handeling your request.");
+            }
         }
         
-        // PUT: api/Activity/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult UpdateActivity(int id, [FromBody]ActivityUpdateDto activityUpdateDto)
         {
+            try
+            {
+                var activity = _activityRepository.Get(id);
+                if (activity == null)
+                {
+                    _logger.LogInformation($"Acitvity with id {id} was not found");
+                    return NotFound();
+                }
+
+                Mapper.Map(activityUpdateDto, activity);
+
+                if (!_activityRepository.Save())
+                {
+                    return StatusCode(500, "A problem happend while handeling your request.");
+                }
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"An exception was thrown: ", ex);
+                return StatusCode(500, "A problem happend while handeling your request.");
+            }
         }
-        
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+
+        [HttpPatch("{id}")]
+        public IActionResult PatchActivity(int id,[FromBody] JsonPatchDocument<ActivityUpdateDto> patchDoc)
         {
+            try
+            {
+                if (patchDoc == null)
+                {
+                    return BadRequest();
+                }
+
+                var activityEntety = _activityRepository.Get(id);
+                if (activityEntety == null)
+                {
+                    _logger.LogInformation($"Acitvity with id {id} was not found");
+                    return NotFound();
+                }
+
+                var activityUpdateDto = Mapper.Map<ActivityUpdateDto>(activityEntety);
+
+                patchDoc.ApplyTo(activityUpdateDto, ModelState);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                TryValidateModel(activityUpdateDto);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                Mapper.Map(activityUpdateDto, activityEntety);
+
+                if (!_activityRepository.Save())
+                {
+                    return StatusCode(500, "A problem happend while handeling your request.");
+                }
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"An exception was thrown: ", ex);
+                return StatusCode(500, "A problem happend while handeling your request.");
+            }
+        }
+
+    [HttpDelete("{id}")]
+        public IActionResult DeleteActivity(int id)
+        {
+            try
+            {
+                var activityEntety = _activityRepository.Get(id);
+                if (activityEntety == null)
+                {
+                    _logger.LogInformation($"Acitvity with id {id} was not found");
+                    return NotFound();
+                }
+
+                _activityRepository.Remove(activityEntety);
+
+                if (!_activityRepository.Save())
+                {
+                    return StatusCode(500, "A problem happend while handeling your request.");
+                }
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"An exception was thrown: ", ex);
+                return StatusCode(500, "A problem happend while handeling your request.");
+            }
         }
     }
 }

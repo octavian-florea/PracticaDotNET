@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Practica.WebAPI
+namespace Practica.Core
 {
     public class CredentialDto
     {

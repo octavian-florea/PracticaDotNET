@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Practica.Core;
 using System;
 using System.Collections.Generic;
@@ -6,9 +8,10 @@ using System.Text;
 
 namespace Practica.Data
 {
-    public class PracticaContext: DbContext
+    public class PracticaContext: IdentityDbContext<PracticaUser>
     {
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<ActivityType> ActivityTypes { get; set; }
         public DbSet<Aplication> Aplications { get; set; }
 
         public PracticaContext(DbContextOptions<PracticaContext> options):base(options)

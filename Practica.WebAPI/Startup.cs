@@ -21,12 +21,12 @@ namespace Practica.WebAPI
 {
     public class Startup
     {
+        public static IConfiguration Configuration { get; set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+        } 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -34,8 +34,12 @@ namespace Practica.WebAPI
   
             services.AddScoped<IInternshipService, InternshipService>();
             services.AddScoped<IIntershipRepository, IntershipRepository>();
+            services.AddScoped<IActivityRepository, ActivityRepository>();
+            services.AddTransient<DbInitializer>();
+            services.AddSingleton<IConfiguration>(Configuration);
 
-            services.AddDbContext<PracticaContext>(o => o.UseSqlServer("Server=DESKTOP-28P3VE1;Database=practica;Trusted_Connection=True"));
+            var connectionString = Startup.Configuration["ConnectionString:PracticaConnection"];
+            services.AddDbContext<PracticaContext>(o => o.UseSqlServer(connectionString));
 
             services.AddIdentity<PracticaUser, IdentityRole>()
                 .AddEntityFrameworkStores<PracticaContext>();
@@ -74,7 +78,7 @@ namespace Practica.WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, DbInitializer seeder)
         {
             loggerFactory.AddDebug();
 
@@ -91,7 +95,19 @@ namespace Practica.WebAPI
 
             app.UseAuthentication();
 
+            app.UseStatusCodePages();
+
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Activity, ActivityDto>();
+                cfg.CreateMap<ActivityDto, Activity>();
+                cfg.CreateMap<ActivityUpdateDto, Activity>();
+            
+            });
+
             app.UseMvc();
+
+            seeder.Seed().Wait();
         }
     }
 }

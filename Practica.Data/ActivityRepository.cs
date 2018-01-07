@@ -6,6 +6,7 @@ using Practica.Core;
 using System.Data.Common;
 using System.Linq;
 using System.Collections;
+using Microsoft.EntityFrameworkCore;
 
 namespace Practica.Data
 {
@@ -27,6 +28,13 @@ namespace Practica.Data
         {
             
             return _context.Activities.ToList();
+        }
+
+
+        public IEnumerable<Activity> GetAllByUser(string userid)
+        {
+            return _context.Activities
+                .Where(c => c.UserId == userid).ToList();
         }
 
         public IEnumerable<Activity> Find(ActivityFilter activityFilter)

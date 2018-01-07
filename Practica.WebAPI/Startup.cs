@@ -35,6 +35,8 @@ namespace Practica.WebAPI
             services.AddScoped<IInternshipService, InternshipService>();
             services.AddScoped<IIntershipRepository, IntershipRepository>();
             services.AddScoped<IActivityRepository, ActivityRepository>();
+            services.AddScoped<IActivityTypeRepository, ActivityTypeRepository>();
+            services.AddScoped<IAplicationRepository, AplicationRepository>();
             services.AddTransient<DbInitializer>();
             services.AddSingleton<IConfiguration>(Configuration);
 
@@ -103,6 +105,8 @@ namespace Practica.WebAPI
                 cfg.CreateMap<ActivityDto, Activity>();
                 cfg.CreateMap<ActivityUpdateDto, Activity>();
                 cfg.CreateMap<ActivityCreateDto, Activity>();
+                cfg.CreateMap<AplicationCreateDto, Aplication>();
+                cfg.CreateMap<Aplication, AplicationDto>(); 
             });
 
             app.UseMvc();

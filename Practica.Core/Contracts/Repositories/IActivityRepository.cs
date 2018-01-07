@@ -7,6 +7,7 @@ namespace Practica.Core
         void Add(Activity activity);
         Activity Get(int id);
         IEnumerable<Activity> GetAll();
+        IEnumerable<Activity> GetAllByUser(string userid);
         IEnumerable<Activity> Find(ActivityFilter activityFilter);
         void Remove(Activity activity);
         bool Save();

@@ -24,18 +24,19 @@ namespace Practica.WebAPI
 
         private ActivityService _activityService = new ActivityService(new ActivityQueryRepository());
         private IActivityRepository _activityRepository;
-        private PracticaContext _context;
+        private IActivityTypeRepository _activityTypeRepository;
         private ILogger<ActivityController> _logger;
         private UserManager<PracticaUser> _userManager;
 
-        public ActivityController(PracticaContext context, 
+        public ActivityController(
             IActivityRepository activityRepository,
+            IActivityTypeRepository activityTypeRepository,
             ILogger<ActivityController> logger,
             UserManager<PracticaUser> userManager)
         {
             _activityRepository = activityRepository;
+            _activityTypeRepository = activityTypeRepository;
             _logger = logger;
-            _context = context;
             _userManager = userManager;
         }
 
@@ -46,7 +47,7 @@ namespace Practica.WebAPI
             {
                 var activities = _activityRepository.GetAll();
 
-                var result = AutoMapper.Mapper.Map<IEnumerable<ActivityDto>>(activities);
+                var result = Mapper.Map<IEnumerable<ActivityDto>>(activities);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -61,15 +62,32 @@ namespace Practica.WebAPI
         {
             try
             {
-                var activity = _activityRepository.Get(id);
-                if (activity == null)
+                var activityEntity = _activityRepository.Get(id);
+                if (activityEntity == null)
                 {
-                    _logger.LogInformation($"Acitvity with id {id} was not found");
+                    _logger.LogInformation($"Activity with id {id} was not found");
                     return NotFound();
                 }
 
-                var activityDto = AutoMapper.Mapper.Map<ActivityDto>(activity);
+                var activityDto = Mapper.Map<ActivityDto>(activityEntity);
                 return Ok(activityDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"An exception was thrown: ", ex);
+                return StatusCode(500, "A problem happend while handeling your request.");
+            }
+        }
+
+        [HttpGet("user")]
+        public IActionResult GetActivityByUser()
+        {
+            try
+            {
+                var activities = _activityRepository.GetAllByUser(_userManager.GetUserId(User));
+
+                var result = Mapper.Map<IEnumerable<ActivityDto>>(activities);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -83,14 +101,20 @@ namespace Practica.WebAPI
         {
             try
             {
+                // Validation
                 if (activityCreateDto == null)
                 {
                     return BadRequest();
                 }
+                if (_activityTypeRepository.ValidActivityType(activityCreateDto.Type))
+                {
+                    return BadRequest("Type is not valid");
+                };
 
-                // create the new object
+
+                // Create the new object
                 var activityEntity = Mapper.Map<Activity>(activityCreateDto);
-                activityEntity.UserId= _userManager.GetUserId(HttpContext.User);
+                activityEntity.UserId= _userManager.GetUserId(User);
 
                 _activityRepository.Add(activityEntity);
 
@@ -101,7 +125,7 @@ namespace Practica.WebAPI
 
                 var activityDtoToReturn = Mapper.Map<ActivityDto>(activityEntity);
 
-                return CreatedAtRoute("GetIntershipById", new { id = activityDtoToReturn.Id }, activityDtoToReturn);
+                return CreatedAtRoute("GetActivity", new { id = activityDtoToReturn.Id }, activityDtoToReturn);
             }
             catch (Exception ex)
             {

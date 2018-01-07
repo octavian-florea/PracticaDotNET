@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
@@ -16,13 +18,12 @@ namespace Practica.Core
         [MaxLength(450)]
         public string UserId { get; set; }
         public PracticaUser PracticaUser { get; set; }
-        public bool Published { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; }
 
         [Required]
-        public DateTime UnpublishDate { get; set; }
+        public DateTime AplicationEndDate { get; set; }
 
         [Required]
         [ForeignKey("ActivityType")]
@@ -53,6 +54,9 @@ namespace Practica.Core
 
         [Required]
         public int Seats { get; set; }
-        
+
+        public ICollection<Aplication> Aplications { get; set; }
+
+
     }
 }

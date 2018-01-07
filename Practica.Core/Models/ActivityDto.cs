@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
@@ -11,34 +12,26 @@ namespace Practica.Core
 
         public string UserId { get; set; }
 
-        public bool Published { get; set; }
-
         public DateTime CreatedDate { get; set; }
 
-        public DateTime UnpublishDate { get; set; }
+        public DateTime AplicationEndDate { get; set; }
 
-        [Required]
-        [MaxLength(10)]
         public string Type { get; set; }
 
-        [Required]
-        [MaxLength(50)]
         public string Title { get; set; }
 
-        [MaxLength(200)]
         public string Description { get; set; }
 
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
 
-        [MaxLength(50)]
         public string City { get; set; }
 
-        [MaxLength(200)]
         public string Addres { get; set; }
 
         public int Seats { get; set; }
-        
+
+        public ICollection<AplicationDto> Aplications { get; set; }
     }
 }

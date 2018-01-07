@@ -7,7 +7,6 @@ namespace Practica.Core
 {
     public class ActivityUpdateDto
     {
-        [Required]
         [MaxLength(50)]
         public string Title { get; set; }
 

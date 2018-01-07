@@ -11,9 +11,10 @@ using System;
 namespace Practica.Data.Migrations
 {
     [DbContext(typeof(PracticaContext))]
-    partial class PracticaContextModelSnapshot : ModelSnapshot
+    [Migration("20180107120026_rename_col_activity")]
+    partial class rename_col_activity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,14 +198,9 @@ namespace Practica.Data.Migrations
 
                     b.Property<int>("ActivityId");
 
-                    b.Property<string>("UserId")
-                        .HasMaxLength(450);
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ActivityId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Aplications");
                 });
@@ -316,18 +312,6 @@ namespace Practica.Data.Migrations
                         .WithMany("Activities")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Practica.Core.Aplication", b =>
-                {
-                    b.HasOne("Practica.Core.Activity", "Activity")
-                        .WithMany("Aplications")
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Practica.Core.PracticaUser", "PracticaUser")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

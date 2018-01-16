@@ -7,12 +7,6 @@ namespace Practica.Core
 {
     public class ActivityCreateDto
     {
-        [Required]
-        public DateTime AplicationEndDate { get; set; }
-
-        [Required]
-        [MaxLength(10)]
-        public string Type { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -26,6 +20,13 @@ namespace Practica.Core
 
         [Required]
         public DateTime EndDate { get; set; }
+
+        [Required]
+        public DateTime AplicationEndDate { get; set; }
+
+        [Required]
+        [MaxLength(10)]
+        public string Type { get; set; }
 
         [Required]
         [MaxLength(50)]

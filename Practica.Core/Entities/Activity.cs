@@ -55,7 +55,7 @@ namespace Practica.Core
         [Required]
         public int Seats { get; set; }
 
-        public ICollection<Aplication> Aplications { get; set; }
+        public virtual ICollection<Aplication> Aplications { get; set; }
 
 
     }

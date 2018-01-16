@@ -11,9 +11,10 @@ using System;
 namespace Practica.Data.Migrations
 {
     [DbContext(typeof(PracticaContext))]
-    partial class PracticaContextModelSnapshot : ModelSnapshot
+    [Migration("20180115203730_university")]
+    partial class university
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

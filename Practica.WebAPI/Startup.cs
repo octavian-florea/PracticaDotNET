@@ -31,12 +31,25 @@ namespace Practica.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-  
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    });
+            });
+
             services.AddScoped<IInternshipService, InternshipService>();
             services.AddScoped<IIntershipRepository, IntershipRepository>();
             services.AddScoped<IActivityRepository, ActivityRepository>();
             services.AddScoped<IActivityTypeRepository, ActivityTypeRepository>();
             services.AddScoped<IAplicationRepository, AplicationRepository>();
+            services.AddScoped<IUniversityRepository, UniversityRepository>();   
             services.AddTransient<DbInitializer>();
             services.AddSingleton<IConfiguration>(Configuration);
 
@@ -69,10 +82,6 @@ namespace Practica.WebAPI
                 };
             });
 
-           
-
-            services.AddCors();
-
             services.AddMvc()
                 .AddMvcOptions(o => o.OutputFormatters.Add(
                     new XmlDataContractSerializerOutputFormatter()
@@ -82,6 +91,8 @@ namespace Practica.WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, DbInitializer seeder)
         {
+            app.UseCors("AllowAll");
+
             loggerFactory.AddDebug();
 
             loggerFactory.AddNLog();
@@ -90,10 +101,6 @@ namespace Practica.WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseCors(
-                options => options.AllowAnyOrigin().AllowAnyMethod()
-            );
 
             app.UseAuthentication();
 

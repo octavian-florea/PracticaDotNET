@@ -13,6 +13,8 @@ namespace Practica.Data
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ActivityType> ActivityTypes { get; set; }
         public DbSet<Aplication> Aplications { get; set; }
+        public DbSet<University> Universities { get; set; }
+        public DbSet<Faculty> Faculties { get; set; }
 
         public PracticaContext(DbContextOptions<PracticaContext> options):base(options)
         {

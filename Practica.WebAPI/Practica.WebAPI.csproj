@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Practica.Core\Practica.Core.csproj" />
+    <ProjectReference Include="..\Practica.Data\Practica.Data.csproj" />
     <ProjectReference Include="..\Practica.Service\Practica.Service.csproj" />
   </ItemGroup>
 

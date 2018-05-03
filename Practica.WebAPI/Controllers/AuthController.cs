@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.Identity;
 using Practica.Core;
 using Microsoft.Extensions.Logging;
 using Practica.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace Practica.WebAPI.Controllers
 {
@@ -18,17 +23,23 @@ namespace Practica.WebAPI.Controllers
         private PracticaContext _context;
         private SignInManager<PracticaUser> _signInManager;
         private UserManager<PracticaUser> _userManager;
+        private IPasswordHasher<PracticaUser> _hasher;
         private ILogger<AuthController> _logger;
+        private IConfiguration _config;
 
         public AuthController(PracticaContext context, 
             SignInManager<PracticaUser> signInManager, 
             UserManager<PracticaUser> userManager, 
-            ILogger<AuthController> logger)
+            IPasswordHasher<PracticaUser> hasher,
+            ILogger<AuthController> logger,
+            IConfiguration config)
         {
             _signInManager = signInManager;
             _logger = logger;
             _context = context;
             _userManager = userManager;
+            _hasher = hasher;
+            _config = config;
         }
 
         [HttpPost("api/auth/login")]
@@ -90,5 +101,46 @@ namespace Practica.WebAPI.Controllers
             return BadRequest("Failed to register");
         }
 
+        [HttpPost("api/auth/token")]
+        [ValidateModel]
+        public async Task<IActionResult> CreateToken([FromBody]CredentialDto credentialDto)
+        {
+            try
+            {
+                var user = await _userManager.FindByNameAsync(credentialDto.UserName);
+                if(user != null)
+                {
+                    if(_hasher.VerifyHashedPassword(user, user.PasswordHash, credentialDto.Password) == PasswordVerificationResult.Success)
+                    {
+                        var claims = new[]
+                        {
+                            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                        };
+
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
+                        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                        var token = new JwtSecurityToken(
+                            issuer: _config["Token:Issuer"],
+                            audience: _config["Token:Audience"],
+                            claims: claims,
+                            expires: DateTime.UtcNow.AddMinutes(15),
+                            signingCredentials: creds
+                            );
+
+                        return Ok(new
+                        {
+                            toekn = new JwtSecurityTokenHandler().WriteToken(token),
+                            expiration = token.ValidTo
+                        });
+                    }
+                }
+            }catch(Exception ex)
+            {
+                _logger.LogError($"Exception thrown while creating JWT : {ex}");
+            }
+            return BadRequest("Failed to generate token");
+        }
     }
 }

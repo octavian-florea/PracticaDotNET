@@ -16,6 +16,10 @@ using Practica.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Practica.WebAPI
 {
@@ -53,34 +57,63 @@ namespace Practica.WebAPI
             services.AddTransient<DbInitializer>();
             services.AddSingleton<IConfiguration>(Configuration);
 
+            // ===== Add our DbContext ========
             var connectionString = Startup.Configuration["ConnectionString:PracticaConnection"];
             services.AddDbContext<PracticaContext>(o => o.UseSqlServer(connectionString));
 
+            // ===== Add Identity ========
             services.AddIdentity<PracticaUser, IdentityRole>()
-                .AddEntityFrameworkStores<PracticaContext>();
+               .AddEntityFrameworkStores<PracticaContext>()
+               .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(options =>
+            // ===== Add Jwt Authentication ========
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+            services.AddAuthentication(options =>
             {
-                options.Events.OnRedirectToLogin = context =>
-                {
-                    if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == 200)
-                    {
-                        context.Response.StatusCode = 401;
-                    }
-      
-                    return Task.CompletedTask;
-                };
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-                options.Events.OnRedirectToAccessDenied = context =>
+            })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == 200)
-                    {
-                        context.Response.StatusCode = 403;
-                    }
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
 
-                    return Task.CompletedTask;
+                    ValidIssuer = Configuration["Token:Issuer"],
+                    ValidAudience = Configuration["Token:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"]))
                 };
             });
+
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.Events.OnRedirectToLogin = context =>
+            //    {
+            //        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == 200)
+            //        {
+            //            context.Response.StatusCode = 401;
+            //        }
+            //
+            //        return Task.CompletedTask;
+            //    };
+            //
+            //    options.Events.OnRedirectToAccessDenied = context =>
+            //    {
+            //        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == 200)
+            //        {
+            //            context.Response.StatusCode = 403;
+            //        }
+            //
+            //        return Task.CompletedTask;
+            //    };
+            //});
 
             services.AddMvc()
                 .AddMvcOptions(o => o.OutputFormatters.Add(
@@ -119,6 +152,7 @@ namespace Practica.WebAPI
             app.UseMvc();
 
             seeder.Seed().Wait();
+
         }
     }
 }

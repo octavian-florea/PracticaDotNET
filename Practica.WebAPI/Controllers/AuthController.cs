@@ -23,13 +23,15 @@ namespace Practica.WebAPI.Controllers
         private PracticaContext _context;
         private SignInManager<PracticaUser> _signInManager;
         private UserManager<PracticaUser> _userManager;
+        private RoleManager<IdentityRole> _roleMgr;
         private IPasswordHasher<PracticaUser> _hasher;
         private ILogger<AuthController> _logger;
         private IConfiguration _config;
 
         public AuthController(PracticaContext context, 
             SignInManager<PracticaUser> signInManager, 
-            UserManager<PracticaUser> userManager, 
+            UserManager<PracticaUser> userManager,
+            RoleManager<IdentityRole> roleMgr,
             IPasswordHasher<PracticaUser> hasher,
             ILogger<AuthController> logger,
             IConfiguration config)
@@ -38,11 +40,12 @@ namespace Practica.WebAPI.Controllers
             _logger = logger;
             _context = context;
             _userManager = userManager;
+            _roleMgr = roleMgr;
             _hasher = hasher;
             _config = config;
         }
 
-        [HttpPost("api/auth/login")]
+        [HttpPost("api/auth/token")]
         [ValidateModel]
         public async Task<IActionResult> Login([FromBody]CredentialDto credentialDto)
         {
@@ -53,12 +56,14 @@ namespace Practica.WebAPI.Controllers
                     return BadRequest();
                 }
 
-                var result = await _signInManager.PasswordSignInAsync(credentialDto.UserName, credentialDto.Password, false, false);
-                if (result.Succeeded)
+                var user = await _userManager.FindByNameAsync(credentialDto.UserName);
+                if (user != null)
                 {
-                    return Ok();
+                    if (_hasher.VerifyHashedPassword(user, user.PasswordHash, credentialDto.Password) == PasswordVerificationResult.Success)
+                    {
+                        return Ok(CreateToken(user));
+                    }
                 }
-
 
             }catch(Exception ex)
             {
@@ -74,23 +79,43 @@ namespace Practica.WebAPI.Controllers
         {
             try
             {
+                // validation
                 if (registerDto == null)
                 {
                     return BadRequest();
                 }
+                if(!await _roleMgr.RoleExistsAsync(registerDto.Role))
+                {
+                    String[] acceptedRoles = new String[_roleMgr.Roles.Count()];
+                    int counter = 0;
+                    foreach (IdentityRole role in _roleMgr.Roles.Where(role => !role.ToString().Equals("Admin")))
+                    {
+                        acceptedRoles[counter] = role.ToString();
+                        counter++;
+                    }
+                        return BadRequest(String.Join(",", acceptedRoles));
+                }
+                if (registerDto.Role.Equals("Admin", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return BadRequest();
+                }
+                if (await _userManager.FindByNameAsync(registerDto.UserName) != null){
+                    return BadRequest("User already exists");
+                }
+              
 
+                // register user
                 var user = new PracticaUser
                 {
                     UserName = registerDto.UserName
                 };
 
                 var result = await _userManager.CreateAsync(user, registerDto.Password);
+                var roleResult = await _userManager.AddToRoleAsync(user, registerDto.Role);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, false);
-                    return Ok();
+                    return Ok(CreateToken(user));
                 }
-
 
             }
             catch (Exception ex)
@@ -101,46 +126,42 @@ namespace Practica.WebAPI.Controllers
             return BadRequest("Failed to register");
         }
 
-        [HttpPost("api/auth/token")]
-        [ValidateModel]
-        public async Task<IActionResult> CreateToken([FromBody]CredentialDto credentialDto)
+        
+        public Object CreateToken(PracticaUser user)
         {
             try
             {
-                var user = await _userManager.FindByNameAsync(credentialDto.UserName);
                 if(user != null)
-                {
-                    if(_hasher.VerifyHashedPassword(user, user.PasswordHash, credentialDto.Password) == PasswordVerificationResult.Success)
+                {  
+                    var claims = new[]
                     {
-                        var claims = new[]
-                        {
-                            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                        };
+                        new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                    };
 
-                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
-                        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
+                    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                        var token = new JwtSecurityToken(
-                            issuer: _config["Token:Issuer"],
-                            audience: _config["Token:Audience"],
-                            claims: claims,
-                            expires: DateTime.UtcNow.AddMinutes(15),
-                            signingCredentials: creds
-                            );
+                    var token = new JwtSecurityToken(
+                        issuer: _config["Token:Issuer"],
+                        audience: _config["Token:Audience"],
+                        claims: claims,
+                        expires: DateTime.UtcNow.AddMinutes(60),
+                        signingCredentials: creds
+                        );
 
-                        return Ok(new
-                        {
-                            toekn = new JwtSecurityTokenHandler().WriteToken(token),
-                            expiration = token.ValidTo
-                        });
-                    }
+                    return new
+                    {
+                        toekn = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiration = token.ValidTo
+                    };    
                 }
             }catch(Exception ex)
             {
                 _logger.LogError($"Exception thrown while creating JWT : {ex}");
+                throw ex;
             }
-            return BadRequest("Failed to generate token");
+            throw new ApplicationException("UNKNOWN_ERROR");
         }
     }
 }

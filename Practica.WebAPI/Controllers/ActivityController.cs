@@ -41,6 +41,7 @@ namespace Practica.WebAPI
         }
 
         [HttpGet]
+        [Authorize(Roles = "Student")]
         public IActionResult GetActivities()
         {
             try
@@ -97,6 +98,7 @@ namespace Practica.WebAPI
         }
 
         [HttpPost]
+        [Authorize(Roles = "COMPANY")]
         public IActionResult CreateActivity([FromBody]ActivityCreateDto activityCreateDto)
         {
             try

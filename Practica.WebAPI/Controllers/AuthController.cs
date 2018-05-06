@@ -61,7 +61,7 @@ namespace Practica.WebAPI.Controllers
                 {
                     if (_hasher.VerifyHashedPassword(user, user.PasswordHash, credentialDto.Password) == PasswordVerificationResult.Success)
                     {
-                        return Ok(CreateToken(user));
+                        return Ok(await CreateToken(user));
                     }
                 }
 
@@ -114,7 +114,7 @@ namespace Practica.WebAPI.Controllers
                 var roleResult = await _userManager.AddToRoleAsync(user, registerDto.Role);
                 if (result.Succeeded)
                 {
-                    return Ok(CreateToken(user));
+                    return Ok(await CreateToken(user));
                 }
 
             }
@@ -127,18 +127,25 @@ namespace Practica.WebAPI.Controllers
         }
 
         
-        public Object CreateToken(PracticaUser user)
+        public async Task<Object> CreateToken(PracticaUser user)
         {
             try
             {
                 if(user != null)
                 {  
-                    var claims = new[]
+                    var claims = new List<Claim>
                     {
                         new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                     };
-                    
+
+                    // add roles to claims for autorization
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    foreach (var userRole in userRoles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, userRole));
+                    }
+
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
                     var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -146,14 +153,15 @@ namespace Practica.WebAPI.Controllers
                         issuer: _config["Token:Issuer"],
                         audience: _config["Token:Audience"],
                         claims: claims,
-                        expires: DateTime.UtcNow.AddMinutes(60),
+                        expires: DateTime.UtcNow.AddMinutes(600),
                         signingCredentials: creds
                         );
 
                     return new
                     {
                         toekn = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = token.ValidTo
+                        expiration = token.ValidTo,
+                        roles = userRoles
                     };    
                 }
             }catch(Exception ex)

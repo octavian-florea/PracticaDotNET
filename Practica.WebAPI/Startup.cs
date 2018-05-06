@@ -128,7 +128,7 @@ namespace Practica.WebAPI
 
             loggerFactory.AddDebug();
 
-            loggerFactory.AddNLog();
+           // loggerFactory.AddNLog();
 
             if (env.IsDevelopment())
             {

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Identity;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Practica.WebAPI
 {
@@ -85,7 +86,7 @@ namespace Practica.WebAPI
         {
             try
             {
-                var activities = _activityRepository.GetAllByUser(_userManager.GetUserId(User));
+                var activities = _activityRepository.GetAllByUser(User.FindFirst(JwtRegisteredClaimNames.Sid).Value);
 
                 var result = Mapper.Map<IEnumerable<ActivityDto>>(activities);
                 return Ok(result);
@@ -98,7 +99,7 @@ namespace Practica.WebAPI
         }
 
         [HttpPost]
-        [Authorize(Roles = "COMPANY")]
+        [Authorize(Roles = "Company")]
         public IActionResult CreateActivity([FromBody]ActivityCreateDto activityCreateDto)
         {
             try
@@ -108,15 +109,21 @@ namespace Practica.WebAPI
                 {
                     return BadRequest();
                 }
-                if (_activityTypeRepository.ValidActivityType(activityCreateDto.Type))
+                if (!_activityTypeRepository.ValidActivityType(activityCreateDto.Type))
                 {
                     return BadRequest("Type is not valid");
                 };
-
+                if(DateTime.Equals(activityCreateDto.StartDate, DateTime.Parse("0001-01-01"))){
+                    return BadRequest("StartDate is not valid");
+                }
+                if (DateTime.Equals(activityCreateDto.EndDate, DateTime.Parse("0001-01-01"))){
+                    return BadRequest("EndDate is not valid");
+                }
 
                 // Create the new object
                 var activityEntity = Mapper.Map<Activity>(activityCreateDto);
-                activityEntity.UserId= _userManager.GetUserId(User);
+                activityEntity.UserId= User.FindFirst(JwtRegisteredClaimNames.Sid).Value;
+                activityEntity.CreatedDate = DateTime.Now;
 
                 _activityRepository.Add(activityEntity);
 

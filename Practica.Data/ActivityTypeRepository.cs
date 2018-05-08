@@ -21,7 +21,7 @@ namespace Practica.Data
 
         public bool ValidActivityType(string code)
         {
-            var activityType = _context.ActivityTypes.Where(c => c.Code == code).FirstOrDefault();
+            var activityType = _context.ActivityTypes.Where(c => c.Code.Equals(code)).FirstOrDefault();
             if(activityType == null)
             {
                 return false;

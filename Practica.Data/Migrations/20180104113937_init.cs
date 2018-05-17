@@ -23,7 +23,7 @@ namespace Practica.Data.Migrations
                     Published = table.Column<bool>(nullable: false),
                     Seats = table.Column<int>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
-                    Title = table.Column<string>(maxLength: 50, nullable: false),
+                    Title = table.Column<string>(maxLength: 50, nullable: false, defaultValue: new DateTime(9999, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)),
                     UnpublishDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<int>(nullable: false)
                 },

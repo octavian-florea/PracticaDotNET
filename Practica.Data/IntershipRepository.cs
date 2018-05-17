@@ -68,9 +68,9 @@ namespace Practica.Data
                     {
                          {"id", internship.Id.ToString()},
                          {"title", internship.Title },
-                         {"description", internship.Description },
-                         {"startDate", internship.StartDate.ToString("yyyy-MM-dd") },
-                         {"endDate", internship.EndDate.ToString("yyyy-MM-dd") },
+                         {"description", internship.Description }
+                        // {"startDate", internship.StartDate.ToString("yyyy-MM-dd") },
+                        // {"endDate", internship.EndDate.ToString("yyyy-MM-dd") },
                     };
 
                 // execute sql

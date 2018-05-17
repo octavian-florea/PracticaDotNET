@@ -20,12 +20,6 @@ namespace Practica.Core
         public PracticaUser PracticaUser { get; set; }
 
         [Required]
-        public DateTime CreatedDate { get; set; }
-
-        [Required]
-        public DateTime AplicationEndDate { get; set; }
-
-        [Required]
         [ForeignKey("ActivityType")]
         [MaxLength(10)]
         public string Type { get; set; }
@@ -39,24 +33,33 @@ namespace Practica.Core
         [Column(TypeName = "text")]
         public string Description { get; set; }
 
-        [Required]
-        public DateTime StartDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         [Required]
-        public DateTime EndDate { get; set; }
+        public System.Nullable<DateTime> StartDate { get; set; }
+
+        [Required]
+        public System.Nullable<DateTime> EndDate { get; set; }
+
+        public System.Nullable<DateTime> PublishDate { get; set; }
+
+        public System.Nullable<DateTime> ExpirationDate { get; set; }
+
+        [Required]
+        public int Seats { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Country { get; set; }
 
         [Required]
         [MaxLength(50)]
         public string City { get; set; }
 
         [MaxLength(200)]
-        public string Addres { get; set; }
-
-        [Required]
-        public int Seats { get; set; }
+        public string Address { get; set; }
 
         public virtual ICollection<Aplication> Aplications { get; set; }
-
 
     }
 }

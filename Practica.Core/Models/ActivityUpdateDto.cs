@@ -13,9 +13,9 @@ namespace Practica.Core
         [MaxLength(200)]
         public string Description { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public System.Nullable<DateTime> StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public System.Nullable<DateTime> EndDate { get; set; }
 
     }
 }

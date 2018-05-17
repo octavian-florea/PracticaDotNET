@@ -113,17 +113,23 @@ namespace Practica.WebAPI
                 {
                     return BadRequest("Type is not valid");
                 };
-                if(DateTime.Equals(activityCreateDto.StartDate, DateTime.Parse("0001-01-01"))){
-                    return BadRequest("StartDate is not valid");
+                if (activityCreateDto.ExpirationDate <= DateTime.Now)
+                {
+                    return BadRequest("ExpirationDate needs to be in the future");
                 }
-                if (DateTime.Equals(activityCreateDto.EndDate, DateTime.Parse("0001-01-01"))){
-                    return BadRequest("EndDate is not valid");
+                if (!DateTime.Equals(activityCreateDto.PublishDate, DateTime.Parse("0001-01-01")) && activityCreateDto.PublishDate <= DateTime.Now)
+                {
+                    return BadRequest("PublishDate needs to be in the present or in the future");
                 }
 
                 // Create the new object
                 var activityEntity = Mapper.Map<Activity>(activityCreateDto);
                 activityEntity.UserId= User.FindFirst(JwtRegisteredClaimNames.Sid).Value;
                 activityEntity.CreatedDate = DateTime.Now;
+                if (DateTime.Equals(activityCreateDto.PublishDate, DateTime.Parse("0001-01-01")))
+                {
+                    activityEntity.PublishDate = DateTime.Parse("9999-12-31");
+                }
 
                 _activityRepository.Add(activityEntity);
 

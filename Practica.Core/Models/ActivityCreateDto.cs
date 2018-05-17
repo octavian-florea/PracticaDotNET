@@ -7,6 +7,9 @@ namespace Practica.Core
 {
     public class ActivityCreateDto
     {
+        [Required]
+        [MaxLength(10)]
+        public string Type { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -16,27 +19,29 @@ namespace Practica.Core
         public string Description { get; set; }
 
         [Required]
-        public DateTime StartDate { get; set; }
+        public System.Nullable<DateTime> StartDate { get; set; }
 
         [Required]
-        public DateTime EndDate { get; set; }
+        [DateGreaterThan("StartDate",ErrorMessage = "End date needs to be greater than start date")]
+        public System.Nullable<DateTime> EndDate { get; set; }
+
+        public System.Nullable<DateTime> PublishDate { get; set; }
+
+        public System.Nullable<DateTime> ExpirationDate { get; set; }
 
         [Required]
-        public DateTime AplicationEndDate { get; set; }
+        public int Seats { get; set; }
 
         [Required]
-        [MaxLength(10)]
-        public string Type { get; set; }
+        [MaxLength(50)]
+        public string Country { get; set; }
 
         [Required]
         [MaxLength(50)]
         public string City { get; set; }
 
         [MaxLength(200)]
-        public string Addres { get; set; }
-
-        [Required]
-        public int Seats { get; set; }
+        public string Address { get; set; }
         
     }
 }

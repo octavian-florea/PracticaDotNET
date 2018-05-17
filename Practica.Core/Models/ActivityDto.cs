@@ -10,25 +10,29 @@ namespace Practica.Core
     {
         public int Id { get; set; }
 
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime AplicationEndDate { get; set; }
-
         public string Type { get; set; }
 
         public string Title { get; set; }
 
         public string Description { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public System.Nullable<DateTime> CreatedDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public System.Nullable<DateTime> StartDate { get; set; }
+
+        public System.Nullable<DateTime> EndDate { get; set; }
+
+        public System.Nullable<DateTime> PublishDate { get; set; }
+
+        public System.Nullable<DateTime> ExpirationDate { get; set; }
+
+        public int Seats { get; set; }
+
+        public string Country { get; set; }
 
         public string City { get; set; }
 
-        public string Addres { get; set; }
-
-        public int Seats { get; set; }
+        public string Address { get; set; }
 
         public ICollection<AplicationDto> Aplications { get; set; }
     }

@@ -22,8 +22,6 @@ namespace Practica.WebAPI
     [ValidateModel]
     public class ActivityController : Controller
     {
-
-        private ActivityService _activityService = new ActivityService(new ActivityQueryRepository());
         private IActivityRepository _activityRepository;
         private IActivityTypeRepository _activityTypeRepository;
         private ILogger<ActivityController> _logger;
@@ -113,11 +111,11 @@ namespace Practica.WebAPI
                 {
                     return BadRequest("Type is not valid");
                 };
-                if (activityCreateDto.ExpirationDate <= DateTime.Now)
+                if (activityCreateDto.ExpirationDate!= null && activityCreateDto.ExpirationDate <= DateTime.Now)
                 {
                     return BadRequest("ExpirationDate needs to be in the future");
                 }
-                if (!DateTime.Equals(activityCreateDto.PublishDate, DateTime.Parse("0001-01-01")) && activityCreateDto.PublishDate <= DateTime.Now)
+                if (activityCreateDto.PublishDate != null && activityCreateDto.PublishDate <= DateTime.Now)
                 {
                     return BadRequest("PublishDate needs to be in the present or in the future");
                 }
@@ -126,7 +124,7 @@ namespace Practica.WebAPI
                 var activityEntity = Mapper.Map<Activity>(activityCreateDto);
                 activityEntity.UserId= User.FindFirst(JwtRegisteredClaimNames.Sid).Value;
                 activityEntity.CreatedDate = DateTime.Now;
-                if (DateTime.Equals(activityCreateDto.PublishDate, DateTime.Parse("0001-01-01")))
+                if (activityEntity.PublishDate == null)
                 {
                     activityEntity.PublishDate = DateTime.Parse("9999-12-31");
                 }
@@ -154,6 +152,24 @@ namespace Practica.WebAPI
         {
             try
             {
+                if (activityUpdateDto == null)
+                {
+                    return BadRequest();
+                }
+                if (activityUpdateDto.ExpirationDate != null && activityUpdateDto.ExpirationDate <= DateTime.Now)
+                {
+                    return BadRequest("ExpirationDate needs to be in the future");
+                }
+                if (activityUpdateDto.PublishDate != null && activityUpdateDto.PublishDate <= DateTime.Now)
+                {
+                    return BadRequest("PublishDate needs to be in the present or in the future");
+                }
+                if (activityUpdateDto.PublishDate == null)
+                {
+                    activityUpdateDto.PublishDate = DateTime.Parse("9999-12-31");
+                }
+
+
                 var activity = _activityRepository.Get(id);
                 if (activity == null)
                 {
@@ -168,7 +184,9 @@ namespace Practica.WebAPI
                     return StatusCode(500, "A problem happend while handeling your request.");
                 }
 
-                return NoContent();
+                var activityDtoToReturn = Mapper.Map<ActivityDto>(activity);
+
+                return CreatedAtRoute("GetActivity", new { id = activityDtoToReturn.Id }, activityDtoToReturn);
             }
             catch (Exception ex)
             {

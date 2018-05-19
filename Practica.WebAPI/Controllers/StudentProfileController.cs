@@ -16,40 +16,40 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Practica.WebAPI
 {
-    [Authorize(Roles = "Company")]
+    [Authorize(Roles = "Student")]
     [Produces("application/json")]
-    [Route("api/company/profile")]
+    [Route("api/student/profile")]
     [ValidateModel]
-    public class CompanyProfileController : Controller
+    public class StudentProfileController : Controller
     {
-        private ICompanyProfileRepository _companyProfileRepository;
-        private ILogger<CompanyProfileController> _logger;
+        private IStudentProfileRepository _studentProfileRepository;
+        private ILogger<StudentProfileController> _logger;
         private UserManager<PracticaUser> _userManager;
 
-        public CompanyProfileController(
-            ICompanyProfileRepository companyProfileRepository,
-            ILogger<CompanyProfileController> logger,
+        public StudentProfileController(
+            IStudentProfileRepository studentProfileRepository,
+            ILogger<StudentProfileController> logger,
             UserManager<PracticaUser> userManager)
         {
-            _companyProfileRepository = companyProfileRepository;
+            _studentProfileRepository = studentProfileRepository;
             _logger = logger;
             _userManager = userManager;
         }
 
-        [HttpGet(Name = "GetCompanyProfile")]
-        public IActionResult GetCompanyProfile()
+        [HttpGet(Name = "GetStudentProfile")]
+        public IActionResult GetStudentProfile()
         {
             try
             {
-                var companyProfile = _companyProfileRepository.Get(User.FindFirst(JwtRegisteredClaimNames.Sid).Value);
-                if (companyProfile == null)
+                var studentProfile = _studentProfileRepository.Get(User.FindFirst(JwtRegisteredClaimNames.Sid).Value);
+                if (studentProfile == null)
                 {
-                    _logger.LogInformation($"Company profile was not found");
+                    _logger.LogInformation($"Student profile was not found");
                     return NotFound();
                 }
 
-                var companyProfileDto = Mapper.Map<CompanyProfileDto>(companyProfile);
-                return Ok(companyProfileDto);
+                var studentProfileDto = Mapper.Map<StudentProfileDto>(studentProfile);
+                return Ok(studentProfileDto);
             }
             catch (Exception ex)
             {
@@ -59,37 +59,37 @@ namespace Practica.WebAPI
         }
 
         [HttpPost]
-        public IActionResult CreateCompanyProfile([FromBody]CompanyProfileDto companyProfileDto)
+        public IActionResult CreateStudentProfile([FromBody]StudentProfileDto studentProfileDto)
         {
             try
             {
                 var profileid = User.FindFirst(JwtRegisteredClaimNames.Sid).Value;
                 // Validation
-                if (companyProfileDto == null)
+                if (studentProfileDto == null)
                 {
                     return BadRequest();
                 }
-                var companyProfileInDB = _companyProfileRepository.Get(profileid);
-                if (companyProfileInDB != null)
+                var studentProfileInDB = _studentProfileRepository.Get(profileid);
+                if (studentProfileInDB != null)
                 {
                     _logger.LogInformation($"Profile {profileid} allready exists");
                     return BadRequest("Profile allready exists");
                 }
 
                 // Create the new object
-                var companyProfile = Mapper.Map<CompanyProfile>(companyProfileDto);
-                companyProfile.UserId = profileid;
+                var studentProfile = Mapper.Map<StudentProfile>(studentProfileDto);
+                studentProfile.UserId = profileid;
 
-                _companyProfileRepository.Add(companyProfile);
+                _studentProfileRepository.Add(studentProfile);
 
-                if (!_companyProfileRepository.Save())
+                if (!_studentProfileRepository.Save())
                 {
                     return StatusCode(500, "A problem happend while handeling your request.");
                 }
 
-                var companyProfileDtoToReturn = Mapper.Map<CompanyProfileDto>(companyProfile);
+                var studentProfileDtoToReturn = Mapper.Map<StudentProfileDto>(studentProfile);
 
-                return CreatedAtRoute("GetCompanyProfile", companyProfileDtoToReturn);
+                return CreatedAtRoute("GetStudentProfile", studentProfileDtoToReturn);
             }
             catch (Exception ex)
             {
@@ -99,32 +99,32 @@ namespace Practica.WebAPI
         }
 
         [HttpPut]
-        public IActionResult UpdateCompanyProfile([FromBody]CompanyProfileDto companyProfileDto)
+        public IActionResult UpdateStudentProfile([FromBody]StudentProfileDto studentProfileDto)
         {
             try
             {
                 var profileid = User.FindFirst(JwtRegisteredClaimNames.Sid).Value;
-                if (companyProfileDto == null)
+                if (studentProfileDto == null)
                 {
                     return BadRequest();
                 }
-                var companyProfile = _companyProfileRepository.Get(profileid);
-                if (companyProfile == null)
+                var studentProfile = _studentProfileRepository.Get(profileid);
+                if (studentProfile == null)
                 {
-                    _logger.LogInformation($"Company profile with id {profileid} was not found");
+                    _logger.LogInformation($"Student profile with id {profileid} was not found");
                     return NotFound();
                 }
 
-                Mapper.Map(companyProfileDto, companyProfile);
+                Mapper.Map(studentProfileDto, studentProfile);
 
-                if (!_companyProfileRepository.Save())
+                if (!_studentProfileRepository.Save())
                 {
                     return StatusCode(500, "A problem happend while handeling your request.");
                 }
 
-                var companyProfileDtoToReturn = Mapper.Map<CompanyProfileDto>(companyProfile);
+                var studentProfileDtoToReturn = Mapper.Map<StudentProfileDto>(studentProfile);
 
-                return CreatedAtRoute("GetCompanyProfile", companyProfileDtoToReturn);
+                return CreatedAtRoute("GetStudentProfile", studentProfileDtoToReturn);
             }
             catch (Exception ex)
             {
@@ -134,21 +134,21 @@ namespace Practica.WebAPI
         }
 
         [HttpDelete]
-        public IActionResult DeleteCompanyProfile()
+        public IActionResult DeleteStudentProfile()
         {
             try
             {
                 var profileid = User.FindFirst(JwtRegisteredClaimNames.Sid).Value;
-                var companyProfile = _companyProfileRepository.Get(profileid);
-                if (companyProfile == null)
+                var studentProfile = _studentProfileRepository.Get(profileid);
+                if (studentProfile == null)
                 {
-                    _logger.LogInformation($"company profile with id {profileid} was not found");
+                    _logger.LogInformation($"student profile with id {profileid} was not found");
                     return NotFound();
                 }
 
-                _companyProfileRepository.Remove(companyProfile);
+                _studentProfileRepository.Remove(studentProfile);
 
-                if (!_companyProfileRepository.Save())
+                if (!_studentProfileRepository.Save())
                 {
                     return StatusCode(500, "A problem happend while handeling your request.");
                 }

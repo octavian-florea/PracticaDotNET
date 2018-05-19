@@ -16,6 +16,7 @@ namespace Practica.Data
         public DbSet<University> Universities { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<CompanyProfile> CompanyProfiles { get; set; }
+        public DbSet<StudentProfile> StudentsProfile { get; set; }
 
         public PracticaContext(DbContextOptions<PracticaContext> options):base(options)
         {

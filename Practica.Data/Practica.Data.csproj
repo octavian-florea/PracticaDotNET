@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20180518205252_company_profile.cs" />
+    <Compile Remove="Migrations\20180519195936_update_student_profile.cs" />
+    <Compile Remove="Migrations\20180519201248_student_profile.cs" />
   </ItemGroup>
 
   <ItemGroup>

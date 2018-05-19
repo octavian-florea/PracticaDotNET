@@ -6,27 +6,16 @@ using System.Data.Common;
 
 namespace Practica.Core
 {
-    public class StudentProfile
+    public class StudentProfileDto
     {
-        [Key]
-        [Required]
-        [ForeignKey("User")]
-        [MaxLength(450)]
-        public string UserId { get; set; }
-        public PracticaUser User { get; set; }
-
         [Required]
         [MaxLength(250)]
         public string Name { get; set; }
 
-        [Column(TypeName = "text")]
         public string Description { get; set; }
 
         [Required]
-        [ForeignKey("Faculty")]
-        [MaxLength(10)]
         public int FacultyId { get; set; }
-        public Faculty Faculty { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -44,8 +33,6 @@ namespace Practica.Core
         [MaxLength(50)]
         public string City { get; set; }
 
-        [Column(TypeName = "image")]
         public Byte[] CV { get; set; }
-
     }
 }

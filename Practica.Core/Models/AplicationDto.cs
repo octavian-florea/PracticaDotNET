@@ -13,6 +13,18 @@ namespace Practica.Core
 
         public int ActivityId { get; set; }
 
-        public ActivityDto Activity { get; set; }
+        public int FacultyId { get; set; }
+
+        public string Specialization { get; set; }
+
+        public int StudyYear { get; set; }
+
+        public string StudentMessage { get; set; }
+
+        public byte Status { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime ModifiedStateDate { get; set; }
     }
 }

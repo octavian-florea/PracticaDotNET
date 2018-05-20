@@ -5,12 +5,9 @@ using System.Data.Common;
 
 namespace Practica.Core
 {
-    public class AplicationCreateDto
+    public class AplicationUpdateDto
     {
         [Required]
-        public int ActivityId { get; set; }
-
-        public string StudentMessage { get; set; }
-
+        public byte Status { get; set; }
     }
 }

@@ -143,12 +143,12 @@ namespace Practica.WebAPI
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Activity, ActivityDto>();
-                cfg.CreateMap<ActivityDto, Activity>();
+                cfg.CreateMap<ActivityDto, Activity>().ReverseMap();
                 cfg.CreateMap<ActivityUpdateDto, Activity>();
                 cfg.CreateMap<ActivityCreateDto, Activity>();
                 cfg.CreateMap<AplicationCreateDto, Aplication>();
-                cfg.CreateMap<Aplication, AplicationDto>();
+                cfg.CreateMap<AplicationDto, Aplication>().ReverseMap();
+                cfg.CreateMap<AplicationUpdateDto, Aplication>();
                 cfg.CreateMap<CompanyProfileDto, CompanyProfile>().ReverseMap();
                 cfg.CreateMap<StudentProfileDto, StudentProfile>().ReverseMap();
             });

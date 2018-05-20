@@ -21,19 +21,21 @@ namespace Practica.Data
             _context.Aplications.Add(aplication);
         }
 
-        public IEnumerable<Aplication> Find()
-        {
-            throw new NotImplementedException();
-        }
-
         public Aplication Get(int id)
         {
             return _context.Aplications.Where(c => c.Id == id).FirstOrDefault();
         }
 
-        public IEnumerable<Aplication> GetAll()
+        public IEnumerable<Aplication> GetAllByActivity(int activityId)
         {
-            throw new NotImplementedException();
+            return _context.Aplications.Include(c => c.Activity)
+               .Where(c => c.ActivityId == activityId).ToList();
+        }
+
+        public IEnumerable<Aplication> GetAllByActivityAndStudent(string studentId, int activityId)
+        {
+            return _context.Aplications
+               .Where(c => c.ActivityId == activityId && c.UserId == studentId).ToList();
         }
 
         public IEnumerable<Aplication> GetAllByUser(string userid)

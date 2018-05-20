@@ -33,6 +33,7 @@ namespace Practica.Core
         [Column(TypeName = "text")]
         public string Description { get; set; }
 
+        [Required]
         public DateTime CreatedDate { get; set; }
 
         [Required]

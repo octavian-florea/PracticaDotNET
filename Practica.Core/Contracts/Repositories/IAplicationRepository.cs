@@ -8,9 +8,9 @@ namespace Practica.Core
     {
         void Add(Aplication aplication);
         Aplication Get(int id);
-        IEnumerable<Aplication> GetAll();
+        IEnumerable<Aplication> GetAllByActivity(int aplicationid);
+        IEnumerable<Aplication> GetAllByActivityAndStudent(string studentid, int aplicationid);
         IEnumerable<Aplication> GetAllByUser(string userid);
-        IEnumerable<Aplication> Find();
         void Remove(Aplication aplication);
         bool Save();
     }

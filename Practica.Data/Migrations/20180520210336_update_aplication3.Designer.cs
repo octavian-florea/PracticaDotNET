@@ -11,9 +11,10 @@ using System;
 namespace Practica.Data.Migrations
 {
     [DbContext(typeof(PracticaContext))]
-    partial class PracticaContextModelSnapshot : ModelSnapshot
+    [Migration("20180520210336_update_aplication3")]
+    partial class update_aplication3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -216,7 +217,7 @@ namespace Practica.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<byte>("Status");
+                    b.Property<byte>("State");
 
                     b.Property<string>("StudentMessage")
                         .HasColumnType("text");

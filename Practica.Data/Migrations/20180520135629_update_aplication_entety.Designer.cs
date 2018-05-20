@@ -11,9 +11,10 @@ using System;
 namespace Practica.Data.Migrations
 {
     [DbContext(typeof(PracticaContext))]
-    partial class PracticaContextModelSnapshot : ModelSnapshot
+    [Migration("20180520135629_update_aplication_entety")]
+    partial class update_aplication_entety
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,23 +206,19 @@ namespace Practica.Data.Migrations
 
                     b.Property<int>("ActivityId");
 
-                    b.Property<DateTime>("CreatedDate");
-
                     b.Property<int>("FacultyId")
                         .HasMaxLength(10);
-
-                    b.Property<DateTime>("ModifiedStateDate");
 
                     b.Property<string>("Specialization")
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<byte>("Status");
-
-                    b.Property<string>("StudentMessage")
-                        .HasColumnType("text");
+                    b.Property<byte>("State");
 
                     b.Property<int>("StudyYear");
+
+                    b.Property<string>("StundetMessage")
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .HasMaxLength(450);

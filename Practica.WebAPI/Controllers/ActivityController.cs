@@ -244,7 +244,7 @@ namespace Practica.WebAPI
             }
         }
 
-    [HttpDelete("{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteActivity(int id)
         {
             try

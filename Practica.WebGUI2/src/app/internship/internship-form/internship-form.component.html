@@ -1,0 +1,40 @@
+<form class='pr-form' [formGroup]="activityForm" (ngSubmit)="submitForm()">
+  <mat-form-field class='pr-full-width'>
+    <input matInput placeholder="Titlu" formControlName="title">
+  </mat-form-field>
+  <mat-form-field class='pr-full-width'>
+    <textarea matInput placeholder="Descriere" formControlName="description"></textarea>
+  </mat-form-field>
+  <mat-form-field class='pr-full-width'>
+    <mat-select placeholder="Tip activitate">
+      <mat-option value="practica">Practica</mat-option>
+      <mat-option value="curs">Curs</mat-option>
+      <mat-option value="eveniment">Eveniment</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [matDatepicker]="startDatePicker" placeholder="Data inceput activitate" formControlName="startDate">
+    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #startDatePicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [matDatepicker]="endDatePicker" placeholder="Data sfarsit activitate" formControlName="endDate">
+    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #endDatePicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field class='pr-full-width'>
+    <input matInput [matDatepicker]="aplicationEndDatePicker" placeholder="Data sfarsit aplicare" formControlName="aplicationEndDate">
+    <mat-datepicker-toggle matSuffix [for]="aplicationEndDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #aplicationEndDatePicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field class='pr-full-width'>
+    <input matInput placeholder="Numar locuri" formControlName="seats">
+  </mat-form-field>
+  <mat-form-field class='pr-full-width'>
+    <input matInput placeholder="Adresa" formControlName="addres">
+  </mat-form-field>
+  <mat-form-field class='pr-full-width'>
+    <input matInput placeholder="Oras" formControlName="city">
+  </mat-form-field>
+  <button mat-raised-button type="submit">Trasmite</button>
+</form>

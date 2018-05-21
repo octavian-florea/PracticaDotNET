@@ -1,0 +1,34 @@
+<div style="text-align:center">
+  <h1>
+    Locuri de practica
+  </h1>
+</div>
+<span>{{testConnection}}</span>
+<mat-card tabindex=0 *ngFor='let activity of activities' style='height:250px;width:200px;margin:10px;float:left'>
+    <mat-card-header>
+      <i class="material-icons">access_time</i>
+      <span>
+        {{activity.time}}
+      </span>
+    </mat-card-header>
+    <div style='min-height:60px;padding-top:20px;'>
+      <img mat-card-image style='width:150px;margin:auto 0' src="{{activity.imageUrl}}" alt="Photo of a Shiba Inu">
+    </div>
+    <mat-card-title style='min-height:50px; '> 
+        <a [routerLink]="['/activity/'+activity.activityId]">
+          {{activity.activityName}}
+        </a>
+    </mat-card-title>
+    <mat-card-subtitle>{{activity.activityName}}</mat-card-subtitle>
+    <mat-card-content>
+      <p>
+           {{activity.activityDescription}}
+      </p>
+    </mat-card-content>
+    <mat-card-footer>
+      <i class="material-icons">place</i>
+      <span>
+        {{activity.location}}
+      </span>
+    </mat-card-footer>
+</mat-card>

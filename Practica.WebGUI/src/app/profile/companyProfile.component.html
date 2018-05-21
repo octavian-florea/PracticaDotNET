@@ -1,0 +1,28 @@
+<form [formGroup]="profileForm" (ngSubmit)="submitForm()">
+
+  <mat-form-field class='pr-full-width'>
+    <input matInput placeholder="Nume si prenume" formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field class='pr-full-width'>
+    <input matInput placeholder="Companie" formControlName="company">
+  </mat-form-field>
+
+  <mat-form-field class='pr-full-width'>
+    <input matInput placeholder="Cod fiscal" formControlName="cf">
+  </mat-form-field>
+
+  <mat-form-field class='pr-full-width'>
+    <input matInput placeholder="Telefon" formControlName="phone">
+  </mat-form-field>
+
+  <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="E-mail" formControlName="email">
+    </mat-form-field>
+
+  <mat-form-field class='pr-full-width'>
+    <input matInput placeholder="Locatie" formControlName="location">
+  </mat-form-field>
+
+  <button mat-raised-button type="submit">Trasmite</button>
+</form>

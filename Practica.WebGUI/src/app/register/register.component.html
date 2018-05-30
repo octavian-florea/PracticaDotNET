@@ -1,12 +1,10 @@
-<div>
-  <form [formGroup]="registerForm" (ngSubmit)="submitForm()">
-    <h2 mat-dialog-title>Register</h2>
-    <mat-dialog-content>
-      <input formControlName="userName" />
-      <input formControlName="password" />
-    </mat-dialog-content>
-    <mat-dialog-actions>
-      <button mat-raised-button type="submit">Trasmite</button>
-    </mat-dialog-actions>
-  </form>
-</div>
+<form [formGroup]="registerForm" (ngSubmit)="submitForm()">
+  <h2 mat-dialog-title>Register</h2>
+  <mat-dialog-content>
+    <input formControlName="userName" />
+    <input formControlName="password" />
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button type="submit">Trasmite</button>
+  </mat-dialog-actions>
+</form>

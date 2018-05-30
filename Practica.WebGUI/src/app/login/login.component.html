@@ -1,5 +1,10 @@
 <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
-  <input formControlName="userName" />
-  <input formControlName="password" />
-  <button mat-raised-button type="submit">Trasmite</button>
+  <h2 mat-dialog-title>Log in</h2>
+  <mat-dialog-content>
+    <input formControlName="userName" />
+    <input formControlName="password" />
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button type="submit">Trasmite</button>
+  </mat-dialog-actions>
 </form>

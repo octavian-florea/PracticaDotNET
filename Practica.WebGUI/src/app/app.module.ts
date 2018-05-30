@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCheckboxModule, MatCardModule, MatButtonModule, MatToolbarModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatSelectModule, MatRadioModule, MatAutocompleteModule } from '@angular/material';
+import { MatCheckboxModule, MatCardModule, MatButtonModule, MatToolbarModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatSelectModule, MatRadioModule, MatAutocompleteModule, MatDialogModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -18,6 +18,10 @@ import { LoginComponent } from './login/login.component';
 import { StudentProfileComponent } from './profile/studentProfile.component';
 import { TeacherProfileComponent } from './profile/teacherProfile.component';
 import { CompanyProfileComponent } from './profile/companyProfile.component';
+import { ActivityService } from './services/activity.service';
+import { AuthService } from './services/auth.service';
+import { ProfileService } from './services/profile.service';
+import { CatalogService } from './services/catalog.service';
 
 @NgModule({
   declarations: [
@@ -52,6 +56,7 @@ import { CompanyProfileComponent } from './profile/companyProfile.component';
     FormsModule,
     ReactiveFormsModule,
     MatRadioModule,
+    MatDialogModule,
     RouterModule.forRoot([
         { path: 'activities/:id', component:ActivityDetailsComponent},
         { path: 'register', component:RegisterComponent},
@@ -64,7 +69,8 @@ import { CompanyProfileComponent } from './profile/companyProfile.component';
     ]),
     //SharedModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ActivityService, AuthService, ProfileService, CatalogService],
+  bootstrap: [AppComponent],
+  entryComponents: [RegisterComponent]
 })
 export class AppModule { }

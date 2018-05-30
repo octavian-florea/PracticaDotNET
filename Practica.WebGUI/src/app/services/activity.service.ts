@@ -55,7 +55,7 @@ export class ActivityService{
     getActivityHttp(){
         console.log('http');
 
-        return this._http.get('http://localhost:64196/api/activity');
+        return this._http.get('http://localhost:64196/api/activities');
     }
 
     createActivityHttp(activity: any){

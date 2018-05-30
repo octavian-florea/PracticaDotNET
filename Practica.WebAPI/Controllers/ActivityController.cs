@@ -40,7 +40,7 @@ namespace Practica.WebAPI
         }
 
         [HttpGet]
-        [Authorize(Roles = "Student")]
+        [AllowAnonymous]
         public IActionResult GetActivities()
         {
             try

@@ -1,15 +1,24 @@
 import { Component } from '@angular/core';
-import { ActivityService } from './services/activity.service';
-import { AuthService } from "./services/auth.service";
-import { ProfileService } from './services/profile.service';
-import { CatalogService } from './services/catalog.service';
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { RegisterComponent } from './register/register.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [ActivityService, AuthService, ProfileService, CatalogService]
+  providers: []
 })
 export class AppComponent {
   title = 'app';
+
+  constructor(private dialog: MatDialog) {}
+
+  openRegistrationDialog() {
+
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.disableClose = false;
+
+      this.dialog.open(RegisterComponent, dialogConfig);
+  }
 }

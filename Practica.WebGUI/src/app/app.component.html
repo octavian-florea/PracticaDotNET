@@ -18,7 +18,7 @@
   <a mat-button [routerLink]="['/statistics']" [routerLinkActive]="['pr-nav-active']">Statistici</a>
 
   <span>|</span>
-  <a mat-button [routerLink]="['/register']" [routerLinkActive]="['pr-nav-active']">Creaza cont</a>
+  <a mat-button (click)="openRegistrationDialog()" >Creaza cont</a>
   <a mat-button [routerLink]="['/profile/student']" [routerLinkActive]="['pr-nav-active']">Profil S</a>
   <a mat-button [routerLink]="['/profile/company']" [routerLinkActive]="['pr-nav-active']">Profil C</a>
   <a mat-button [routerLink]="['/profile/teacher']" [routerLinkActive]="['pr-nav-active']">Profil T</a>

@@ -3,3 +3,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 body{ margin: 0}
+
+.pr-full-width {
+    width: 100%;
+}

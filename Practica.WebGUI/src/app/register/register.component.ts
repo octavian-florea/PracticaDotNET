@@ -19,11 +19,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      userName:'hipius',
-      password:'oFfspring1#'
+      email:'taius1988@yahoo.com',
+      password:'oFfspring1#',
+      repassword:'oFfspring1#'
     });
 
-    this.subscriptionList.push(this.registerForm.controls.userName.valueChanges
+    this.subscriptionList.push(this.registerForm.controls.email.valueChanges
           .subscribe(value=>{
             console.log(value);
           })
@@ -38,7 +39,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   submitForm(){
     const formModel = this.registerForm.value;
     var user = {
-      userName: formModel.userName,
+      email: formModel.email,
       password: formModel.password
     };
     

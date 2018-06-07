@@ -71,6 +71,6 @@ import { CatalogService } from './services/catalog.service';
   ],
   providers: [ActivityService, AuthService, ProfileService, CatalogService],
   bootstrap: [AppComponent],
-  entryComponents: [RegisterComponent]
+  entryComponents: []
 })
 export class AppModule { }

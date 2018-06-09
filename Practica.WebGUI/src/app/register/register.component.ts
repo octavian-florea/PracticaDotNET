@@ -3,9 +3,6 @@ import { FormBuilder, Validators  } from '@angular/forms';
 import 'rxjs/add/operator/takeLast';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from "../services/auth.service";
-import { ErrorDialogComponent } from '../dialog/errorDialog.component';
-import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'pr-register',
@@ -22,7 +19,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   get email() { return this.registerForm.get('email'); }
   get password() { return this.registerForm.get('password'); }
 
-  constructor(private formBuilder: FormBuilder, private _authService:AuthService, public dialog : MatDialog, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private _authService:AuthService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -49,21 +46,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       email: formModel.email,
       password: formModel.password,
       role:'student'
-    };
-    
-    this._authService.registerHttp(user).subscribe(
-      (res:any) => { 
-        console.log(res) 
-        localStorage.setItem('userToken',res.token);
-        this.router.navigate(['']);
-      },
-      (err) => { this.showError(err.error) }
-    )
-  }
-
-  showError(error : string) : void {
-    this.dialog.open(ErrorDialogComponent, {
-      data: {errorMsg: error} ,width : '250px'
-    });
+    };  
+    this._authService.registerHttp(user);
   }
 }

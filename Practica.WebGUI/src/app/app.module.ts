@@ -22,6 +22,7 @@ import { ActivityService } from './services/activity.service';
 import { AuthService } from './services/auth.service';
 import { ProfileService } from './services/profile.service';
 import { CatalogService } from './services/catalog.service';
+import { ErrorDialogComponent } from './dialog/errorDialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { CatalogService } from './services/catalog.service';
     LoginComponent,
     StudentProfileComponent,
     CompanyProfileComponent,
-    TeacherProfileComponent
+    TeacherProfileComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +73,6 @@ import { CatalogService } from './services/catalog.service';
   ],
   providers: [ActivityService, AuthService, ProfileService, CatalogService],
   bootstrap: [AppComponent],
-  entryComponents: []
+  entryComponents: [ErrorDialogComponent]
 })
 export class AppModule { }

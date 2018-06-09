@@ -6,6 +6,8 @@ import 'rxjs/add/operator/map'
 @Injectable()
 export class AuthService{
 
+    readonly rootURL = "http://localhost:64196/";
+
     constructor(private _http: HttpClient){
 
     }
@@ -13,18 +15,23 @@ export class AuthService{
     getUserDataHttp(){
         console.log('get user data - http');
 
-        return this._http.get('http://localhost:64196/api/activity');
+        return this._http.get(this.rootURL+'api/activity');
+    }
+
+    getEmailExistsHttp(email:string){
+        console.log('get email http');
+        return this._http.get(this.rootURL+'api/auth/emailexists/'+email);
     }
 
     registerHttp(user: object){
         console.log('register-http');
 
-        return this._http.post('http://localhost:64196/api/auth/register', user);
+        return this._http.post(this.rootURL+'api/auth/register', user);
     }
     loginHttp(user: object){
         console.log('login-http');
 
-        return this._http.post('http://localhost:64196/api/auth/login', user)
+        return this._http.post(this.rootURL+'api/auth/login', user)
             .map(data => {
                 console.log(data);
                 // login successful if there's a jwt token in the response

@@ -23,7 +23,7 @@
     <a mat-button [routerLink]="['/profile/company']" [routerLinkActive]="['pr-nav-active']">Profil C</a>
     <a mat-button [routerLink]="['/profile/teacher']" [routerLinkActive]="['pr-nav-active']">Profil T</a>
     <a mat-button [routerLink]="['/login']" [routerLinkActive]="['pr-nav-active']">Intra in cont</a>
-    <a mat-button [routerLink]="['/logout']" [routerLinkActive]="['pr-nav-active']">Iesire</a>
+    <a mat-button (click)="Logout()">Iesire</a>
   </mat-toolbar>
 </nav>
 

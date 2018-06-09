@@ -99,20 +99,21 @@ namespace Practica.WebAPI.Controllers
                 {
                     return BadRequest();
                 }
-                if (await _userManager.FindByNameAsync(registerDto.UserName) != null){
-                    return BadRequest("User already exists");
+                if (await _userManager.FindByEmailAsync(registerDto.Email) != null){
+                    return BadRequest("Email already exists");
                 }
-              
+
 
                 // register user
                 var user = new PracticaUser
                 {
-                    UserName = registerDto.UserName
+                    UserName = registerDto.Email,
+                    Email = registerDto.Email
                 };
 
                 var result = await _userManager.CreateAsync(user, registerDto.Password);
                 var roleResult = await _userManager.AddToRoleAsync(user, registerDto.Role);
-                if (result.Succeeded)
+                if (result.Succeeded && roleResult.Succeeded)
                 {
                     return Ok(await CreateToken(user));
                 }
@@ -126,7 +127,35 @@ namespace Practica.WebAPI.Controllers
             return BadRequest("Failed to register");
         }
 
-        
+        [HttpGet("api/auth/emailexists/{email}")]
+        [ValidateModel]
+        public async Task<IActionResult> EmailExists(string email)
+        {
+            try
+            {
+                // validation
+                if (email == null)
+                {
+                    return BadRequest();
+                }
+
+                if (await _userManager.FindByEmailAsync(email) != null)
+                {
+                    return Ok(true);
+                }
+                else
+                {
+                    return Ok(false);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exception thorwn while registering : {ex}");
+            }
+
+            return BadRequest("Failed to get user");
+        }
+
         public async Task<Object> CreateToken(PracticaUser user)
         {
             try
@@ -160,7 +189,7 @@ namespace Practica.WebAPI.Controllers
 
                     return new
                     {
-                        toekn = new JwtSecurityTokenHandler().WriteToken(token),
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
                         expiration = token.ValidTo,
                         roles = userRoles
                     };    

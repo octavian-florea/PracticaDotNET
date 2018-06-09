@@ -34,26 +34,25 @@ export class AuthService{
     registerHttp(user: object){
         this._http.post(this.rootURL+'api/auth/register', user).subscribe(
             (res:any) => { 
-              localStorage.setItem('userToken',res.token);
-              this.loggedIn.next(true);
-              this.router.navigate(['']);
+                this.login(res);
             },
             (err) => { this.showError(err.error) }
           );
     }
 
     loginHttp(user: object){
-        return this._http.post(this.rootURL+'api/auth/login', user)
-            .map(data => {
-                console.log(data);
-                // login successful if there's a jwt token in the response
-                //if (user && user.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                //    localStorage.setItem('currentUser', JSON.stringify(user));
-                //}
+        this._http.post(this.rootURL+'api/auth/login', user).subscribe(
+            (res:any) => { 
+                this.login(res);
+            },
+            (err) => { this.showError(err.error) }
+          ); 
+    }
 
-                return user;
-            });     
+    private login(res:any){
+        localStorage.setItem('userToken',res.token);
+        this.loggedIn.next(true);
+        this.router.navigate(['']);
     }
 
     logout(){

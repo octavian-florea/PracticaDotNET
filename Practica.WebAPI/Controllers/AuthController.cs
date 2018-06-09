@@ -45,7 +45,7 @@ namespace Practica.WebAPI.Controllers
             _config = config;
         }
 
-        [HttpPost("api/auth/token")]
+        [HttpPost("api/auth/login")]
         [ValidateModel]
         public async Task<IActionResult> Login([FromBody]CredentialDto credentialDto)
         {
@@ -56,7 +56,7 @@ namespace Practica.WebAPI.Controllers
                     return BadRequest();
                 }
 
-                var user = await _userManager.FindByNameAsync(credentialDto.UserName);
+                var user = await _userManager.FindByEmailAsync(credentialDto.Email);
                 if (user != null)
                 {
                     if (_hasher.VerifyHashedPassword(user, user.PasswordHash, credentialDto.Password) == PasswordVerificationResult.Success)

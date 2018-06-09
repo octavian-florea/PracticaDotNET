@@ -23,6 +23,8 @@ import { AuthService } from './services/auth.service';
 import { ProfileService } from './services/profile.service';
 import { CatalogService } from './services/catalog.service';
 import { ErrorDialogComponent } from './dialog/errorDialog.component';
+import { AuthenticatedGuard } from './guard/authenticated.guard';
+import { NotAuthenticatedGuard } from './guard/not-authenticated.guard';
 
 @NgModule({
   declarations: [
@@ -60,18 +62,18 @@ import { ErrorDialogComponent } from './dialog/errorDialog.component';
     MatRadioModule,
     MatDialogModule,
     RouterModule.forRoot([
-        { path: 'activities/:id', component:ActivityDetailsComponent},
-        { path: 'register', component:RegisterComponent},
-        { path: 'login', component:LoginComponent},
-        { path: 'activities/new', component:InternshipFormComponent},
-        { path: 'profile/student', component:StudentProfileComponent},
-        { path: 'profile/company', component:CompanyProfileComponent},
-        { path: 'profile/teacher', component:TeacherProfileComponent},
+        { path: 'activities/:id', component:ActivityDetailsComponent, canActivate:[AuthenticatedGuard] },
+        { path: 'register', component:RegisterComponent, canActivate:[NotAuthenticatedGuard] },
+        { path: 'login', component:LoginComponent , canActivate:[NotAuthenticatedGuard] },
+        { path: 'activities/new', component:InternshipFormComponent, canActivate:[AuthenticatedGuard] },
+        { path: 'profile/student', component:StudentProfileComponent, canActivate:[AuthenticatedGuard] },
+        { path: 'profile/company', component:CompanyProfileComponent, canActivate:[AuthenticatedGuard] },
+        { path: 'profile/teacher', component:TeacherProfileComponent, canActivate:[AuthenticatedGuard] },
         { path: '', component:ActivityListComponent}
     ]),
     //SharedModule
   ],
-  providers: [ActivityService, AuthService, ProfileService, CatalogService],
+  providers: [ActivityService, AuthService, ProfileService, CatalogService, NotAuthenticatedGuard, AuthenticatedGuard],
   bootstrap: [AppComponent],
   entryComponents: [ErrorDialogComponent]
 })

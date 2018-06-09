@@ -12,15 +12,19 @@ import { AuthService } from "../services/auth.service";
 export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm;
+  hidePassword = true;
 
   subscriptionList: Subscription[] = [];
+
+  get email() { return this.loginForm.get('email'); }
+  get password() { return this.loginForm.get('password'); }
   
   constructor(private formBuilder: FormBuilder, private _authService:AuthService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      userName:'hipius',
-      password:'oFfspring1#'
+      email:'',
+      password:''
     });
   }
   ngOnDestroy(){
@@ -32,13 +36,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   submitForm(){
     const formModel = this.loginForm.value;
     var user = {
-      userName: formModel.userName,
+      email: formModel.email,
       password: formModel.password
     };
     
-    this._authService.loginHttp(user).subscribe(
-      (res) => { console.log(res) },
-      (err) => { console.log(err) }
-    )
+    this._authService.loginHttp(user);
   }
 }

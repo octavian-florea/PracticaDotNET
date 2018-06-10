@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule, MatCardModule, MatButtonModule, MatToolbarModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatSelectModule, MatRadioModule, MatAutocompleteModule, MatDialogModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -25,6 +25,8 @@ import { CatalogService } from './services/catalog.service';
 import { ErrorDialogComponent } from './dialog/errorDialog.component';
 import { AuthenticatedGuard } from './guard/authenticated.guard';
 import { RoleGuard } from './guard/role.guard';
+import { RequestInterceptor } from './interceptor/request.interceptor';
+import { ResponseInterceptor } from './interceptor/response.interceptor';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,18 @@ import { RoleGuard } from './guard/role.guard';
     ]),
     //SharedModule
   ],
-  providers: [ActivityService, AuthService, ProfileService, CatalogService, AuthenticatedGuard, RoleGuard],
+  providers: [ActivityService, AuthService, ProfileService, CatalogService, AuthenticatedGuard, RoleGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ResponseInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorDialogComponent]
 })

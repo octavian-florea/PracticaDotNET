@@ -6,16 +6,21 @@
     <span class="example-fill-remaining-space"></span>
 
     <!-- Angajator -->
-    <a mat-button *ngIf="loggedIn" [routerLink]="['/activities']" [routerLinkActive]="['pr-nav-active']">Activitatile mele</a>
-    <a mat-button *ngIf="loggedIn" [routerLink]="['/activities/new']" [routerLinkActive]="['pr-nav-active']">Adauga activitate</a>
-    <a mat-button [routerLink]="['/search']" [routerLinkActive]="['pr-nav-active']">Cautare</a>
+    <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities']" [routerLinkActive]="['pr-nav-active']">Activitatile mele</a>
+    <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities/new']" [routerLinkActive]="['pr-nav-active']">Adauga activitate</a>
+    
 
     <!-- Student -->
-    <!-- zona de filtrare --><input />
-    <a mat-button *ngIf="loggedIn" [routerLink]="['/aplications']" [routerLinkActive]="['pr-nav-active']">Aplicari</a>
+    <!-- <a mat-button [routerLink]="['/search']" [routerLinkActive]="['pr-nav-active']">Cautare</a> -->
+    <!-- zona de filtrare -->
+
+      <input class='pr-search' placeholder="Search"/>
+      <mat-icon matSuffix>search</mat-icon>
+
+    <a mat-button *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/aplications']" [routerLinkActive]="['pr-nav-active']">Aplicari</a>
 
     <!-- Profesori -->
-    <a mat-button *ngIf="loggedIn" [routerLink]="['/statistics']" [routerLinkActive]="['pr-nav-active']">Statistici</a>
+    <a mat-button *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/statistics']" [routerLinkActive]="['pr-nav-active']">Statistici</a>
 
     <span>|</span>{{user.Email}}
     <a mat-button *ngIf="!loggedIn" [routerLink]="['/register']" [routerLinkActive]="['pr-nav-active']">Creaza cont</a>

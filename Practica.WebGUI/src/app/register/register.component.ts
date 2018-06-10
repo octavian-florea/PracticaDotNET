@@ -24,7 +24,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       email:'',
-      password:''
+      password:'',
+      role:'Student'
     });
 
     //this.subscriptionList.push(this.registerForm.controls.email.valueChanges
@@ -45,7 +46,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     var user = {
       email: formModel.email,
       password: formModel.password,
-      role:'student'
+      role: formModel.role
     };  
     this._authService.registerHttp(user);
   }

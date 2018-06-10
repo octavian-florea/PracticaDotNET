@@ -189,9 +189,7 @@ namespace Practica.WebAPI.Controllers
 
                     return new
                     {
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = token.ValidTo,
-                        roles = userRoles
+                        token = new JwtSecurityTokenHandler().WriteToken(token)
                     };    
                 }
             }catch(Exception ex)

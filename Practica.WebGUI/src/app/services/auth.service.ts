@@ -6,32 +6,33 @@ import { BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { ErrorDialogComponent } from '../dialog/errorDialog.component';
+import * as decode from 'jwt-decode';
+import { User } from '../models/user.model';
 
 @Injectable()
 export class AuthService{
 
     readonly rootURL = "http://localhost:64196/";
-    private loggedIn = new BehaviorSubject<Boolean>(false);
+    private loggedIn = new BehaviorSubject<Boolean>(this.tokenExistsAndNotExpired());
+    private userData = new BehaviorSubject<User>(this.getInitialUserFromToken());
 
     get isLoggedIn() {
         return this.loggedIn.asObservable();
+    }
+
+    get getUserData() {
+        return this.userData.asObservable();
     }
 
     constructor(private _http: HttpClient, public dialog : MatDialog, private router: Router){
 
     }
 
-    getUserDataHttp(){
-        console.log('get user data - http');
-
-        return this._http.get(this.rootURL+'api/activity');
-    }
-
     getEmailExistsHttp(email:string){
         return this._http.get(this.rootURL+'api/auth/emailexists/'+email);
     }
 
-    registerHttp(user: object){
+    registerHttp(user: object): void{
         this._http.post(this.rootURL+'api/auth/register', user).subscribe(
             (res:any) => { 
                 this.login(res);
@@ -40,7 +41,7 @@ export class AuthService{
           );
     }
 
-    loginHttp(user: object){
+    loginHttp(user: object): void{
         this._http.post(this.rootURL+'api/auth/login', user).subscribe(
             (res:any) => { 
                 this.login(res);
@@ -49,21 +50,87 @@ export class AuthService{
           ); 
     }
 
-    private login(res:any){
-        localStorage.setItem('userToken',res.token);
-        this.loggedIn.next(true);
-        this.router.navigate(['']);
-    }
-
-    logout(){
+    logout(): void{
         localStorage.removeItem('userToken');
         this.loggedIn.next(false);
+        this.userData.next({Email:'',Password:'',Role:''});
         this.router.navigate(['']);
     }
 
-    showError(error : string) : void {
+    hasUserRole(expectedRoles): boolean{
+        let tokenRole = this.getRoleFromToken();
+        for (let role of expectedRoles) {
+            if (tokenRole == role) {
+                return true;
+            }
+        }
+        return false; 
+    }
+
+    private showError(error:string): void {
         this.dialog.open(ErrorDialogComponent, {
           data: {errorMsg: error} ,width : '250px'
         });
-      }
+    }
+
+    private login(res:any): void{
+        localStorage.setItem('userToken',res.token);
+        this.loggedIn.next(true);
+        this.userData.next(this.getUserFromToken(res.token)); 
+        this.router.navigate(['']);
+    }
+    
+    private getUserFromToken(token): User{
+        let user: User;
+        user = {
+            Email:this.getDecodedAccessToken(token).sub,
+            Password:'',
+            Role: this.getRoleFromToken()
+        }
+        return user;
+    }
+
+    private tokenExistsAndNotExpired(): boolean {
+        var flagInitialIsLoggedIn = false;
+        var userToken = localStorage.getItem('userToken');
+        if(userToken!=null){
+            flagInitialIsLoggedIn = true;
+            const tokenPayload = this.getDecodedAccessToken(userToken);
+            var current_time = new Date().getTime() / 1000;
+            if (current_time > tokenPayload.exp){
+                flagInitialIsLoggedIn = false;
+            }
+        }
+        return flagInitialIsLoggedIn;
+    }
+
+    private getInitialUserFromToken(): User  {
+        let user = {Email:'',Password:'',Role:''};
+        var userToken = localStorage.getItem('userToken');
+        if(userToken!=null){
+            user = this.getUserFromToken(userToken);
+        }
+        return user;
+    }
+
+    private getDecodedAccessToken(token: string): any {
+        try{
+            return decode(token);
+        }
+        catch(Error){
+            return null;
+        }
+    }
+
+    private getRoleFromToken(): string{
+        var role = '';
+        const token = localStorage.getItem('userToken');
+        const tokenPayload = this.getDecodedAccessToken(token);
+        Object.keys(tokenPayload).forEach(function(key) {
+            if(key.endsWith('/role')){
+                role = tokenPayload[key];
+            }
+        });
+        return role;
+    }
 }

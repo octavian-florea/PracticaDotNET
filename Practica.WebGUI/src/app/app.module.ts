@@ -24,7 +24,7 @@ import { ProfileService } from './services/profile.service';
 import { CatalogService } from './services/catalog.service';
 import { ErrorDialogComponent } from './dialog/errorDialog.component';
 import { AuthenticatedGuard } from './guard/authenticated.guard';
-import { NotAuthenticatedGuard } from './guard/not-authenticated.guard';
+import { RoleGuard } from './guard/role.guard';
 
 @NgModule({
   declarations: [
@@ -62,18 +62,18 @@ import { NotAuthenticatedGuard } from './guard/not-authenticated.guard';
     MatRadioModule,
     MatDialogModule,
     RouterModule.forRoot([
-        { path: 'activities/:id', component:ActivityDetailsComponent, canActivate:[AuthenticatedGuard] },
-        { path: 'register', component:RegisterComponent, canActivate:[NotAuthenticatedGuard] },
-        { path: 'login', component:LoginComponent , canActivate:[NotAuthenticatedGuard] },
-        { path: 'activities/new', component:InternshipFormComponent, canActivate:[AuthenticatedGuard] },
-        { path: 'profile/student', component:StudentProfileComponent, canActivate:[AuthenticatedGuard] },
-        { path: 'profile/company', component:CompanyProfileComponent, canActivate:[AuthenticatedGuard] },
-        { path: 'profile/teacher', component:TeacherProfileComponent, canActivate:[AuthenticatedGuard] },
+        { path: 'activities/:id', component:ActivityDetailsComponent },
+        { path: 'register', component:RegisterComponent },
+        { path: 'login', component:LoginComponent },
+        { path: 'activities/new', component:InternshipFormComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
+        { path: 'profile/student', component:StudentProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Student']} },
+        { path: 'profile/company', component:CompanyProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
+        { path: 'profile/teacher', component:TeacherProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Teacher']} },
         { path: '', component:ActivityListComponent}
     ]),
     //SharedModule
   ],
-  providers: [ActivityService, AuthService, ProfileService, CatalogService, NotAuthenticatedGuard, AuthenticatedGuard],
+  providers: [ActivityService, AuthService, ProfileService, CatalogService, AuthenticatedGuard, RoleGuard],
   bootstrap: [AppComponent],
   entryComponents: [ErrorDialogComponent]
 })

@@ -40,9 +40,5 @@ export class CompanyProfileComponent implements OnInit, OnDestroy {
       password: formModel.password
     };
     
-    this._authService.loginHttp(user).subscribe(
-      (res) => { console.log(res) },
-      (err) => { console.log(err) }
-    )
   }
 }

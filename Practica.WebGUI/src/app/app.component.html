@@ -1,45 +1,73 @@
-<nav>
-  <mat-toolbar color="primary">
-      <a mat-button [routerLink]="['']"><i class="material-icons">people</i> <span>Practica</span></a>
-
-    <!-- This fills the remaining space of the current row -->
-    <span class="example-fill-remaining-space"></span>
-
-    <!-- Angajator -->
-    <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities']" [routerLinkActive]="['pr-nav-active']">Activitatile mele</a>
-    <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities/new']" [routerLinkActive]="['pr-nav-active']">Adauga activitate</a>
+<header class="pr-main-header">
+  <nav>
+    <mat-toolbar color="primary">
+      <div class="pr-container">
+        <a mat-button [routerLink]="['']"><i class="material-icons">people</i> <span>Practica</span></a>
+        <span class="pr-fill-space"></span>
     
+        <!-- <a mat-button [routerLink]="['/search']" [routerLinkActive]="['pr-nav-active']">Cautare</a> -->
+        <!-- zona de filtrare -->
+        <input class='pr-search' placeholder="Search"/>
+        <mat-icon matSuffix>search</mat-icon>
 
-    <!-- Student -->
-    <!-- <a mat-button [routerLink]="['/search']" [routerLinkActive]="['pr-nav-active']">Cautare</a> -->
-    <!-- zona de filtrare -->
+        <!-- Nav for large screens -->
+        <div fxLayout="row" fxHide fxShow.gt-sm>
+          <!-- Actuni Angajator -->
+          <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities']" [routerLinkActive]="['pr-nav-active']">Activitatile mele</a>
+          <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities/new']" [routerLinkActive]="['pr-nav-active']">Adauga activitate</a>
+          <!-- Actuni Student -->
+          <a mat-button *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/aplications']" [routerLinkActive]="['pr-nav-active']">Aplicari</a>
+          <!-- Actuni Profesor -->
+          <a mat-button *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/statistics']" [routerLinkActive]="['pr-nav-active']">Statistici</a>
+          <span>|</span>{{user.Email}}
+          <!-- Profile -->
+          <a mat-button *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/profile/student']" [routerLinkActive]="['pr-nav-active']">Profil S</a>
+          <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/profile/company']" [routerLinkActive]="['pr-nav-active']">Profil C</a>
+          <a mat-button *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/profile/teacher']" [routerLinkActive]="['pr-nav-active']">Profil T</a>
+          <!-- Registe, login, logout -->
+          <a mat-button *ngIf="!loggedIn" [routerLink]="['/register']" [routerLinkActive]="['pr-nav-active']">Creaza cont</a>
+          <a mat-button *ngIf="!loggedIn" [routerLink]="['/login']" [routerLinkActive]="['pr-nav-active']">Intra in cont</a>
+          <a mat-button *ngIf="loggedIn" (click)="Logout()">Iesire</a>
+        </div>
 
-      <input class='pr-search' placeholder="Search"/>
-      <mat-icon matSuffix>search</mat-icon>
+        <button mat-button [mat-menu-trigger-for]="menu" fxShow fxHide.gt-sm>
+         <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
 
-    <a mat-button *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/aplications']" [routerLinkActive]="['pr-nav-active']">Aplicari</a>
+    <!-- Nav for small screens -->
+    <mat-menu x-position="before" #menu>
+        <!-- Actiuni Angajator -->
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities']" [routerLinkActive]="['pr-nav-active']">Activitatile mele</a>
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities/new']" [routerLinkActive]="['pr-nav-active']">Adauga activitate</a>
+        <!-- Actiuni Student -->
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/aplications']" [routerLinkActive]="['pr-nav-active']">Aplicari</a>
+        <!-- Actiuni Profesor -->
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/statistics']" [routerLinkActive]="['pr-nav-active']">Statistici</a>
+        <!-- Profile -->
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/profile/student']" [routerLinkActive]="['pr-nav-active']">Profil S</a>
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/profile/company']" [routerLinkActive]="['pr-nav-active']">Profil C</a>
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/profile/teacher']" [routerLinkActive]="['pr-nav-active']">Profil T</a>
+        <!-- Registe, login, logout -->
+        <a mat-menu-item *ngIf="!loggedIn" [routerLink]="['/register']" [routerLinkActive]="['pr-nav-active']">Creaza cont</a>
+        <a mat-menu-item *ngIf="!loggedIn" [routerLink]="['/login']" [routerLinkActive]="['pr-nav-active']">Intra in cont</a>
+        <a mat-menu-item *ngIf="loggedIn" (click)="Logout()">Iesire</a>
+    </mat-menu>
+  </nav>
+</header>
 
-    <!-- Profesori -->
-    <a mat-button *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/statistics']" [routerLinkActive]="['pr-nav-active']">Statistici</a>
-
-    <span>|</span>{{user.Email}}
-    <a mat-button *ngIf="!loggedIn" [routerLink]="['/register']" [routerLinkActive]="['pr-nav-active']">Creaza cont</a>
-    <a mat-button *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/profile/student']" [routerLinkActive]="['pr-nav-active']">Profil S</a>
-    <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/profile/company']" [routerLinkActive]="['pr-nav-active']">Profil C</a>
-    <a mat-button *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/profile/teacher']" [routerLinkActive]="['pr-nav-active']">Profil T</a>
-    <a mat-button *ngIf="!loggedIn" [routerLink]="['/login']" [routerLinkActive]="['pr-nav-active']">Intra in cont</a>
-    <a mat-button *ngIf="loggedIn" (click)="Logout()">Iesire</a>
-  </mat-toolbar>
-</nav>
-
-<section class="pr-home-content">
+<!-- Container pentru pagini de angular -->
+<section class="pr-main-content pr-container">
   <router-outlet></router-outlet>
 </section>
 
-<footer class="pr-home-footer">
+<footer class="pr-main-footer">
   <mat-toolbar>
-      <span>©2017 PRACTICA.RO</span>
-      <button mat-button>Despre noi</button>
-      <button mat-button>Contact</button>
+      <div class="pr-container">
+        <span>©2017 PRACTICA.RO</span>
+        <button mat-button>Despre noi</button>
+        <button mat-button>Contact</button>
+      </div>
   </mat-toolbar>
 </footer>

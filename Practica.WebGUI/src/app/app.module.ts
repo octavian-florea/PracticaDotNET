@@ -5,12 +5,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule, MatCardModule, MatButtonModule, MatToolbarModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatSelectModule, MatRadioModule, MatAutocompleteModule, MatDialogModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { ActivityListComponent } from './activities/activity-list.component';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
-//import { InternshipModule } from './internship/internship.module';
-//import { SharedModule } from './shared/shared.module';
 import { CardComponent } from './card/card.component';
 import { RegisterComponent } from './register/register.component';
 import { InternshipFormComponent } from './internship/internship-form/internship-form.component';
@@ -58,11 +57,11 @@ import { ResponseInterceptor } from './interceptor/response.interceptor';
     MatNativeDateModule,
     MatSelectModule,
     MatAutocompleteModule,
-    //InternshipModule,
     FormsModule,
     ReactiveFormsModule,
     MatRadioModule,
     MatDialogModule,
+    FlexLayoutModule,
     RouterModule.forRoot([
         { path: 'activities/:id', component:ActivityDetailsComponent },
         { path: 'register', component:RegisterComponent },
@@ -72,8 +71,7 @@ import { ResponseInterceptor } from './interceptor/response.interceptor';
         { path: 'profile/company', component:CompanyProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
         { path: 'profile/teacher', component:TeacherProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Teacher']} },
         { path: '', component:ActivityListComponent}
-    ]),
-    //SharedModule
+    ])
   ],
   providers: [ActivityService, AuthService, ProfileService, CatalogService, AuthenticatedGuard, RoleGuard,
     {

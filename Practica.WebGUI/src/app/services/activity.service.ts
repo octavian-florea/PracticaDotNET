@@ -42,7 +42,45 @@ export class ActivityService{
             },
             {
                 "activityId": 3,
-                "activityName": "NTT Java cours",
+                "activityName": "NTT Java cours 3",
+                "activityType": "C",
+                "activityDescription": "Junior Java 3 months course",
+                "imageUrl": "assets/img/ntt.png",
+                "location": "Cluj",
+                "time":"acum 2 luni"
+            },
+            {
+                "activityId": 4,
+                "activityName": "NTT Java cours 4",
+                "activityType": "C",
+                "activityDescription": "Junior Java 3 months course",
+                "imageUrl": "assets/img/ntt.png",
+                "location": "Cluj",
+                "time":"acum 2 luni"
+            },
+            {
+                "activityId": 5,
+                "activityName": "NTT Java cours 5",
+                "activityType": "C",
+                "activityDescription": "Junior Java 3 months course",
+                "imageUrl": "assets/img/ntt.png",
+                "location": "Cluj",
+                "time":"acum 2 luni"
+            }
+            ,
+            {
+                "activityId": 6,
+                "activityName": "NTT Java cours 6",
+                "activityType": "C",
+                "activityDescription": "Junior Java 3 months course",
+                "imageUrl": "assets/img/ntt.png",
+                "location": "Cluj",
+                "time":"acum 2 luni"
+            }
+            ,
+            {
+                "activityId": 7,
+                "activityName": "NTT Java cours 7",
                 "activityType": "C",
                 "activityDescription": "Junior Java 3 months course",
                 "imageUrl": "assets/img/ntt.png",

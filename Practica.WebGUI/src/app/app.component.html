@@ -7,8 +7,9 @@
     
         <!-- <a mat-button [routerLink]="['/search']" [routerLinkActive]="['pr-nav-active']">Cautare</a> -->
         <!-- zona de filtrare -->
-        <input class='pr-search' placeholder="Search"/>
-        <mat-icon matSuffix>search</mat-icon>
+        <input class='pr-search' placeholder="Cauta locuri de practica, cursuri si alte activitati"/>
+        <button mat-button class="pr-search-button"><mat-icon>search</mat-icon></button>
+        
 
         <!-- Nav for large screens -->
         <div fxLayout="row" fxHide fxShow.gt-sm>
@@ -19,7 +20,7 @@
           <a mat-button *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/aplications']" [routerLinkActive]="['pr-nav-active']">Aplicari</a>
           <!-- Actuni Profesor -->
           <a mat-button *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/statistics']" [routerLinkActive]="['pr-nav-active']">Statistici</a>
-          <span>|</span>{{user.Email}}
+          <span>|</span>
           <!-- Profile -->
           <a mat-button *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/profile/student']" [routerLinkActive]="['pr-nav-active']">Profil S</a>
           <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/profile/company']" [routerLinkActive]="['pr-nav-active']">Profil C</a>

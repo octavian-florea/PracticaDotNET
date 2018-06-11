@@ -7,7 +7,8 @@ import { AuthService } from "../services/auth.service";
 @Component({
   selector: 'pr-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
+  host: {'class': 'pr-full-width'}
 })
 export class RegisterComponent implements OnInit, OnDestroy {
 

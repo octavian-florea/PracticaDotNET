@@ -3,7 +3,26 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 html{ height: 100%; }
-body{ margin: 0; padding:0; min-height: 100%; position: relative; background-color:#f5f5f5 }
+body{ margin: 0; padding:0; min-height: 100%; position: relative; background-color:#f5f5f5; font-size:14px; }
+
+a{
+    color: #2e68ad;
+    text-decoration: none;
+}
+
+a:hover, a:focus {
+    color: #1e4471;
+    text-decoration: underline;
+}
+
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+p{ margin: 0 0 10px; }
 
 .pr-container{
     margin-right: auto;
@@ -48,12 +67,12 @@ body{ margin: 0; padding:0; min-height: 100%; position: relative; background-col
 }
 
 .pr-search{
-    border-radius:3px;
+    border-radius:3px 0 0 3px;
     background-color:#f5f5f5;
     border:1px solid #ddd;
     color:#333;
     height:32px;
-    padding:6px 10px;
+    padding:18px 10px;
     line-height:1.5;
     box-sizing:border-box;
     width:300px;
@@ -64,10 +83,18 @@ body{ margin: 0; padding:0; min-height: 100%; position: relative; background-col
     box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);
 }
 
+.pr-search-button{
+    background-color:#f5f5f5 !important; 
+    border:1px solid #ddd !important; 
+    color:#333 !important;
+    border-radius: 0 3px 3px 0 !important;
+    font-size:12px !important;
+    min-width:0 !important;
+}
+
 .pr-activity-card{
     margin: 0px 6px 12px 6px;
     float:left;
-    height:250px;
     width:100%;
     box-sizing:border-box;
 }
@@ -101,3 +128,67 @@ body{ margin: 0; padding:0; min-height: 100%; position: relative; background-col
         width:23.9%;
     }
  } 
+
+ .pr-company-logo{
+    display:block;
+    height: 60px;
+    width: 170px;
+    margin-bottom: 1.5em !important;
+    margin-top: 1.5em !important;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    cursor: pointer;
+ }
+
+ .pr-company-logo img{
+    display: inline-block;
+    max-height: 100%;
+    max-width: 100%;
+    vertical-align: middle;
+ }
+
+ .pr-truncate-1-line{  
+    display: block;
+    height:20px;
+    overflow: hidden;
+    width: 100%;
+ }
+
+ .pr-truncate-2-line{
+    display: block;
+    height: 40px;  
+    overflow: hidden;   
+    width: 100%;
+ }
+
+ .pr-truncate-3-line {
+    display: block;
+    height: 60px;
+    overflow: hidden;
+    width: 100%;
+}
+
+small.truncate-3-line{
+    line-height: 20px;
+    margin-bottom: 1.5em !important;
+}
+
+.pr-company-name{
+    font-size: 85%;
+}
+
+.pr-activity-name{
+    margin-top: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.pr-text-muted{
+    color: #999;
+}
+
+.pr-place-icon{
+    font-size:14px;
+}
+

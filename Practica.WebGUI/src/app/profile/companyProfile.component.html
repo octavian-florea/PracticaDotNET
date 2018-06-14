@@ -1,28 +1,30 @@
 <form [formGroup]="profileForm" (ngSubmit)="submitForm()">
-
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Nume si prenume" formControlName="name">
-  </mat-form-field>
-
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Companie" formControlName="company">
-  </mat-form-field>
-
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Cod fiscal" formControlName="cf">
-  </mat-form-field>
-
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Telefon" formControlName="phone">
-  </mat-form-field>
-
-  <mat-form-field class='pr-full-width'>
-      <input matInput placeholder="E-mail" formControlName="email">
+  <div class='pr-panel'>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <input #fileInput type="file" style="display:none;" (change)="handleFileInput($event.target.files)" />
+      <div class='pr-preview-logo'>
+        <img [src]="imageUrl"  alt="Logo" title="Logo" />
+      </div>
+      <button type="button" mat-raised-button (click)="fileInput.click()"><mat-icon>add_photo_alternate</mat-icon> Incarca logo</button>
+      
+    </div>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Nume companie" formControlName="companyName">
     </mat-form-field>
 
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Locatie" formControlName="location">
-  </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <textarea matInput placeholder="Scurta prezentare" formControlName="companyDescription">
+      </textarea>
+    </mat-form-field>
 
-  <button mat-raised-button type="submit">Trasmite</button>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Website" formControlName="website">
+    </mat-form-field>
+
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Adresa" formControlName="address">
+    </mat-form-field>
+
+    <button mat-raised-button color='primary' type="submit"><mat-icon>done</mat-icon> Salveaza</button>
+  </div>
 </form>

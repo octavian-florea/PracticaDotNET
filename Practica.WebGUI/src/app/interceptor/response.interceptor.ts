@@ -3,10 +3,12 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, Htt
 import { Observable } from "rxjs/Observable";
 import { Router } from "@angular/router";
 import { tap } from "rxjs/operators";
+import { MatDialog } from "@angular/material";
+import { ErrorDialogComponent } from "../dialog/errorDialog.component";
 
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor{
-    constructor(private router: Router) {}
+    constructor(private router: Router, public dialog : MatDialog) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
         return next.handle(request).pipe(tap(event => {
@@ -17,8 +19,16 @@ export class ResponseInterceptor implements HttpInterceptor{
             if (err instanceof HttpErrorResponse) {
               if (err.status === 401) {
                 this.router.navigate(['/login']);
+              }else{
+                this.showError(err.error)
               }
             }
           }));
+    }
+
+    private showError(error:string): void {
+      this.dialog.open(ErrorDialogComponent, {
+        data: {errorMsg: error} ,width : '250px'
+      });
     }
 }

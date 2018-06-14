@@ -11,9 +11,10 @@ using System;
 namespace Practica.Data.Migrations
 {
     [DbContext(typeof(PracticaContext))]
-    partial class PracticaContextModelSnapshot : ModelSnapshot
+    [Migration("20180614172252_CompanyProfile-LogoExtenesion")]
+    partial class CompanyProfileLogoExtenesion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

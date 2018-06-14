@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using Newtonsoft.Json.Serialization;
 
 namespace Practica.WebAPI
 {
@@ -120,7 +121,8 @@ namespace Practica.WebAPI
             services.AddMvc()
                 .AddMvcOptions(o => o.OutputFormatters.Add(
                     new XmlDataContractSerializerOutputFormatter()
-                    ));
+                    ))
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -150,6 +152,7 @@ namespace Practica.WebAPI
                 cfg.CreateMap<AplicationDto, Aplication>().ReverseMap();
                 cfg.CreateMap<AplicationUpdateDto, Aplication>();
                 cfg.CreateMap<CompanyProfileDto, CompanyProfile>().ReverseMap();
+                cfg.CreateMap<CompanyProfileViewDto, CompanyProfile>().ReverseMap();
                 cfg.CreateMap<StudentProfileDto, StudentProfile>().ReverseMap();
             });
 

@@ -13,6 +13,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Identity;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 
 namespace Practica.WebAPI
 {
@@ -44,11 +45,15 @@ namespace Practica.WebAPI
                 var companyProfile = _companyProfileRepository.Get(User.FindFirst(JwtRegisteredClaimNames.Sid).Value);
                 if (companyProfile == null)
                 {
-                    _logger.LogInformation($"Company profile was not found");
-                    return NotFound();
+                    companyProfile = new CompanyProfile() {
+                        Name = "",
+                        Description = "",
+                        Adress = "",
+                        Website = ""
+                    };
                 }
 
-                var companyProfileDto = Mapper.Map<CompanyProfileDto>(companyProfile);
+                var companyProfileDto = Mapper.Map<CompanyProfileViewDto>(companyProfile);
                 return Ok(companyProfileDto);
             }
             catch (Exception ex)
@@ -59,7 +64,7 @@ namespace Practica.WebAPI
         }
 
         [HttpPost]
-        public IActionResult CreateCompanyProfile([FromBody]CompanyProfileDto companyProfileDto)
+        public IActionResult CreateCompanyProfile([FromForm]CompanyProfileDto companyProfileDto)
         {
             try
             {
@@ -75,10 +80,33 @@ namespace Practica.WebAPI
                     _logger.LogInformation($"Profile {profileid} allready exists");
                     return BadRequest("Profile allready exists");
                 }
+                // Validate image
+                int MaxContentLength = 1024 * 1024 * 5; //Size = 5 MB  
+                IList<string> AllowedFileExtensions = new List<string> { ".jpg", ".gif", ".png" };
+                var ext = companyProfileDto.Logo.FileName.Substring(companyProfileDto.Logo.FileName.LastIndexOf('.'));
+                var extension = ext.ToLower();
+                if (!AllowedFileExtensions.Contains(extension))
+                {
+                    var message = string.Format("Please Upload image of type .jpg,.gif,.png.");
+                    _logger.LogInformation(message);
+                    return BadRequest(message);
+                }
+                else if (companyProfileDto.Logo.Length > MaxContentLength)
+                {
+                    var message = string.Format("Please Upload a file upto 5 mb.");
+                    _logger.LogInformation(message);
+                    return BadRequest(message);
+                }
 
                 // Create the new object
                 var companyProfile = Mapper.Map<CompanyProfile>(companyProfileDto);
                 companyProfile.UserId = profileid;
+                using (var memoryStream = new MemoryStream())
+                {
+                    companyProfileDto.Logo.CopyTo(memoryStream);
+                    companyProfile.Logo = memoryStream.ToArray();
+                }
+                companyProfile.LogoExtension = extension;
 
                 _companyProfileRepository.Add(companyProfile);
 
@@ -87,7 +115,7 @@ namespace Practica.WebAPI
                     return StatusCode(500, "A problem happend while handeling your request.");
                 }
 
-                var companyProfileDtoToReturn = Mapper.Map<CompanyProfileDto>(companyProfile);
+                var companyProfileDtoToReturn = Mapper.Map<CompanyProfileViewDto>(companyProfile);
 
                 return CreatedAtRoute("GetCompanyProfile", companyProfileDtoToReturn);
             }

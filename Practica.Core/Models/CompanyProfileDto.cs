@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +15,7 @@ namespace Practica.Core
 
         public string Description { get; set; }
 
-        public byte[] Logo { get; set; }
+        public IFormFile Logo { get; set; }
 
         [MaxLength(250)]
         public string Adress { get; set; }

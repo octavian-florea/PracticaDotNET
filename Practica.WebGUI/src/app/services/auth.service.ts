@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 import { BehaviorSubject } from 'rxjs';
-import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { ErrorDialogComponent } from '../dialog/errorDialog.component';
 import * as decode from 'jwt-decode';
 import { User } from '../models/user.model';
 
@@ -24,7 +22,7 @@ export class AuthService{
         return this.userData.asObservable();
     }
 
-    constructor(private _http: HttpClient, public dialog : MatDialog, private router: Router){
+    constructor(private _http: HttpClient, private router: Router){
 
     }
 
@@ -37,7 +35,7 @@ export class AuthService{
             (res:any) => { 
                 this.login(res);
             },
-            (err) => { this.showError(err.error) }
+            (err) => { }
           );
     }
 
@@ -46,7 +44,7 @@ export class AuthService{
             (res:any) => { 
                 this.login(res);
             },
-            (err) => { this.showError(err.error) }
+            (err) => { }
           ); 
     }
 
@@ -65,12 +63,6 @@ export class AuthService{
             }
         }
         return false; 
-    }
-
-    private showError(error:string): void {
-        this.dialog.open(ErrorDialogComponent, {
-          data: {errorMsg: error} ,width : '250px'
-        });
     }
 
     private login(res:any): void{

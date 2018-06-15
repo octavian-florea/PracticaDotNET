@@ -41,14 +41,14 @@ export class ProfileService{
           );
     }
 
-    postCompanyProfileHttp(companyProfile: CompanyProfile):void {
+    putCompanyProfileHttp(companyProfile: CompanyProfile):void {
         const formData: FormData = new FormData();
 
         Object.keys(companyProfile).forEach(key => {
             formData.append(key, companyProfile[key]);
           });
 
-        this._http.post(this.rootURL+'api/company/profile',formData).subscribe(
+        this._http.put(this.rootURL+'api/company/profile',formData).subscribe(
             (res:any) => { 
                 this.router.navigate(['']);
             },

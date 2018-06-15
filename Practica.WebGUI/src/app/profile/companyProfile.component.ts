@@ -34,7 +34,6 @@ export class CompanyProfileComponent implements OnInit, OnDestroy {
 
     this._profileService.getCompanyProfileHttp().subscribe(
       (res:CompanyProfile) => { 
-          console.log(res);
           this.profileForm.setValue({
             companyName: res.Name,
             companyDescription: res.Description,
@@ -79,7 +78,7 @@ export class CompanyProfileComponent implements OnInit, OnDestroy {
       Adress: formModel.address
     };
 
-    this._profileService.postCompanyProfileHttp(companyProfile);
+    this._profileService.putCompanyProfileHttp(companyProfile);
     
   }
 }

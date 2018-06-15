@@ -95,29 +95,6 @@ namespace Practica.WebAPI
                 };
             });
 
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.Events.OnRedirectToLogin = context =>
-            //    {
-            //        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == 200)
-            //        {
-            //            context.Response.StatusCode = 401;
-            //        }
-            //
-            //        return Task.CompletedTask;
-            //    };
-            //
-            //    options.Events.OnRedirectToAccessDenied = context =>
-            //    {
-            //        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == 200)
-            //        {
-            //            context.Response.StatusCode = 403;
-            //        }
-            //
-            //        return Task.CompletedTask;
-            //    };
-            //});
-
             services.AddMvc()
                 .AddMvcOptions(o => o.OutputFormatters.Add(
                     new XmlDataContractSerializerOutputFormatter()
@@ -131,8 +108,6 @@ namespace Practica.WebAPI
             app.UseCors("AllowAll");
 
             loggerFactory.AddDebug();
-
-           // loggerFactory.AddNLog();
 
             if (env.IsDevelopment())
             {

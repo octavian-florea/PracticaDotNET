@@ -28,13 +28,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       password:'',
       role:'Student'
     });
-
-    //this.subscriptionList.push(this.registerForm.controls.email.valueChanges
-    //      .subscribe(value=>{
-    //        console.log(value);
-    //       // console.log(this._authService.getEmailExistsHttp(value));
-    //      })
-    //    )
   }
   ngOnDestroy(){
     this.subscriptionList.forEach(sub =>{

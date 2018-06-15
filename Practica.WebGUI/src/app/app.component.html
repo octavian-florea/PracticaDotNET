@@ -14,8 +14,8 @@
         <!-- Nav for large screens -->
         <div fxLayout="row" fxHide fxShow.gt-sm>
           <!-- Actuni Angajator -->
-          <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities']" [routerLinkActive]="['pr-nav-active']">Activitatile mele</a>
-          <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities/new']" [routerLinkActive]="['pr-nav-active']">Adauga activitate</a>
+          <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities-company']" [routerLinkActive]="['pr-nav-active']">Activitatile mele</a>
+          <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activity/new']" [routerLinkActive]="['pr-nav-active']">Adauga activitate</a>
           <!-- Actuni Student -->
           <a mat-button *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/aplications']" [routerLinkActive]="['pr-nav-active']">Aplicari</a>
           <!-- Actuni Profesor -->
@@ -26,8 +26,8 @@
           <a mat-button *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/profile/company']" [routerLinkActive]="['pr-nav-active']"><mat-icon>account_circle</mat-icon> Profil</a>
           <a mat-button *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/profile/teacher']" [routerLinkActive]="['pr-nav-active']"><mat-icon>account_circle</mat-icon> Profil</a>
           <!-- Registe, login, logout -->
-          <a mat-button *ngIf="!loggedIn" [routerLink]="['/register']" [routerLinkActive]="['pr-nav-active']">Creaza cont</a>
-          <a mat-button *ngIf="!loggedIn" [routerLink]="['/login']" [routerLinkActive]="['pr-nav-active']">Intra in cont</a>
+          <a mat-button *ngIf="!loggedIn" [routerLink]="['/register']" [routerLinkActive]="['pr-nav-active']"><mat-icon>person_add</mat-icon> Creaza cont</a>
+          <a mat-button *ngIf="!loggedIn" [routerLink]="['/login']" [routerLinkActive]="['pr-nav-active']"><mat-icon>face</mat-icon> Intra in cont</a>
           <a mat-button *ngIf="loggedIn" (click)="Logout()"><mat-icon>exit_to_app</mat-icon> Iesire</a>
         </div>
 
@@ -40,20 +40,20 @@
     <!-- Nav for small screens -->
     <mat-menu x-position="before" #menu>
         <!-- Actiuni Angajator -->
-        <a mat-menu-item *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities']" [routerLinkActive]="['pr-nav-active']">Activitatile mele</a>
-        <a mat-menu-item *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities/new']" [routerLinkActive]="['pr-nav-active']">Adauga activitate</a>
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activities-company']" [routerLinkActive]="['pr-nav-active']">Activitatile mele</a>
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/activity/new']" [routerLinkActive]="['pr-nav-active']">Adauga activitate</a>
         <!-- Actiuni Student -->
         <a mat-menu-item *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/aplications']" [routerLinkActive]="['pr-nav-active']">Aplicari</a>
         <!-- Actiuni Profesor -->
         <a mat-menu-item *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/statistics']" [routerLinkActive]="['pr-nav-active']">Statistici</a>
         <!-- Profile -->
-        <a mat-menu-item *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/profile/student']" [routerLinkActive]="['pr-nav-active']">Profil S</a>
-        <a mat-menu-item *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/profile/company']" [routerLinkActive]="['pr-nav-active']">Profil C</a>
-        <a mat-menu-item *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/profile/teacher']" [routerLinkActive]="['pr-nav-active']">Profil T</a>
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Student'" [routerLink]="['/profile/student']" [routerLinkActive]="['pr-nav-active']"><mat-icon>account_circle</mat-icon> Profil</a>
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Company'" [routerLink]="['/profile/company']" [routerLinkActive]="['pr-nav-active']"><mat-icon>account_circle</mat-icon> Profil</a>
+        <a mat-menu-item *ngIf="loggedIn && user.Role=='Teacher'" [routerLink]="['/profile/teacher']" [routerLinkActive]="['pr-nav-active']"><mat-icon>account_circle</mat-icon> Profil</a>
         <!-- Registe, login, logout -->
-        <a mat-menu-item *ngIf="!loggedIn" [routerLink]="['/register']" [routerLinkActive]="['pr-nav-active']">Creaza cont</a>
-        <a mat-menu-item *ngIf="!loggedIn" [routerLink]="['/login']" [routerLinkActive]="['pr-nav-active']">Intra in cont</a>
-        <a mat-menu-item *ngIf="loggedIn" (click)="Logout()">Iesire</a>
+        <a mat-menu-item *ngIf="!loggedIn" [routerLink]="['/register']" [routerLinkActive]="['pr-nav-active']"><mat-icon>person_add</mat-icon> Creaza cont</a>
+        <a mat-menu-item *ngIf="!loggedIn" [routerLink]="['/login']" [routerLinkActive]="['pr-nav-active']"><mat-icon>face</mat-icon> Intra in cont</a>
+        <a mat-menu-item *ngIf="loggedIn" (click)="Logout()"><mat-icon>exit_to_app</mat-icon> Iesire</a>
     </mat-menu>
   </nav>
 </header>

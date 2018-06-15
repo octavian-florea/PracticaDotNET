@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCheckboxModule, MatCardModule, MatButtonModule, MatToolbarModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatSelectModule, MatRadioModule, MatAutocompleteModule, MatDialogModule } from '@angular/material';
+import { MatCheckboxModule, MatCardModule, MatButtonModule, MatToolbarModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatSelectModule, MatRadioModule, MatAutocompleteModule, MatDialogModule, MatPaginatorModule, MatSortModule, MatTableModule, MatProgressSpinnerModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -26,6 +26,7 @@ import { AuthenticatedGuard } from './guard/authenticated.guard';
 import { RoleGuard } from './guard/role.guard';
 import { RequestInterceptor } from './interceptor/request.interceptor';
 import { ResponseInterceptor } from './interceptor/response.interceptor';
+import { ActivitiesCompanyComponent } from './activities-company/activities-company.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ResponseInterceptor } from './interceptor/response.interceptor';
     StudentProfileComponent,
     CompanyProfileComponent,
     TeacherProfileComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    ActivitiesCompanyComponent
   ],
   imports: [
     BrowserModule,
@@ -62,11 +64,16 @@ import { ResponseInterceptor } from './interceptor/response.interceptor';
     MatRadioModule,
     MatDialogModule,
     FlexLayoutModule,
-    RouterModule.forRoot([
-        { path: 'activities/:id', component:ActivityDetailsComponent },
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
+    RouterModule.forRoot([       
         { path: 'register', component:RegisterComponent },
         { path: 'login', component:LoginComponent },
-        { path: 'activities/new', component:InternshipFormComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
+        { path: 'activity/:id', component:InternshipFormComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
+        { path: 'activities-company', component:ActivitiesCompanyComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
+        { path: 'activity-details/:id', component:ActivityDetailsComponent },
         { path: 'profile/student', component:StudentProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Student']} },
         { path: 'profile/company', component:CompanyProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
         { path: 'profile/teacher', component:TeacherProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Teacher']} },

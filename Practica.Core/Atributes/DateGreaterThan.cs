@@ -26,7 +26,7 @@ namespace Practica.Core
 
             var comparisonValue = (DateTime)property.GetValue(validationContext.ObjectInstance);
 
-            if (currentValue <= comparisonValue)
+            if (currentValue < comparisonValue)
                 return new ValidationResult(ErrorMessage);
 
             return ValidationResult.Success;

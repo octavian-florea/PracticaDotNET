@@ -24,7 +24,6 @@ export class CompanyProfileComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder, private _profileService:ProfileService, private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-
     this.profileForm = this.formBuilder.group({
       companyName:'',
       companyDescription:'',
@@ -47,9 +46,8 @@ export class CompanyProfileComponent implements OnInit, OnDestroy {
       },
       (err) => {}
     );
-
-    
   }
+
   ngOnDestroy(){
     this.subscriptionList.forEach(sub =>{
       sub.unsubscribe;

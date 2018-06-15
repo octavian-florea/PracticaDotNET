@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Activity } from '../models/activity.model';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ActivityService{
 
-    constructor(private _http: HttpClient){
+    readonly rootURL = "http://localhost:64196";
+
+    constructor(private _http: HttpClient,private router: Router){
 
     }
 
@@ -90,15 +95,33 @@ export class ActivityService{
         ]
     }
 
-    getActivityHttp(){
-        console.log('http');
-
-        return this._http.get('http://localhost:64196/api/activities');
+    getActivityHttp(id: string): Observable<Object>{
+        return this._http.get(this.rootURL+'/api/activities/'+id);
     }
 
-    createActivityHttp(activity: any){
-        console.log('save-http');
+    getActivitiesHttp(): Observable<Object>{
+        return this._http.get(this.rootURL+'/api/activities');
+    }
 
-        return this._http.post('http://localhost:64196/api/activities', activity);
+    getActivitiesByUserHttp(): Observable<Object>{
+        return this._http.get(this.rootURL+'/api/activities/user');
+    }
+
+    postActivityHttp(activity: Activity): void{
+        this._http.post(this.rootURL+'/api/activities', activity).subscribe(
+            (res:any) => { 
+                this.router.navigate(['/activities-company']);
+            },
+            (err) => { }
+          );
+    }
+
+    putActivityHttp(activity: Activity): void{
+        this._http.put(this.rootURL+'/api/activities/'+activity.Id, activity).subscribe(
+            (res:any) => { 
+                this.router.navigate(['/activities-company']);
+            },
+            (err) => { }
+          );
     }
 }

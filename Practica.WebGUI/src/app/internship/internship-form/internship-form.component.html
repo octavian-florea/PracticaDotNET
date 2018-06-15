@@ -1,40 +1,47 @@
-<form class='pr-form' [formGroup]="activityForm" (ngSubmit)="submitForm()">
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Titlu" formControlName="title">
-  </mat-form-field>
-  <mat-form-field class='pr-full-width'>
-    <textarea matInput placeholder="Descriere" formControlName="description"></textarea>
-  </mat-form-field>
-  <mat-form-field class='pr-full-width'>
-    <mat-select placeholder="Tip activitate">
-      <mat-option value="practica">Practica</mat-option>
-      <mat-option value="curs">Curs</mat-option>
-      <mat-option value="eveniment">Eveniment</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput [matDatepicker]="startDatePicker" placeholder="Data inceput activitate" formControlName="startDate">
-    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-    <mat-datepicker #startDatePicker></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput [matDatepicker]="endDatePicker" placeholder="Data sfarsit activitate" formControlName="endDate">
-    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-    <mat-datepicker #endDatePicker></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field class='pr-full-width'>
-    <input matInput [matDatepicker]="aplicationEndDatePicker" placeholder="Data sfarsit aplicare" formControlName="aplicationEndDate">
-    <mat-datepicker-toggle matSuffix [for]="aplicationEndDatePicker"></mat-datepicker-toggle>
-    <mat-datepicker #aplicationEndDatePicker></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Numar locuri" formControlName="seats">
-  </mat-form-field>
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Adresa" formControlName="addres">
-  </mat-form-field>
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Oras" formControlName="city">
-  </mat-form-field>
-  <button mat-raised-button type="submit">Trasmite</button>
+<form [formGroup]="activityForm" (ngSubmit)="submitForm()">
+  <div class='pr-panel'>
+    <input type="hidden" formControlName="PublishDate" />
+    <mat-form-field>
+      <mat-select placeholder="Tip activitate" formControlName="Type" required>
+        <mat-option value="practica">Practica</mat-option>
+        <mat-option value="curs">Curs</mat-option>
+        <mat-option value="eveniment">Eveniment</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Titlu" formControlName="Title" maxlength="100" required>
+    </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <textarea matInput placeholder="Descriere" formControlName="Description" required></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="startDatePicker" placeholder="Data inceput activitate" formControlName="StartDate" required>
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="endDatePicker" placeholder="Data sfarsit activitate" formControlName="EndDate" required>
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="expirationDate" placeholder="Data sfarsit aplicare" formControlName="ExpirationDate">
+      <mat-datepicker-toggle matSuffix [for]="expirationDate"></mat-datepicker-toggle>
+      <mat-datepicker #expirationDate></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Tara" formControlName="Country" required>
+    </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Oras" formControlName="City" required>
+    </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Adresa" formControlName="Address">
+    </mat-form-field>
+    <div [fxLayout]="row">
+      <button mat-raised-button type="submit" [disabled]="!activityForm.valid" ><mat-icon>done</mat-icon> Salveza</button>
+      <span class='pr-fill-space'></span>
+      <button mat-raised-button color='primary' type="button" [disabled]="!activityForm.valid" (click)="publish()"><mat-icon>public</mat-icon> Activeaza</button>
+    </div>
+  </div>
 </form>

@@ -26,9 +26,9 @@ export class ResponseInterceptor implements HttpInterceptor{
           }));
     }
 
-    private showError(error:string): void {
+    private showError(error:any): void {  
       this.dialog.open(ErrorDialogComponent, {
-        data: {errorMsg: error} ,width : '250px'
+        data: {errorMsg: JSON.stringify(error)} ,width : '250px'
       });
     }
 }

@@ -15,7 +15,7 @@ export class ActivityListComponent{
     }
     ngOnInit():void{
         this.activities = this._activityService.getActivity();
-        this._activityService.getActivityHttp().subscribe(
+        this._activityService.getActivitiesHttp().subscribe(
             (res) => { console.log(res) },
             (err) => { console.log(err) }
         )

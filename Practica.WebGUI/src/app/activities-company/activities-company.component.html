@@ -1,0 +1,46 @@
+<div class="pr-panel">
+  <div class="pr-activity-table mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" matSort matSortActive="Id" matSortDirection="desc">
+  
+      <!-- id Column -->
+      <ng-container matColumnDef="Id" >
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Id}} </mat-cell>
+      </ng-container>
+  
+      <!-- type Column -->
+      <ng-container matColumnDef="Type">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Type}} </mat-cell>
+      </ng-container>
+
+      <!-- title Column -->
+      <ng-container matColumnDef="Title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <a [routerLink]="['/activity/'+element.Id]"> {{element.Title}}</a> </mat-cell>
+      </ng-container>
+
+      <!-- start date Column -->
+      <ng-container matColumnDef="StartDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> StartDate </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.StartDate |  date:'MM/dd/yyyy'}} </mat-cell>
+      </ng-container>
+
+      <!-- end date Column -->
+      <ng-container matColumnDef="EndDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> EndDate </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.EndDate |  date:'MM/dd/yyyy'}} </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  
+    <mat-paginator #paginator
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 20]"
+                   >
+    </mat-paginator>
+  </div>
+</div>
+  

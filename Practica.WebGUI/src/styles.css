@@ -192,6 +192,11 @@ small.truncate-3-line{
     text-decoration: underline;
 }
 
+.mat-cell a:hover{
+    color: #1e4471;
+    text-decoration: underline;
+}
+
 .pr-panel {
     margin-bottom: 20px;
     background-color: #fff;
@@ -221,4 +226,9 @@ small.truncate-3-line{
     max-width: 100%;
     max-height: 100%;
     vertical-align: middle;
+}
+
+.pr-activity-table{
+    display: flex;
+    flex-direction: column;
 }

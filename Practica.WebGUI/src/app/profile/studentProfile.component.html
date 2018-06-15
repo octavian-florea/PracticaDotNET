@@ -52,5 +52,5 @@
 
   <!-- limbi vorbite -->
 
-  <button mat-raised-button type="submit">Trasmite</button>
+  <button mat-raised-button [disabled]="!profileForm.valid" type="submit">Trasmite</button>
 </form>

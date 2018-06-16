@@ -1,12 +1,14 @@
+import { Moment } from "moment";
+
 export class Activity {
     Id: string
     Title: string
     Type: string
     Description: string
-    StartDate: Date
-    EndDate: Date
-    PublishDate: Date
-    ExpirationDate: Date
+    StartDate: Moment
+    EndDate: Moment
+    PublishDate: Moment
+    ExpirationDate: Moment
     Country: string
     City: string
     Address: string

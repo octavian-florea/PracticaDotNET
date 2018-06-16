@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCheckboxModule, MatCardModule, MatButtonModule, MatToolbarModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatSelectModule, MatRadioModule, MatAutocompleteModule, MatDialogModule, MatPaginatorModule, MatSortModule, MatTableModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatCheckboxModule, MatCardModule, MatButtonModule, MatToolbarModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatRadioModule, MatAutocompleteModule, MatDialogModule, MatPaginatorModule, MatSortModule, MatTableModule, MatProgressSpinnerModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -27,6 +27,8 @@ import { RoleGuard } from './guard/role.guard';
 import { RequestInterceptor } from './interceptor/request.interceptor';
 import { ResponseInterceptor } from './interceptor/response.interceptor';
 import { ActivitiesCompanyComponent } from './activities-company/activities-company.component';
+import { MatMomentDateModule } from '@angular/material-moment-adapter'
+import * as moment from 'moment';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,7 @@ import { ActivitiesCompanyComponent } from './activities-company/activities-comp
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatMomentDateModule,
     MatSelectModule,
     MatAutocompleteModule,
     FormsModule,

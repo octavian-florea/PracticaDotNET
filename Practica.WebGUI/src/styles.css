@@ -137,7 +137,6 @@ p{ margin: 0 0 10px; }
  }
 
  .pr-company-logo img{
-    display: inline-block;
     max-height: 100%;
     max-width: 100%;
     vertical-align: middle;
@@ -231,4 +230,8 @@ small.truncate-3-line{
 .pr-activity-table{
     display: flex;
     flex-direction: column;
+}
+
+.pr-m-r-10{
+    margin-right: 10px !important;
 }

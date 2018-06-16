@@ -1,24 +1,24 @@
-<mat-card class="pr-activity-card" tabindex=0 *ngFor='let activity of activities'>
+<mat-card class="pr-activity-card" tabindex=0 *ngFor='let activityCard of activityCards'>
     <a class='pr-company-logo'>
-      <img mat-card-image style='width:150px;margin:auto 0' src="{{activity.imageUrl}}" alt="Photo of a Shiba Inu">
+      <img [src]="activityCard.CompanyImageUrl" alt="Company logo">
     </a>
-    <h3 class="pr-truncate-1-line pr-company-name">Company title</h3>
+    <h3 class="pr-truncate-1-line pr-company-name">{{activityCard.CompanyName}}</h3>
     <h2 class="pr-activity-name">
-      <a class="pr-truncate-2-line" [routerLink]="['/activity-details/'+activity.activityId]">
-        <strong>{{activity.activityName}}</strong>
+      <a class="pr-truncate-2-line" [routerLink]="['/activity-details/'+activityCard.Id]">
+        <strong>{{activityCard.Title}}</strong>
       </a>
     </h2>
 
     <mat-card-content>
       <small class="pr-truncate-3-line pr-text-muted">
-           {{activity.activityDescription}}
+           {{activityCard.Description}}
       </small>
     </mat-card-content>
 
     <p class="pr-text-muted">
       <i class="pr-place-icon material-icons">place</i>
       <span>
-        {{activity.location}}
+        {{activityCard.City}}
       </span>
     </p>
 </mat-card>

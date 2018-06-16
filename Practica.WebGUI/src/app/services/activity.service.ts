@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Activity } from '../models/activity.model';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ActivityDto } from '../models/activity-dto.model';
 
 @Injectable()
 export class ActivityService{
@@ -107,7 +108,7 @@ export class ActivityService{
         return this._http.get(this.rootURL+'/api/activities/user');
     }
 
-    postActivityHttp(activity: Activity): void{
+    postActivityHttp(activity: ActivityDto): void{
         this._http.post(this.rootURL+'/api/activities', activity).subscribe(
             (res:any) => { 
                 this.router.navigate(['/activities-company']);
@@ -116,8 +117,17 @@ export class ActivityService{
           );
     }
 
-    putActivityHttp(activity: Activity): void{
+    putActivityHttp(activity: ActivityDto): void{
         this._http.put(this.rootURL+'/api/activities/'+activity.Id, activity).subscribe(
+            (res:any) => { 
+                this.router.navigate(['/activities-company']);
+            },
+            (err) => { }
+          );
+    }
+
+    deleteActivityHttp(id: string): void{
+        this._http.delete(this.rootURL+'/api/activities/'+id).subscribe(
             (res:any) => { 
                 this.router.navigate(['/activities-company']);
             },

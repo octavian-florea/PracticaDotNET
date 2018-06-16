@@ -1,6 +1,6 @@
 <form [formGroup]="activityForm" (ngSubmit)="submitForm()">
   <div class='pr-panel'>
-    <input type="hidden" formControlName="PublishDate" />
+    <input type='hidden' formControlName="PublishDate" />
     <mat-form-field>
       <mat-select placeholder="Tip activitate" formControlName="Type" required>
         <mat-option value="practica">Practica</mat-option>
@@ -41,7 +41,9 @@
     <div [fxLayout]="row">
       <button mat-raised-button type="submit" [disabled]="!activityForm.valid" ><mat-icon>done</mat-icon> Salveza</button>
       <span class='pr-fill-space'></span>
-      <button mat-raised-button color='primary' type="button" [disabled]="!activityForm.valid" (click)="publish()"><mat-icon>public</mat-icon> Activeaza</button>
+      <button mat-raised-button class='pr-m-r-10' color='warn' type="button" *ngIf="!flagNewActivity" (click)="delete()"><mat-icon>delete</mat-icon> Sterge</button>
+      <button mat-raised-button color='primary' type="button" [disabled]="!activityForm.valid" *ngIf="flagShowUnpublishButton" (click)="unpublish()"><mat-icon>visibility_off</mat-icon> Retrage</button>
+      <button mat-raised-button color='primary' type="button" [disabled]="!activityForm.valid" *ngIf="flagShowPublishButton" (click)="publish()"><mat-icon>visibility</mat-icon> Publica</button>
     </div>
   </div>
 </form>

@@ -27,7 +27,10 @@ namespace Practica.Data
         public IEnumerable<Activity> GetAll()
         {
             
-            return _context.Activities.ToList();
+            return _context.Activities
+                .Include(c => c.PracticaUser.CompanyProfile)
+                .Where(c => c.PublishDate != null && c.ExpirationDate!=null && c.PublishDate <= DateTime.Today && c.ExpirationDate > DateTime.Today)
+                .ToList();
         }
 
 

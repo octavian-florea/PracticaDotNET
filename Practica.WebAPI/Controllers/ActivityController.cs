@@ -46,9 +46,25 @@ namespace Practica.WebAPI
             try
             {
                 var activities = _activityRepository.GetAll();
+                List<ActivityCardViewDto> activitiesCardDto = new List<ActivityCardViewDto>();
 
-                var result = Mapper.Map<IEnumerable<ActivityDto>>(activities);
-                return Ok(result);
+                foreach (var activity in activities)
+                {
+                    ActivityCardViewDto activityCardDto = new ActivityCardViewDto()
+                    {
+                        Id = activity.Id,
+                        Type = activity.Type,
+                        Title = activity.Title,
+                        Description = activity.Description,
+                        City = activity.City,
+                        CompanyName = activity.PracticaUser?.CompanyProfile?.Name,
+                        CompanyLogo = activity.PracticaUser?.CompanyProfile?.Logo,
+                        CompanyLogoExtension = activity.PracticaUser?.CompanyProfile?.LogoExtension
+                    };
+                    activitiesCardDto.Add(activityCardDto);
+                }
+       
+                return Ok(activitiesCardDto);
             }
             catch (Exception ex)
             {
@@ -111,11 +127,11 @@ namespace Practica.WebAPI
                 {
                     return BadRequest("Type is not valid");
                 };
-                if (activityCreateDto.ExpirationDate!= null && activityCreateDto.ExpirationDate <= DateTime.Now)
+                if (activityCreateDto.ExpirationDate!= null && activityCreateDto.ExpirationDate <= DateTime.Today)
                 {
                     return BadRequest("ExpirationDate needs to be in the future");
                 }
-                if (activityCreateDto.PublishDate != null && activityCreateDto.PublishDate <= DateTime.Now)
+                if (activityCreateDto.PublishDate != null && activityCreateDto.PublishDate < DateTime.Today)
                 {
                     return BadRequest("PublishDate needs to be in the present or in the future");
                 }
@@ -156,11 +172,11 @@ namespace Practica.WebAPI
                 {
                     return BadRequest();
                 }
-                if (activityUpdateDto.ExpirationDate != null && activityUpdateDto.ExpirationDate <= DateTime.Now)
+                if (activityUpdateDto.ExpirationDate != null && activityUpdateDto.ExpirationDate <= DateTime.Today)
                 {
                     return BadRequest("ExpirationDate needs to be in the future");
                 }
-                if (activityUpdateDto.PublishDate != null && activityUpdateDto.PublishDate <= DateTime.Now)
+                if (activityUpdateDto.PublishDate != null && activityUpdateDto.PublishDate < DateTime.Today)
                 {
                     return BadRequest("PublishDate needs to be in the present or in the future");
                 }
@@ -175,6 +191,12 @@ namespace Practica.WebAPI
                 {
                     _logger.LogInformation($"Acitvity with id {id} was not found");
                     return NotFound();
+                }
+                var userIdToken = User.FindFirst(JwtRegisteredClaimNames.Sid).Value;
+                if (!activity.UserId.Equals(userIdToken))
+                {
+                    _logger.LogInformation($"Unauthorised update activity with id {id} by user {userIdToken}");
+                    return Unauthorized();
                 }
 
                 Mapper.Map(activityUpdateDto, activity);
@@ -254,6 +276,12 @@ namespace Practica.WebAPI
                 {
                     _logger.LogInformation($"Acitvity with id {id} was not found");
                     return NotFound();
+                }
+                var userIdToken = User.FindFirst(JwtRegisteredClaimNames.Sid).Value;
+                if (!activityEntety.UserId.Equals(userIdToken))
+                {
+                    _logger.LogInformation($"Unauthorised delete activity with id {id} by user {userIdToken}");
+                    return Unauthorized();
                 }
 
                 _activityRepository.Remove(activityEntety);

@@ -77,13 +77,13 @@ namespace Practica.WebAPI
 
                 // Validate image
                 int MaxContentLength = 1024 * 1024 * 5; //Size = 5 MB  
-                IList<string> AllowedFileExtensions = new List<string> { ".jpg", ".gif", ".png" };
+                IList<string> AllowedFileExtensions = new List<string> { "jpg", "gif", "png" };
                 var extension = "";
                 bool flagProcessLogo = companyProfileDto.Logo != null;
 
                 if (flagProcessLogo)
                 {
-                    var ext = companyProfileDto.Logo.FileName.Substring(companyProfileDto.Logo.FileName.LastIndexOf('.'));
+                    var ext = companyProfileDto.Logo.FileName.Substring(companyProfileDto.Logo.FileName.LastIndexOf('.')+1);
                     extension = ext.ToLower();
                     if (!AllowedFileExtensions.Contains(extension))
                     {

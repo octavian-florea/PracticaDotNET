@@ -3,7 +3,16 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 html{ height: 100%; }
-body{ margin: 0; padding:0; min-height: 100%; position: relative; background-color:#f5f5f5; font-size:14px; }
+body{ 
+    margin: 0; 
+    padding:0; 
+    min-height: 100%; 
+    position: relative; 
+    background-color:#f5f5f5; 
+    font-size:14px; 
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    color: #333;
+}
 
 a{
     color: #2e68ad;
@@ -189,11 +198,13 @@ small.truncate-3-line{
 .pr-activity-card a:hover,.pr-activity-card a:focus {
     color: #1e4471;
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .mat-cell a:hover{
     color: #1e4471;
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .pr-panel {
@@ -234,4 +245,25 @@ small.truncate-3-line{
 
 .pr-m-r-10{
     margin-right: 10px !important;
+}
+.pr-m-b-10{
+    margin-bottom: 10px !important;
+}
+.pr-m-b-20{
+    margin-bottom: 20px !important;
+}
+
+.pr-empty-search{
+    width:50%;
+    margin:0 auto;
+    text-align: center;
+    padding: 1.5em;
+}
+
+.pr-home-loading-bar{
+    position: absolute;
+    top:0;
+}
+.mat-dialog-title{
+    display:flex !important;
 }

@@ -14,6 +14,8 @@ namespace Practica.Core
 
         public string Title { get; set; }
 
+        public string CompanyId { get; set; }
+
         public string CompanyName { get; set; }
 
         public byte[] CompanyLogo { get; set; }

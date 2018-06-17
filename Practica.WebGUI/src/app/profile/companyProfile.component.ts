@@ -31,7 +31,7 @@ export class CompanyProfileComponent implements OnInit, OnDestroy {
       address:''
     });
 
-    this._profileService.getCompanyProfileHttp().subscribe(
+    this.subscriptionList.push(this._profileService.getCompanyProfileHttp().subscribe(
       (res:CompanyProfile) => { 
           this.profileForm.setValue({
             companyName: res.Name,
@@ -45,7 +45,7 @@ export class CompanyProfileComponent implements OnInit, OnDestroy {
           }
       },
       (err) => {}
-    );
+    ));
   }
 
   ngOnDestroy(){

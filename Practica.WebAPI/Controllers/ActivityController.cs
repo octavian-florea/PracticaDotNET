@@ -41,11 +41,16 @@ namespace Practica.WebAPI
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult GetActivities()
+        public IActionResult GetActivities([FromQuery]string SearchKey, [FromQuery]string City)
         {
             try
             {
-                var activities = _activityRepository.GetAll();
+                ActivityFilter activityFilter = new ActivityFilter()
+                {
+                    SearchKey = SearchKey,
+                    City = City
+                };
+                var activities = _activityRepository.Find(activityFilter);
                 List<ActivityCardViewDto> activitiesCardDto = new List<ActivityCardViewDto>();
 
                 foreach (var activity in activities)
@@ -57,6 +62,7 @@ namespace Practica.WebAPI
                         Title = activity.Title,
                         Description = activity.Description,
                         City = activity.City,
+                        CompanyId = activity.UserId,
                         CompanyName = activity.PracticaUser?.CompanyProfile?.Name,
                         CompanyLogo = activity.PracticaUser?.CompanyProfile?.Logo,
                         CompanyLogoExtension = activity.PracticaUser?.CompanyProfile?.LogoExtension
@@ -74,6 +80,7 @@ namespace Practica.WebAPI
         }
 
         [HttpGet("{id}", Name ="GetActivity")]
+        [AllowAnonymous]
         public IActionResult GetActivity(int id)
         {
             try

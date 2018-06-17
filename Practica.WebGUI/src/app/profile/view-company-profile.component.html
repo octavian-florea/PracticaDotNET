@@ -1,0 +1,33 @@
+
+<h2 mat-dialog-title>
+    Detalii companie 
+    <span class='pr-fill-space'></span>
+    <button mat-icon-button mat-dialog-close tabindex="-1">
+      <mat-icon class="material-icons">close</mat-icon>
+    </button>
+  </h2>
+  <mat-dialog-content>
+      <div class='pr-preview-logo'>
+        <img [src]="imageUrl" alt="Company logo">
+      </div>
+      <h1 class='pr-activity-details-title'>{{companyProfile.Name}}</h1>
+      <div class='pr-activity-details-tags pr-m-b-20'>
+        <table>
+          <tr>
+            <td><strong>Adresa</strong></td> 
+            <td>{{companyProfile.Adress}}</td>
+          </tr>
+          <tr>
+              <td><strong>Website</strong></td> 
+              <td>{{companyProfile.Website}}</td>
+            </tr>
+        </table>
+      </div>
+      <div class='pr-activity-details-description pr-m-b-20'>
+          {{companyProfile.Description}}
+      </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close type="button" tabindex="-1">Inchide</button>
+  </mat-dialog-actions>
+  

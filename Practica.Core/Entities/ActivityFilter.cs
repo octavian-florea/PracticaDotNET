@@ -4,19 +4,11 @@ using System.Text;
 
 namespace Practica.Core
 {
-    public class ActivityFilter: IActivityFilter
+    public class ActivityFilter
     {
-        public string Title { get; set; }
+        public string SearchKey { get; set; }
 
-        public ActivityFilter()
-        {
-            Title = "";
-        }
-
-        public ActivityFilter(string title)
-        {
-            Title = title;
-        }
+        public string City { get; set; }
 
     }
 }

@@ -1,10 +1,10 @@
 <mat-card class="pr-activity-card" tabindex=0 *ngFor='let activityCard of activityCards'>
-    <a class='pr-company-logo'>
+    <a class='pr-company-logo' (click)="openCompanyDialog(activityCard.CompanyId)">
       <img [src]="activityCard.CompanyImageUrl" alt="Company logo">
     </a>
     <h3 class="pr-truncate-1-line pr-company-name">{{activityCard.CompanyName}}</h3>
     <h2 class="pr-activity-name">
-      <a class="pr-truncate-2-line" [routerLink]="['/activity-details/'+activityCard.Id]">
+      <a class="pr-truncate-2-line" (click)="openActivityDialog(activityCard.Id, activityCard.CompanyName)">
         <strong>{{activityCard.Title}}</strong>
       </a>
     </h2>
@@ -16,9 +16,24 @@
     </mat-card-content>
 
     <p class="pr-text-muted">
+      <i class="pr-place-icon material-icons">bookmark</i>
+      <span>
+        {{activityCard.Type}}
+      </span>
+    </p>
+    <p class="pr-text-muted">
       <i class="pr-place-icon material-icons">place</i>
       <span>
         {{activityCard.City}}
       </span>
     </p>
 </mat-card>
+
+<div class="pr-empty-search" *ngIf="flagNoSearchResults">
+  <h2><strong>Ne pare rau, nu gasim locuri de munca relevante criteriilor tale de cautare</strong></h2>
+  <p><small>
+    • Asigura-te ca toate cuvintele cheie si locatiile sunt scrise corect 
+    • Incearca alte cuvinte cheie • Alege cuvinte cheie mai generale 
+    • Incearca mai putine cuvinte cheie
+  </small></p>
+</div>

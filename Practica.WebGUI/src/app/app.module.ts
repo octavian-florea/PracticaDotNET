@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCheckboxModule, MatCardModule, MatButtonModule, MatToolbarModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatRadioModule, MatAutocompleteModule, MatDialogModule, MatPaginatorModule, MatSortModule, MatTableModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatCheckboxModule, MatCardModule, MatButtonModule, MatToolbarModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatRadioModule, MatAutocompleteModule, MatDialogModule, MatPaginatorModule, MatSortModule, MatTableModule, MatProgressSpinnerModule, MatProgressBarModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -29,6 +29,7 @@ import { ResponseInterceptor } from './interceptor/response.interceptor';
 import { ActivitiesCompanyComponent } from './activities-company/activities-company.component';
 import { MatMomentDateModule } from '@angular/material-moment-adapter'
 import * as moment from 'moment';
+import { ViewCompanyProfileComponent } from './profile/view-company-profile.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import * as moment from 'moment';
     CompanyProfileComponent,
     TeacherProfileComponent,
     ErrorDialogComponent,
-    ActivitiesCompanyComponent
+    ActivitiesCompanyComponent,
+    ViewCompanyProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +72,7 @@ import * as moment from 'moment';
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     RouterModule.forRoot([       
         { path: 'register', component:RegisterComponent },
         { path: 'login', component:LoginComponent },
@@ -95,6 +98,6 @@ import * as moment from 'moment';
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorDialogComponent]
+  entryComponents: [ErrorDialogComponent,ActivityDetailsComponent,ViewCompanyProfileComponent]
 })
 export class AppModule { }

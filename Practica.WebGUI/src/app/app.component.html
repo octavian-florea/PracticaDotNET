@@ -1,3 +1,4 @@
+<mat-progress-bar style='display:none' class="pr-home-loading-bar" color="warn" mode="determinate" value="40"></mat-progress-bar>
 <header class="pr-main-header">
   <nav>
     <mat-toolbar color="primary">
@@ -7,8 +8,8 @@
     
         <!-- <a mat-button [routerLink]="['/search']" [routerLinkActive]="['pr-nav-active']">Cautare</a> -->
         <!-- zona de filtrare -->
-        <input class='pr-search' placeholder="Cauta locuri de practica, cursuri si alte activitati"/>
-        <button mat-button class="pr-search-button"><mat-icon>search</mat-icon></button>
+        <input class='pr-search' #searchElem (keyup.enter)="search(searchElem.value)" placeholder="Cauta locuri de practica, cursuri si alte activitati"/>
+        <button mat-button class="pr-search-button" (click)="search(searchElem.value)"><mat-icon>search</mat-icon></button>
         
 
         <!-- Nav for large screens -->

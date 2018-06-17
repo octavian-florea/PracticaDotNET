@@ -25,10 +25,10 @@ namespace Practica.Data
 
                 // build parameters
                 Dictionary<string, string> parameters = new Dictionary<string, string>();
-                if (!String.IsNullOrEmpty(filters.Title))
-                {
-                    parameters.Add("title", filters.Title);
-                }
+                //if (!String.IsNullOrEmpty(filters.Title))
+                //{
+                //    parameters.Add("title", filters.Title);
+                //}
 
                 // execute sql
                 using (DbDataReader reader = dataBase.ExecuteQuery(sql, parameters))

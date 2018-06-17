@@ -9,6 +9,17 @@ import { Router } from '@angular/router';
 export class ProfileService{
 
     readonly rootURL = "http://localhost:64196/";
+    private readonly defaultCompanyProfile: CompanyProfile = {
+        Logo: null,
+        LogoExtension: null,
+        Name: '',
+        Description: '',
+        Website: '',
+        Adress: ''
+    }
+    get DefaultCompanyProfile():CompanyProfile{
+        return this.defaultCompanyProfile;
+    }
 
     constructor(private _http: HttpClient,private router: Router){
 
@@ -20,6 +31,10 @@ export class ProfileService{
 
     getCompanyProfileHttp(){
         return this._http.get(this.rootURL+'api/company/profile');
+    }
+
+    getCompanyProfileHttpById(id:string){
+        return this._http.get(this.rootURL+'api/company/profile/'+id);
     }
 
     getTeacherProfileHttp(){

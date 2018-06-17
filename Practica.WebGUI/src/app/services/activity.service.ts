@@ -1,29 +1,41 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Activity } from '../models/activity.model';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { ActivityDto } from '../models/activity-dto.model';
+import { Search } from '../models/search.model';
+import * as moment from 'moment';
 
 @Injectable()
 export class ActivityService{
 
     readonly rootURL = "http://localhost:64196";
-
-    constructor(private _http: HttpClient,private router: Router){
-
+    private readonly defaultActivity: Activity = {
+        Id : '',
+        Title : '',
+        Description: '',
+        Type: '',
+        StartDate: moment('1900-01-01'),
+        EndDate: moment('1900-01-01'),
+        PublishDate: moment('9999-12-31'),
+        ExpirationDate: moment('1900-01-01'),
+        Country:'',
+        City:'',
+        Address: '',
+    }
+    get DefaultActivity():Activity{
+        return this.defaultActivity;
     }
 
-    get(id:string){
-        return {
-            "activityId": 1,
-            "activityName": "Iquest locuri de practica",
-            "activityType": "LP",
-            "activityDescription": "Locuri de practica pe timpul verii",
-            "imageUrl": "assets/img/iquest.png",
-            "location": "Brasov",
-            "time":"acum 4 ore"
-        }
+    private search = new BehaviorSubject<Search>({SearchKey:'', City:''});
+
+    get searchObserver(): Observable<Search> {
+        return this.search.asObservable();
+    }
+    
+    constructor(private _http: HttpClient,private router: Router){
+
     }
 
     getActivity(){
@@ -100,8 +112,12 @@ export class ActivityService{
         return this._http.get(this.rootURL+'/api/activities/'+id);
     }
 
-    getActivitiesHttp(): Observable<Object>{
-        return this._http.get(this.rootURL+'/api/activities');
+    getActivitiesHttp(searchObj: Search): Observable<Object>{
+        let data = {};
+        for (var key in searchObj) {
+            data[key] = searchObj[key];
+        }
+        return this._http.get(this.rootURL+'/api/activities',{params: data});
     }
 
     getActivitiesByUserHttp(): Observable<Object>{
@@ -133,5 +149,9 @@ export class ActivityService{
             },
             (err) => { }
           );
+    }
+
+    setSearch(searchObj: Search) {
+        this.search.next(searchObj);
     }
 }

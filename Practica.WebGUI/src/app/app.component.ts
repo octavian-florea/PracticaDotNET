@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { User } from './models/user.model';
+import { ActivityService } from './services/activity.service';
+import { Search } from './models/search.model';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,7 @@ export class AppComponent {
   loggedIn: Boolean;
   user: User;
 
-  constructor( private _authService:AuthService){
+  constructor( private _authService:AuthService, private _activityService: ActivityService){
     this._authService.isLoggedIn.subscribe((value) => {
       this.loggedIn = value
     });
@@ -24,5 +26,13 @@ export class AppComponent {
 
   Logout(){
     this._authService.logout();
+  }
+
+  search(value){
+    let searchObj: Search = {
+      SearchKey: value,
+      City:""
+    }
+    this._activityService.setSearch(searchObj);
   }
 }

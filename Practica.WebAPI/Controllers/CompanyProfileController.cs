@@ -63,6 +63,32 @@ namespace Practica.WebAPI
             }
         }
 
+        [HttpGet("{id}", Name = "GetCompanyProfileById")]
+        [AllowAnonymous]
+        public IActionResult GetCompanyProfileById(string id)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(id))
+                {
+                    return BadRequest();
+                }
+                var companyProfile = _companyProfileRepository.Get(id);
+                if (companyProfile == null)
+                {
+                    return NotFound();
+                }
+
+                var companyProfileDto = Mapper.Map<CompanyProfileViewDto>(companyProfile);
+                return Ok(companyProfileDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"An exception was thrown: ", ex);
+                return StatusCode(500, "A problem happend while handeling your request.");
+            }
+        }
+
         [HttpPut]
         public IActionResult CreateUpdateCompanyProfile([FromForm]CompanyProfileDto companyProfileDto)
         {

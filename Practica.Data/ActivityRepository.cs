@@ -26,11 +26,7 @@ namespace Practica.Data
 
         public IEnumerable<Activity> GetAll()
         {
-            
-            return _context.Activities
-                .Include(c => c.PracticaUser.CompanyProfile)
-                .Where(c => c.PublishDate != null && c.ExpirationDate!=null && c.PublishDate <= DateTime.Today && c.ExpirationDate > DateTime.Today)
-                .ToList();
+            return _context.Activities.ToList();
         }
 
 
@@ -42,8 +38,24 @@ namespace Practica.Data
 
         public IEnumerable<Activity> Find(ActivityFilter activityFilter)
         {
+            return _context.Activities
+               .Include(c => c.PracticaUser.CompanyProfile)
+               .Where(c => passFilterActivity(c, activityFilter))
+               .ToList();
+        }
 
-            return _context.Activities.ToList();
+        private bool passFilterActivity(Activity activity, ActivityFilter activityFilter)
+        {
+            if (activity.PublishDate == null && activity.ExpirationDate == null)
+                return false;
+            if (activity.PublishDate > DateTime.Today || activity.ExpirationDate <= DateTime.Today)
+                return false;
+            if (!String.IsNullOrEmpty(activityFilter.City) && !activity.City.Equals(activityFilter.City))
+                return false;
+            if (!String.IsNullOrEmpty(activityFilter.SearchKey) && activity.Title.IndexOf(activityFilter.SearchKey, StringComparison.OrdinalIgnoreCase)==-1)
+                return false;
+            
+            return true;
         }
 
         public void Add(Activity activity)

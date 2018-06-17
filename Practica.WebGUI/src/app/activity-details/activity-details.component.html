@@ -1,7 +1,50 @@
-<p>
-  activity-details works! ID: {{id}}
-  <br>
-  {{activity.activityName}}
-  <br>
-  {{activity.activityDescription}}
-</p>
+
+<h2 mat-dialog-title>
+  Detalii {{activity.Type}} 
+  <span class='pr-fill-space'></span>
+  <button mat-icon-button mat-dialog-close tabindex="-1">
+    <mat-icon class="material-icons">close</mat-icon>
+  </button>
+</h2>
+<mat-dialog-content>
+    <h1 class='pr-activity-details-title'>{{activity.Title}}</h1>
+    <div class='pr-activity-details-tags pr-m-b-20'>
+      <table>
+        <tr>
+          <td><strong>Nume companie</strong></td> 
+          <td>{{companyName}}</td>
+        </tr>
+        <tr>
+          <td><strong>Data inceput</strong></td> 
+          <td>{{activity.StartDate}}</td>
+        </tr>
+        <tr>
+          <td><strong>Data sfarsit</strong></td> 
+          <td>{{activity.EndDate}}</td>
+        </tr>
+        <tr>
+          <td><strong>Adreasa activitate</strong></td> 
+          <td>{{activity.Address}}</td>
+        </tr>
+        <tr>
+          <td><strong>Tara</strong></td> 
+          <td>{{activity.Country}}</td>
+        </tr>
+        <tr>
+          <td><strong>Oras</strong></td> 
+          <td>{{activity.City}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class='pr-activity-details-description pr-m-b-20'>
+        {{activity.Description}}
+    </div>
+    <div class='pr-activity-details-img'>
+        <!-- imagine activitate -->
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close type="button" tabindex="-1">Inchide</button>
+  <span class='pr-fill-space'></span>
+  <button mat-raised-button color='primary' type="button" [disabled]="!loggedIn" (click)="applyToActivity()" tabindex="-1">Aplica</button>
+</mat-dialog-actions>

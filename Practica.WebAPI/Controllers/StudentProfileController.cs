@@ -44,8 +44,17 @@ namespace Practica.WebAPI
                 var studentProfile = _studentProfileRepository.Get(User.FindFirst(JwtRegisteredClaimNames.Sid).Value);
                 if (studentProfile == null)
                 {
-                    _logger.LogInformation($"Student profile was not found");
-                    return NotFound();
+                    studentProfile = new StudentProfile()
+                    {
+                        Name = "",
+                        Description = "",
+                        FacultyId = 0,
+                        Specialization = "",
+                        StudyYear = 1,
+                        Email = "",
+                        Telephone = "",
+                        City = ""
+                    };
                 }
 
                 var studentProfileDto = Mapper.Map<StudentProfileDto>(studentProfile);
@@ -58,8 +67,8 @@ namespace Practica.WebAPI
             }
         }
 
-        [HttpPost]
-        public IActionResult CreateStudentProfile([FromBody]StudentProfileDto studentProfileDto)
+        [HttpPut]
+        public IActionResult CreateUpdateStudentProfile([FromBody]StudentProfileDto studentProfileDto)
         {
             try
             {
@@ -69,54 +78,25 @@ namespace Practica.WebAPI
                 {
                     return BadRequest();
                 }
-                var studentProfileInDB = _studentProfileRepository.Get(profileid);
-                if (studentProfileInDB != null)
-                {
-                    _logger.LogInformation($"Profile {profileid} allready exists");
-                    return BadRequest("Profile allready exists");
-                }
 
                 // Create the new object
-                var studentProfile = Mapper.Map<StudentProfile>(studentProfileDto);
-                studentProfile.UserId = profileid;
-
-                _studentProfileRepository.Add(studentProfile);
-
-                if (!_studentProfileRepository.Save())
-                {
-                    return StatusCode(500, "A problem happend while handeling your request.");
-                }
-
-                var studentProfileDtoToReturn = Mapper.Map<StudentProfileDto>(studentProfile);
-
-                return CreatedAtRoute("GetStudentProfile", studentProfileDtoToReturn);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical($"An exception was thrown: ", ex);
-                return StatusCode(500, "A problem happend while handeling your request.");
-            }
-        }
-
-        [HttpPut]
-        public IActionResult UpdateStudentProfile([FromBody]StudentProfileDto studentProfileDto)
-        {
-            try
-            {
-                var profileid = User.FindFirst(JwtRegisteredClaimNames.Sid).Value;
-                if (studentProfileDto == null)
-                {
-                    return BadRequest();
-                }
+                var flagCreate = false;
                 var studentProfile = _studentProfileRepository.Get(profileid);
                 if (studentProfile == null)
                 {
-                    _logger.LogInformation($"Student profile with id {profileid} was not found");
-                    return NotFound();
+                    flagCreate = true;
+                    studentProfile = new StudentProfile
+                    {
+                        UserId = profileid
+                    };
                 }
-
                 Mapper.Map(studentProfileDto, studentProfile);
 
+                // Save to DB
+                if (flagCreate)
+                {
+                    _studentProfileRepository.Add(studentProfile);
+                }
                 if (!_studentProfileRepository.Save())
                 {
                     return StatusCode(500, "A problem happend while handeling your request.");

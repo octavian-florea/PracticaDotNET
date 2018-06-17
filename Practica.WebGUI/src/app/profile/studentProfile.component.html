@@ -1,56 +1,60 @@
 <form [formGroup]="profileForm" (ngSubmit)="submitForm()">
+  <div class='pr-panel'>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Nume si prenume" formControlName="Name" required>
+    </mat-form-field>
 
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Nume si prenume" formControlName="name">
-  </mat-form-field>
+    <!--
+    <mat-form-field class='pr-full-width'>
+      <input matInput [matDatepicker]="birthDatePicker" placeholder="Data nasterii" formControlName="BirthDate">
+      <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #birthDatePicker></mat-datepicker>
+    </mat-form-field>
+    Sex:
+      <mat-radio-group formControlName="sex">
+        <mat-radio-button value="m">M</mat-radio-button>
+        <mat-radio-button value="f">F</mat-radio-button>
+      </mat-radio-group>
+    -->
 
-  <mat-form-field class='pr-full-width'>
-    <input matInput [matDatepicker]="birthDatePicker" placeholder="Data nasterii" formControlName="birthDate">
-    <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
-    <mat-datepicker #birthDatePicker></mat-datepicker>
-  </mat-form-field>
-  Sex:
-    <mat-radio-group formControlName="sex">
-      <mat-radio-button value="m">M</mat-radio-button>
-      <mat-radio-button value="f">F</mat-radio-button>
-    </mat-radio-group>
-  
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Telefon" formControlName="phone">
-  </mat-form-field>
-  
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="E-mail" formControlName="email">
-  </mat-form-field> 
+    <mat-form-field class='pr-full-width'>
+      <textarea matInput placeholder="Scurta prezentare" formControlName="Description">
+      </textarea>
+    </mat-form-field>
 
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Locatie" formControlName="location">
-  </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Facultate" formControlName="Faculty" required>
+    </mat-form-field>
 
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Universitate" [matAutocomplete]="auto" formControlName="university">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
-        <img style="vertical-align:middle;" aria-hidden src="{{state.flag}}" height="25" />
-        <span>{{ state.name }}</span> |
-        <small>Population: {{state.population}}</small>
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Specializare" formControlName="Specialization" required>
+    </mat-form-field>
 
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Facultate" formControlName="faculty">
-  </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Anul de studiu" formControlName="StudyYear" required>
+    </mat-form-field>
 
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Specializare" formControlName="specialisation">
-  </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Telefon" formControlName="Telephone">
+    </mat-form-field>
 
-  <mat-form-field class='pr-full-width'>
-    <input matInput placeholder="Anul admiterii" formControlName="admissionYear">
-  </mat-form-field>
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Oras" formControlName="City">
+    </mat-form-field>
 
-  <!-- limbi vorbite -->
+    <!--
+    <mat-form-field class='pr-full-width'>
+      <input matInput placeholder="Universitate" [matAutocomplete]="auto" formControlName="university">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
+          <img style="vertical-align:middle;" aria-hidden src="{{state.flag}}" height="25" />
+          <span>{{ state.name }}</span> |
+          <small>Population: {{state.population}}</small>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    -->
 
-  <button mat-raised-button [disabled]="!profileForm.valid" type="submit">Trasmite</button>
+    <button mat-raised-button color='primary' [disabled]="!profileForm.valid" type="submit"><mat-icon>done</mat-icon> Salveaza</button>
+  </div>
 </form>

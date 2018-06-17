@@ -9,7 +9,7 @@
       
     </div>
     <mat-form-field class='pr-full-width'>
-      <input matInput placeholder="Nume companie" formControlName="companyName">
+      <input matInput placeholder="Nume companie" formControlName="companyName" required>
     </mat-form-field>
 
     <mat-form-field class='pr-full-width'>
@@ -25,6 +25,6 @@
       <input matInput placeholder="Adresa" formControlName="address">
     </mat-form-field>
 
-    <button mat-raised-button color='primary' type="submit"><mat-icon>done</mat-icon> Salveaza</button>
+    <button mat-raised-button color='primary' [disabled]="!profileForm.valid" type="submit"><mat-icon>done</mat-icon> Salveaza</button>
   </div>
 </form>

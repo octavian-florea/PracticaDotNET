@@ -138,10 +138,6 @@ namespace Practica.WebAPI
                 {
                     return BadRequest("ExpirationDate needs to be in the future");
                 }
-                if (activityCreateDto.PublishDate != null && activityCreateDto.PublishDate < DateTime.Today)
-                {
-                    return BadRequest("PublishDate needs to be in the present or in the future");
-                }
 
                 // Create the new object
                 var activityEntity = Mapper.Map<Activity>(activityCreateDto);
@@ -182,10 +178,6 @@ namespace Practica.WebAPI
                 if (activityUpdateDto.ExpirationDate != null && activityUpdateDto.ExpirationDate <= DateTime.Today)
                 {
                     return BadRequest("ExpirationDate needs to be in the future");
-                }
-                if (activityUpdateDto.PublishDate != null && activityUpdateDto.PublishDate < DateTime.Today)
-                {
-                    return BadRequest("PublishDate needs to be in the present or in the future");
                 }
                 if (activityUpdateDto.PublishDate == null)
                 {

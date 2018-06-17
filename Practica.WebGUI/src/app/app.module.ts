@@ -30,6 +30,9 @@ import { ActivitiesCompanyComponent } from './activities-company/activities-comp
 import { MatMomentDateModule } from '@angular/material-moment-adapter'
 import * as moment from 'moment';
 import { ViewCompanyProfileComponent } from './profile/view-company-profile.component';
+import { AplicationService } from './services/aplication.service';
+import { AplicationsStudentComponent } from './aplications-student/aplications-student.component';
+import { ActivitiesAplicationsComponent } from './activities-aplications/activities-aplications.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,9 @@ import { ViewCompanyProfileComponent } from './profile/view-company-profile.comp
     TeacherProfileComponent,
     ErrorDialogComponent,
     ActivitiesCompanyComponent,
-    ViewCompanyProfileComponent
+    ViewCompanyProfileComponent,
+    AplicationsStudentComponent,
+    ActivitiesAplicationsComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +81,8 @@ import { ViewCompanyProfileComponent } from './profile/view-company-profile.comp
     RouterModule.forRoot([       
         { path: 'register', component:RegisterComponent },
         { path: 'login', component:LoginComponent },
+        { path: 'aplications/activity/:id', component:ActivitiesAplicationsComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
+        { path: 'aplications', component:AplicationsStudentComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Student']} },
         { path: 'activity/:id', component:InternshipFormComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
         { path: 'activities-company', component:ActivitiesCompanyComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
         { path: 'activity-details/:id', component:ActivityDetailsComponent },
@@ -85,7 +92,7 @@ import { ViewCompanyProfileComponent } from './profile/view-company-profile.comp
         { path: '', component:ActivityListComponent}
     ])
   ],
-  providers: [ActivityService, AuthService, ProfileService, CatalogService, AuthenticatedGuard, RoleGuard,
+  providers: [ActivityService, AuthService, ProfileService, CatalogService, AuthenticatedGuard, RoleGuard, AplicationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,

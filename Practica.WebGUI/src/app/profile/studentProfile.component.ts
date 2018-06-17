@@ -6,12 +6,14 @@ import { AuthService } from "../services/auth.service";
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
-import { CatalogService } from '../services/catalog.service';
+import { ProfileService } from '../services/profile.service';
+import { StudentProfile } from '../models/student-profile.model';
 
 @Component({
   selector: 'pr-student-profile',
   templateUrl: './studentProfile.component.html',
-  styleUrls: ['./studentProfile.component.css']
+  styleUrls: ['./studentProfile.component.css'],
+  host: {'class': 'pr-full-width'}
 })
 export class StudentProfileComponent implements OnInit, OnDestroy {
 
@@ -21,28 +23,36 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
 
   filteredStates: Observable<any[]>;
   
-  constructor(private formBuilder: FormBuilder, private _authService:AuthService, private _catalogService:CatalogService) 
+  constructor(private formBuilder: FormBuilder, private _authService:AuthService, private _profileService:ProfileService) 
   { }
 
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
-      name:'',
-      birthDate: new Date(),
-      sex:'',
-      email:'',
-      phone:'',
-      location:'',
-      university:'Transilvania',
-      faculty:'Matematica si informatica',
-      specialisation:'Informatica',
-      admissionYear:'2017'
+      Name:"",
+      //BirthDate: new Date(),
+      //sex:"",
+      Description:"",
+      Telephone:"",
+      City:"",
+      Faculty:"",
+      Specialization:"",
+      StudyYear: "1"
     });
 
-    //this.filteredStates = this.profileForm.controls.university.valueChanges
-   // .pipe(
-    //  startWith(''),
-    //  map(university => university ? this.filterUniversity(university) : this.university.slice())
-    //)
+    this.subscriptionList.push(this._profileService.getStudentProfileHttp().subscribe(
+      (res:StudentProfile) => { 
+          this.profileForm.setValue({
+            Name: res.Name,
+            Description: res.Description,
+            Faculty: res.FacultyId,
+            Specialization: res.Specialization,
+            StudyYear: res.StudyYear,
+            Telephone: res.Telephone,
+            City: res.City
+          });
+      },
+      (err) => {}
+    ));
   }
   ngOnDestroy(){
     this.subscriptionList.forEach(sub =>{
@@ -52,11 +62,17 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
 
   submitForm(){
     const formModel = this.profileForm.value;
-    var user = {
-      userName: formModel.userName,
-      password: formModel.password
+    var studentProfile: StudentProfile = {
+      Name: formModel.Name,
+      Description: formModel.Description,
+      FacultyId: formModel.Faculty,
+      Specialization: formModel.Specialization,
+      StudyYear: formModel.StudyYear,
+      Email: '',
+      Telephone: formModel.Telephone,
+      City: formModel.City
     };
-    
+    this._profileService.putStudentProfileHttp(studentProfile);
 
   }
 

@@ -3,7 +3,7 @@
   <nav>
     <mat-toolbar color="primary">
       <div class="pr-container">
-        <a mat-button [routerLink]="['']"><i class="material-icons">people</i> <span>Practica</span></a>
+        <a mat-button [routerLink]="['']"><i class="material-icons" style='color:limegreen;font-size:36px'>business_center</i> <strong style='font-size:26px'><i>Practica</i></strong></a>
         <span class="pr-fill-space"></span>
     
         <!-- <a mat-button [routerLink]="['/search']" [routerLinkActive]="['pr-nav-active']">Cautare</a> -->
@@ -65,11 +65,10 @@
 </section>
 
 <footer class="pr-main-footer">
-  <mat-toolbar>
-      <div class="pr-container">
-        <span>©2017 PRACTICA.RO</span>
-        <button mat-button>Despre noi</button>
-        <button mat-button>Contact</button>
+  <mat-toolbar class="pr-footer-toolbar">
+      <div class="pr-container pr-text-muted">
+        <a mat-button>Despre noi</a>
+        <a mat-button>Contact</a>
       </div>
   </mat-toolbar>
 </footer>

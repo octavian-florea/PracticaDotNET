@@ -267,3 +267,9 @@ small.truncate-3-line{
 .mat-dialog-title{
     display:flex !important;
 }
+
+.pr-footer-toolbar{
+    background-color:#fff;
+    border-top:1px solid #ddd;
+    box-shadow: 0 -1px 1px rgba(0,0,0,0.05);
+}

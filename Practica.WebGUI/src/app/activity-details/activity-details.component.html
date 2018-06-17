@@ -16,11 +16,11 @@
         </tr>
         <tr>
           <td><strong>Data inceput</strong></td> 
-          <td>{{activity.StartDate}}</td>
+          <td>{{activity.StartDate | date:'yyyy-MM-dd'}}</td>
         </tr>
         <tr>
           <td><strong>Data sfarsit</strong></td> 
-          <td>{{activity.EndDate}}</td>
+          <td>{{activity.EndDate | date:'yyyy-MM-dd'}}</td>
         </tr>
         <tr>
           <td><strong>Adreasa activitate</strong></td> 
@@ -46,5 +46,6 @@
 <mat-dialog-actions>
   <button mat-raised-button mat-dialog-close type="button" tabindex="-1">Inchide</button>
   <span class='pr-fill-space'></span>
-  <button mat-raised-button color='primary' type="button" [disabled]="!loggedIn" (click)="applyToActivity()" tabindex="-1">Aplica</button>
+  <button mat-raised-button class='pr-m-r-10' color='warn' type="button" *ngIf="loggedIn && flagAlreadyApplied" (click)="deleteAplication()"><mat-icon>delete</mat-icon> Sterge</button>
+  <button mat-raised-button color='primary' type="button" [disabled]="!loggedIn || flagAlreadyApplied" (click)="applyToActivity()" tabindex="-1"><mat-icon>send</mat-icon> Aplica</button>
 </mat-dialog-actions>

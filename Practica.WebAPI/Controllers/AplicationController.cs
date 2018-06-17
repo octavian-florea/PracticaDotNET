@@ -100,6 +100,25 @@ namespace Practica.WebAPI
             }
         }
 
+        [HttpGet("activities/{id}/user", Name = "GetAplicationsByActivityByUser")]
+        [Authorize(Roles = "Student")]
+        public IActionResult GetAplicationsByActivityByUser(int id)
+        {
+            try
+            {
+                var studentid = User.FindFirst(JwtRegisteredClaimNames.Sid).Value;
+                var aplications = _aplicationRepository.GetAllByActivityAndStudent(studentid, id);
+
+                var result = Mapper.Map<IEnumerable<AplicationDto>>(aplications);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"An exception was thrown: ", ex);
+                return StatusCode(500, "A problem happend while handeling your request.");
+            }
+        }
+
         [HttpPost]
         [Authorize(Roles = "Student")]
         public IActionResult CreateAplication([FromBody]AplicationCreateDto aplicationCreateDto)
@@ -198,7 +217,7 @@ namespace Practica.WebAPI
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Student")]
         public IActionResult DeleteAplication(int id)
         {
             try

@@ -5,7 +5,7 @@
       <!-- id Column -->
       <ng-container matColumnDef="Id" >
         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Id}} </mat-cell>
+        <mat-cell *matCellDef="let element"> <a [routerLink]="['/activity/'+element.Id]"> {{element.Id}} </a> </mat-cell>
       </ng-container>
   
       <!-- type Column -->
@@ -13,11 +13,11 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Type}} </mat-cell>
       </ng-container>
-
+      
       <!-- title Column -->
       <ng-container matColumnDef="Title">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
-        <mat-cell *matCellDef="let element"> <a [routerLink]="['/activity/'+element.Id]"> {{element.Title}}</a> </mat-cell>
+        <mat-cell *matCellDef="let element"> <a [routerLink]="['/aplications/activity/'+element.Id]"> {{element.Title}}</a> </mat-cell>
       </ng-container>
 
       <!-- start date Column -->

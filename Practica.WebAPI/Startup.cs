@@ -54,7 +54,8 @@ namespace Practica.WebAPI
             services.AddScoped<IActivityRepository, ActivityRepository>();
             services.AddScoped<IActivityTypeRepository, ActivityTypeRepository>();
             services.AddScoped<IAplicationRepository, AplicationRepository>();
-            services.AddScoped<IUniversityRepository, UniversityRepository>();   
+            services.AddScoped<IUniversityRepository, UniversityRepository>();
+            services.AddScoped<IFacultyRepository, FacultyRepository>();
             services.AddScoped<ICompanyProfileRepository, CompanyProfileRepository>();
             services.AddScoped<IStudentProfileRepository, StudentProfileRepository>();
             services.AddTransient<DbInitializer>();
@@ -128,7 +129,13 @@ namespace Practica.WebAPI
                 cfg.CreateMap<AplicationUpdateDto, Aplication>();
                 cfg.CreateMap<CompanyProfileDto, CompanyProfile>().ReverseMap();
                 cfg.CreateMap<CompanyProfileViewDto, CompanyProfile>().ReverseMap();
-                cfg.CreateMap<StudentProfileDto, StudentProfile>().ReverseMap();
+                cfg.CreateMap<StudentProfileDto, StudentProfile>();
+                cfg.CreateMap<StudentProfile, StudentProfileDto>().ForMember(
+                    destination => destination.FacultyName,
+                    opts => opts.MapFrom(source => source.Faculty.Name));
+
+
+
             });
 
             app.UseMvc();

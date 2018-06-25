@@ -11,9 +11,10 @@ import { Search } from './models/search.model';
   providers: []
 })
 export class AppComponent {
-  title = 'app';
+  title = 'Practica';
   loggedIn: Boolean;
   user: User;
+  searchValue = '';
 
   constructor( private _authService:AuthService, private _activityService: ActivityService){
     this._authService.isLoggedIn.subscribe((value) => {
@@ -34,5 +35,9 @@ export class AppComponent {
       City:""
     }
     this._activityService.setSearch(searchObj);
+  }
+
+  refreshSearch(){
+    this.search("");
   }
 }

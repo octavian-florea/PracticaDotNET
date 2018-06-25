@@ -15,7 +15,9 @@ namespace Practica.Core
         public string Description { get; set; }
 
         [Required]
-        public int FacultyId { get; set; }
+        public string FacultyId { get; set; }
+
+        public string FacultyName { get; set; }
 
         [Required]
         [MaxLength(100)]

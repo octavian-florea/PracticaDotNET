@@ -52,7 +52,12 @@ namespace Practica.Data
                 return false;
             if (!String.IsNullOrEmpty(activityFilter.City) && !activity.City.Equals(activityFilter.City))
                 return false;
-            if (!String.IsNullOrEmpty(activityFilter.SearchKey) && activity.Title.IndexOf(activityFilter.SearchKey, StringComparison.OrdinalIgnoreCase)==-1)
+            if (!String.IsNullOrEmpty(activityFilter.SearchKey) 
+                && activity.Title.IndexOf(activityFilter.SearchKey, StringComparison.OrdinalIgnoreCase) == -1
+                && !activity.Type.Equals(activityFilter.SearchKey, StringComparison.CurrentCultureIgnoreCase)
+                && !activity.City.Equals(activityFilter.SearchKey, StringComparison.CurrentCultureIgnoreCase)
+                && !activity.Country.Equals(activityFilter.SearchKey, StringComparison.CurrentCultureIgnoreCase)
+                )
                 return false;
             
             return true;

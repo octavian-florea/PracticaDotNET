@@ -41,23 +41,24 @@ namespace Practica.WebAPI
         {
             try
             {
-                var studentProfile = _studentProfileRepository.Get(User.FindFirst(JwtRegisteredClaimNames.Sid).Value);
-                if (studentProfile == null)
+                var studentProfileDto = new StudentProfileDto()
                 {
-                    studentProfile = new StudentProfile()
-                    {
-                        Name = "",
-                        Description = "",
-                        FacultyId = 0,
-                        Specialization = "",
-                        StudyYear = 1,
-                        Email = "",
-                        Telephone = "",
-                        City = ""
-                    };
+                    Name = "",
+                    Description = "",
+                    FacultyId = "",
+                    FacultyName = "",
+                    Specialization = "",
+                    StudyYear = 1,
+                    Email = "",
+                    Telephone = "",
+                    City = ""
+                };
+                var studentProfile = _studentProfileRepository.Get(User.FindFirst(JwtRegisteredClaimNames.Sid).Value);
+                if (studentProfile != null)
+                {
+                    studentProfileDto = Mapper.Map<StudentProfileDto>(studentProfile);
                 }
-
-                var studentProfileDto = Mapper.Map<StudentProfileDto>(studentProfile);
+     
                 return Ok(studentProfileDto);
             }
             catch (Exception ex)

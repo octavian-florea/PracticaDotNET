@@ -28,10 +28,12 @@ export class ActivityListComponent implements OnInit, OnDestroy{
         this.subscriptionList.push(
             this._activityService.searchObserver.subscribe(
                 (searchObj:Search) =>{
-                    this.flagSearching = true;
-                    this.flagNoSearchResults = false;
-                    this.activityCards = [];
-                    this.searchForActivities(searchObj);
+                    if(!this.flagSearching){
+                        this.flagSearching = true;
+                        this.flagNoSearchResults = false;
+                        this.activityCards = [];
+                        this.searchForActivities(searchObj);
+                    }
                 }
             )
         );

@@ -21,10 +21,18 @@
       <textarea matInput placeholder="Scurta prezentare" formControlName="Description">
       </textarea>
     </mat-form-field>
-
+    
     <mat-form-field class='pr-full-width'>
-      <input matInput placeholder="Facultate" formControlName="Faculty" required>
+      <input type='hidden' formControlName="FacultyId">
+      <input matInput placeholder="Facultate" [matAutocomplete]="auto" formControlName="Faculty" (blur)="onBlurFaculty()" (keyup)="onKeyUpFaculty()" required>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="facultyOptionSelected($event)">
+        <mat-option *ngFor="let faculty of filteredFaculties | async" [value]="faculty">
+          <span>{{ faculty.Name }}</span> |
+          <small>{{ faculty.University }}</small>
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
+    
 
     <mat-form-field class='pr-full-width'>
       <input matInput placeholder="Specializare" formControlName="Specialization" required>
@@ -41,19 +49,6 @@
     <mat-form-field class='pr-full-width'>
       <input matInput placeholder="Oras" formControlName="City">
     </mat-form-field>
-
-    <!--
-    <mat-form-field class='pr-full-width'>
-      <input matInput placeholder="Universitate" [matAutocomplete]="auto" formControlName="university">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
-          <img style="vertical-align:middle;" aria-hidden src="{{state.flag}}" height="25" />
-          <span>{{ state.name }}</span> |
-          <small>Population: {{state.population}}</small>
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    -->
 
     <button mat-raised-button color='primary' [disabled]="!profileForm.valid" type="submit"><mat-icon>done</mat-icon> Salveaza</button>
   </div>

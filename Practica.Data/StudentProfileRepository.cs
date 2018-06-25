@@ -21,7 +21,9 @@ namespace Practica.Data
 
         public StudentProfile Get(string UserId)
         {
-            return _context.StudentsProfile.Where(c => c.UserId == UserId).FirstOrDefault();
+            return _context.StudentsProfile
+                .Include(c => c.Faculty)
+                .Where(c => c.UserId == UserId).FirstOrDefault();
         }
 
         public void Add(StudentProfile studentProfile)

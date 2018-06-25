@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators  } from '@angular/forms';
 import 'rxjs/add/operator/takeLast';
+import 'rxjs/add/operator/debounceTime';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from "../services/auth.service";
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +9,9 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { ProfileService } from '../services/profile.service';
 import { StudentProfile } from '../models/student-profile.model';
+import { AutocompleatService } from '../services/autocompleat.service';
+import { Faculty } from '../models/faculty.model';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'pr-student-profile',
@@ -21,9 +25,10 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
 
   subscriptionList: Subscription[] = [];
 
-  filteredStates: Observable<any[]>;
+  filteredFaculties: Observable<Faculty[]>;
+  flagValidFaculty:boolean = true;
   
-  constructor(private formBuilder: FormBuilder, private _authService:AuthService, private _profileService:ProfileService) 
+  constructor(private formBuilder: FormBuilder, private _authService:AuthService, private _profileService:ProfileService, private _autocompleatService:AutocompleatService) 
   { }
 
   ngOnInit() {
@@ -34,6 +39,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
       Description:"",
       Telephone:"",
       City:"",
+      FacultyId:"",
       Faculty:"",
       Specialization:"",
       StudyYear: "1"
@@ -44,7 +50,8 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
           this.profileForm.setValue({
             Name: res.Name,
             Description: res.Description,
-            Faculty: res.FacultyId,
+            FacultyId: res.FacultyId,
+            Faculty: res.FacultyName,
             Specialization: res.Specialization,
             StudyYear: res.StudyYear,
             Telephone: res.Telephone,
@@ -53,6 +60,16 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
       },
       (err) => {}
     ));
+
+    this.subscriptionList.push(this.profileForm.controls['Faculty'].valueChanges 
+      .debounceTime(400)
+      .subscribe(faculty => {
+        let searchFaculty = faculty.toString().trim();
+        if(searchFaculty != '' && !this.flagValidFaculty){
+          this.filteredFaculties = this._autocompleatService.getFilteredFaculties(searchFaculty);
+          }
+        })
+      )
   }
   ngOnDestroy(){
     this.subscriptionList.forEach(sub =>{
@@ -65,7 +82,8 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     var studentProfile: StudentProfile = {
       Name: formModel.Name,
       Description: formModel.Description,
-      FacultyId: formModel.Faculty,
+      FacultyId: formModel.FacultyId,
+      FacultyName: formModel.Faculty,
       Specialization: formModel.Specialization,
       StudyYear: formModel.StudyYear,
       Email: '',
@@ -76,10 +94,22 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
 
   }
 
-  filter(val: string) {
-    //return this.users
-    //  .map(response => response.filter(option => { 
-    //    return option.name.toLowerCase().indexOf(val.toLowerCase()) === 0
-    //  }));
+  facultyOptionSelected(event:MatAutocompleteSelectedEvent){
+    let faculty:Faculty = event.option.value;
+    this.profileForm.controls['FacultyId'].setValue(faculty.Id);
+    this.profileForm.controls['Faculty'].setValue(faculty.Name);
+    this.flagValidFaculty = true;
   }
+  
+  onBlurFaculty(){
+    if(!this.flagValidFaculty){
+      this.profileForm.controls['FacultyId'].setValue('');
+      this.profileForm.controls['Faculty'].setValue('');
+    }
+  }
+
+  onKeyUpFaculty(){
+    this.flagValidFaculty = false;
+  }
+  
 }

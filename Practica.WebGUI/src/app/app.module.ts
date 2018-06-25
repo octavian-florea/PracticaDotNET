@@ -33,6 +33,7 @@ import { ViewCompanyProfileComponent } from './profile/view-company-profile.comp
 import { AplicationService } from './services/aplication.service';
 import { AplicationsStudentComponent } from './aplications-student/aplications-student.component';
 import { ActivitiesAplicationsComponent } from './activities-aplications/activities-aplications.component';
+import { AutocompleatService } from './services/autocompleat.service';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,7 @@ import { ActivitiesAplicationsComponent } from './activities-aplications/activit
         { path: '', component:ActivityListComponent}
     ])
   ],
-  providers: [ActivityService, AuthService, ProfileService, CatalogService, AuthenticatedGuard, RoleGuard, AplicationService,
+  providers: [ActivityService, AuthService, ProfileService, CatalogService, AuthenticatedGuard, RoleGuard, AplicationService, AutocompleatService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,

@@ -101,7 +101,6 @@ namespace Practica.WebAPI
         }
 
         [HttpGet("activities/{id}/user", Name = "GetAplicationsByActivityByUser")]
-        [Authorize(Roles = "Student")]
         public IActionResult GetAplicationsByActivityByUser(int id)
         {
             try

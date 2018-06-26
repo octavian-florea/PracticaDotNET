@@ -4,32 +4,56 @@
   
       <!-- id Column -->
       <ng-container matColumnDef="Id" >
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-        <mat-cell *matCellDef="let element"> <a [routerLink]="['/activity/'+element.Id]"> {{element.Id}} </a> </mat-cell>
+        <mat-header-cell fxFlex="50px" *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+        <mat-cell fxFlex="50px" *matCellDef="let element"> {{element.Id}} </mat-cell>
       </ng-container>
   
       <!-- type Column -->
       <ng-container matColumnDef="Type">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Type}} </mat-cell>
+        <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Tip </mat-header-cell>
+        <mat-cell fxFlex="100px" *matCellDef="let element"> {{element.Type}} </mat-cell>
       </ng-container>
       
       <!-- title Column -->
       <ng-container matColumnDef="Title">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
-        <mat-cell *matCellDef="let element"> <a [routerLink]="['/aplications/activity/'+element.Id]"> {{element.Title}}</a> </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Titlu </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <a [routerLink]="['/activity/'+element.Id]"> {{element.Title}}</a> </mat-cell>
       </ng-container>
 
       <!-- start date Column -->
       <ng-container matColumnDef="StartDate">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> StartDate </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.StartDate |  date:'MM/dd/yyyy'}} </mat-cell>
+        <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Data inceput </mat-header-cell>
+        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.StartDate |  date:'MM/dd/yyyy'}} </mat-cell>
       </ng-container>
 
       <!-- end date Column -->
       <ng-container matColumnDef="EndDate">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> EndDate </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.EndDate |  date:'MM/dd/yyyy'}} </mat-cell>
+        <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Data sfarsit </mat-header-cell>
+        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.EndDate |  date:'MM/dd/yyyy'}} </mat-cell>
+      </ng-container>
+
+      <!-- publis Column -->
+      <ng-container matColumnDef="PublishDate">
+        <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Data publicare </mat-header-cell>
+        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.PublishDate |  date:'MM/dd/yyyy'}} </mat-cell>
+      </ng-container>
+
+      <!-- expiration Column -->
+      <ng-container matColumnDef="ExpirationDate">
+        <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Data expirare </mat-header-cell>
+        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.ExpirationDate |  date:'MM/dd/yyyy'}} </mat-cell>
+      </ng-container>
+
+      <!-- city Column -->
+      <ng-container matColumnDef="City">
+        <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Oras </mat-header-cell>
+        <mat-cell fxFlex="100px" *matCellDef="let element"> {{element.City}} </mat-cell>
+      </ng-container>
+
+      <!-- aplications Column -->
+      <ng-container matColumnDef="NrAplications">
+        <mat-header-cell fxFlex="50px" fxLayoutAlign="center center" *matHeaderCellDef mat-sort-header> Nr. aplicatii </mat-header-cell>
+        <mat-cell fxFlex="50px" fxLayoutAlign="center center" *matCellDef="let element"> <a [routerLink]="['/aplications/activity/'+element.Id]">{{element.NrAplications}}</a> </mat-cell>
       </ng-container>
   
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

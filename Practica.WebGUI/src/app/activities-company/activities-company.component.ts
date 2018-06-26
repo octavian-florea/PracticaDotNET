@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 import { ActivityService } from '../services/activity.service';
-import { Activity } from '../models/activity.model';
 import { Subscription } from 'rxjs';
+import { CompanyActivityTable } from '../models/company-activity-table.model';
 
 @Component({
   selector: 'pr-activities-company',
@@ -12,16 +12,32 @@ import { Subscription } from 'rxjs';
 })
 export class ActivitiesCompanyComponent implements OnInit, OnDestroy {
 
-  activityTableData: Activity[];
-  displayedColumns = ['Id','Type','Title','StartDate','EndDate']
+  activityTableData: CompanyActivityTable[] = [];
+  displayedColumns = ['Id','Type','Title','StartDate','EndDate','PublishDate','ExpirationDate','City','NrAplications']
   dataSource;
   subscriptionList: Subscription[] = [];
   
   constructor(private _activityService: ActivityService) {
     this.subscriptionList.push(this._activityService.getActivitiesByUserHttp().subscribe(
-      (res:Activity[]) => {
-        this.activityTableData = res;
-        this.dataSource = new MatTableDataSource<Activity>(this.activityTableData);
+      (res:any[]) => {
+        res.forEach( (element) => {
+          let row:CompanyActivityTable = {
+            Id: element.Id,
+            Title: element.Title,
+            Type: element.Type,
+            StartDate: element.StartDate,
+            EndDate: element.EndDate,
+            PublishDate: element.PublishDate,
+            ExpirationDate: element.ExpirationDate,
+            City: element.City,
+            NrAplications: element.Aplications.length
+          }
+          this.activityTableData.push(row);
+        });
+         
+
+        //this.activityTableData = res;
+        this.dataSource = new MatTableDataSource<CompanyActivityTable>(this.activityTableData);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
@@ -30,7 +46,7 @@ export class ActivitiesCompanyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource<Activity>(this.activityTableData);
+    this.dataSource = new MatTableDataSource<CompanyActivityTable>(this.activityTableData);
   }
   ngOnDestroy(){
     this.subscriptionList.forEach(sub =>{

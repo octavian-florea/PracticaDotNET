@@ -33,6 +33,7 @@ namespace Practica.Data
         public IEnumerable<Activity> GetAllByUser(string userid)
         {
             return _context.Activities
+                .Include(c => c.Aplications)
                 .Where(c => c.UserId == userid).ToList();
         }
 

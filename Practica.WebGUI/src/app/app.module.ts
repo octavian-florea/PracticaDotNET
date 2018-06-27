@@ -34,12 +34,16 @@ import { AplicationService } from './services/aplication.service';
 import { AplicationsStudentComponent } from './aplications-student/aplications-student.component';
 import { ActivitiesAplicationsComponent } from './activities-aplications/activities-aplications.component';
 import { AutocompleatService } from './services/autocompleat.service';
+import { AplicationDetailsComponent } from './aplication-details/aplication-details.component';
+import { StatisticsComponent } from './statistics/statistics.component';
+import { StatisticsService } from './services/statistics.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ActivityListComponent,
     ActivityDetailsComponent,
+    AplicationDetailsComponent,
     CardComponent,
     RegisterComponent,
     InternshipFormComponent,
@@ -51,7 +55,8 @@ import { AutocompleatService } from './services/autocompleat.service';
     ActivitiesCompanyComponent,
     ViewCompanyProfileComponent,
     AplicationsStudentComponent,
-    ActivitiesAplicationsComponent
+    ActivitiesAplicationsComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,
@@ -90,10 +95,11 @@ import { AutocompleatService } from './services/autocompleat.service';
         { path: 'profile/student', component:StudentProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Student']} },
         { path: 'profile/company', component:CompanyProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Company']} },
         { path: 'profile/teacher', component:TeacherProfileComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Teacher']} },
+        { path: 'statistics', component:StatisticsComponent, canActivate:[AuthenticatedGuard,RoleGuard], data: {expectedRoles:['Teacher']} },
         { path: '', component:ActivityListComponent}
     ])
   ],
-  providers: [ActivityService, AuthService, ProfileService, CatalogService, AuthenticatedGuard, RoleGuard, AplicationService, AutocompleatService,
+  providers: [ActivityService, AuthService, ProfileService, CatalogService, AuthenticatedGuard, RoleGuard, AplicationService, AutocompleatService, StatisticsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,
@@ -106,6 +112,6 @@ import { AutocompleatService } from './services/autocompleat.service';
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorDialogComponent,ActivityDetailsComponent,ViewCompanyProfileComponent]
+  entryComponents: [ErrorDialogComponent,ActivityDetailsComponent,ViewCompanyProfileComponent,AplicationDetailsComponent]
 })
 export class AppModule { }

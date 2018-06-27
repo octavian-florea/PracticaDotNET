@@ -1,29 +1,41 @@
 <div class="pr-panel">
     <div class="pr-activity-table mat-elevation-z8">
-      <mat-table #table [dataSource]="dataSource" matSort matSortActive="Id" matSortDirection="desc">
+      <mat-table #table [dataSource]="dataSource" matSort matSortActive="CreatedDate" matSortDirection="desc">
     
         <!-- Id Column -->
         <ng-container matColumnDef="Id" >
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-          <mat-cell *matCellDef="let element"> <a (click)="openActivityDialog(element.ActivityId)">{{element.Id}}</a> </mat-cell>
+          <mat-header-cell fxFlex="50px" *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+          <mat-cell fxFlex="50px" *matCellDef="let element"> {{element.Id}}</mat-cell>
         </ng-container>
-    
-        <!-- ActivityId Column -->
-        <ng-container matColumnDef="ActivityId">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Id activitate </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.ActivityId}}  </mat-cell>
-        </ng-container>
-  
+
         <!-- Status Column -->
         <ng-container matColumnDef="Status">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.Status}} </mat-cell>
+          <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+          <mat-cell fxFlex="100px" *matCellDef="let element"> {{element.Status}} </mat-cell>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="Name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Nume student </mat-header-cell>
+          <mat-cell *matCellDef="let element"> <a (click)="openAplicationDialog(element.Id)">{{element.Name}}</a>   </mat-cell>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="Email">
+          <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+          <mat-cell fxFlex="150px" *matCellDef="let element"> {{element.Email}}  </mat-cell>
+        </ng-container>
+
+        <!-- City Column -->
+        <ng-container matColumnDef="City">
+          <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header> Oras </mat-header-cell>
+          <mat-cell fxFlex="150px" *matCellDef="let element"> {{element.City}}  </mat-cell>
         </ng-container>
   
         <!-- CreatedDate Column -->
         <ng-container matColumnDef="CreatedDate">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Data aplicarii </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.CreatedDate |  date:'MM/dd/yyyy'}} </mat-cell>
+          <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Data aplicarii </mat-header-cell>
+          <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.CreatedDate |  date:'dd.MM.yyyy'}} </mat-cell>
         </ng-container>
     
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

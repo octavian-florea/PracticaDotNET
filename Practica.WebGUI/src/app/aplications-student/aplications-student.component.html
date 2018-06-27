@@ -1,29 +1,35 @@
 <div class="pr-panel">
     <div class="pr-activity-table mat-elevation-z8">
-      <mat-table #table [dataSource]="dataSource" matSort matSortActive="Id" matSortDirection="desc">
+      <mat-table #table [dataSource]="dataSource" matSort matSortActive="CreatedDate" matSortDirection="desc">
     
         <!-- Id Column -->
         <ng-container matColumnDef="Id" >
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-          <mat-cell *matCellDef="let element"> <a (click)="openActivityDialog(element.ActivityId)">{{element.Id}}</a> </mat-cell>
+          <mat-header-cell fxFlex="50px" *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+          <mat-cell fxFlex="50px" *matCellDef="let element"> {{element.Id}} </mat-cell>
         </ng-container>
     
-        <!-- ActivityId Column -->
-        <ng-container matColumnDef="ActivityId">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Id activitate </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.ActivityId}}  </mat-cell>
-        </ng-container>
-  
         <!-- Status Column -->
         <ng-container matColumnDef="Status">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.Status}} </mat-cell>
+          <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+          <mat-cell fxFlex="100px" *matCellDef="let element"> {{element.Status}} </mat-cell>
+        </ng-container>
+
+        <!-- tip Column -->
+        <ng-container matColumnDef="ActivityType">
+            <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Tip activitate </mat-header-cell>
+            <mat-cell fxFlex="100px" *matCellDef="let element"> {{element.ActivityType}}  </mat-cell>
+          </ng-container>
+
+        <!-- Activitate Column -->
+        <ng-container matColumnDef="ActivityTitle">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Activitate </mat-header-cell>
+          <mat-cell *matCellDef="let element"> <a (click)="openActivityDialog(element.ActivityId)">{{element.ActivityTitle}}</a>  </mat-cell>
         </ng-container>
   
         <!-- CreatedDate Column -->
         <ng-container matColumnDef="CreatedDate">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Data aplicarii </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.CreatedDate |  date:'MM/dd/yyyy'}} </mat-cell>
+          <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Data aplicarii </mat-header-cell>
+          <mat-cell fxFlex="100px" *matCellDef="let element"> {{element.CreatedDate |  date:'dd.MM.yyyy'}} </mat-cell>
         </ng-container>
     
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

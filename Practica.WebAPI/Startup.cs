@@ -58,6 +58,8 @@ namespace Practica.WebAPI
             services.AddScoped<IFacultyRepository, FacultyRepository>();
             services.AddScoped<ICompanyProfileRepository, CompanyProfileRepository>();
             services.AddScoped<IStudentProfileRepository, StudentProfileRepository>();
+            services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+            
             services.AddTransient<DbInitializer>();
             services.AddSingleton<IConfiguration>(Configuration);
 
@@ -125,7 +127,33 @@ namespace Practica.WebAPI
                 cfg.CreateMap<ActivityUpdateDto, Activity>();
                 cfg.CreateMap<ActivityCreateDto, Activity>();
                 cfg.CreateMap<AplicationCreateDto, Aplication>();
-                cfg.CreateMap<AplicationDto, Aplication>().ReverseMap();
+                cfg.CreateMap<AplicationDto, Aplication>();
+                cfg.CreateMap<Aplication, AplicationDto>()
+                    .ForMember(
+                        destination => destination.Name,
+                        opts => opts.MapFrom(source => source.PracticaUser.StudentProfile.Name)
+                    ).ForMember(
+                        destination => destination.Description,
+                        opts => opts.MapFrom(source => source.PracticaUser.StudentProfile.Description)
+                    ).ForMember(
+                        destination => destination.City,
+                        opts => opts.MapFrom(source => source.PracticaUser.StudentProfile.City)
+                    ).ForMember(
+                        destination => destination.Telephone,
+                        opts => opts.MapFrom(source => source.PracticaUser.StudentProfile.Telephone)
+                    ).ForMember(
+                        destination => destination.Email,
+                        opts => opts.MapFrom(source => source.PracticaUser.Email)
+                    ).ForMember(
+                        destination => destination.Faculty,
+                        opts => opts.MapFrom(source => source.Faculty.Name)
+                    ).ForMember(
+                        destination => destination.ActivityTitle,
+                        opts => opts.MapFrom(source => source.Activity.Title)
+                    ).ForMember(
+                        destination => destination.ActivityType,
+                        opts => opts.MapFrom(source => source.Activity.Type)
+                    );
                 cfg.CreateMap<AplicationUpdateDto, Aplication>();
                 cfg.CreateMap<CompanyProfileDto, CompanyProfile>().ReverseMap();
                 cfg.CreateMap<CompanyProfileViewDto, CompanyProfile>().ReverseMap();
@@ -133,9 +161,6 @@ namespace Practica.WebAPI
                 cfg.CreateMap<StudentProfile, StudentProfileDto>().ForMember(
                     destination => destination.FacultyName,
                     opts => opts.MapFrom(source => source.Faculty.Name));
-
-
-
             });
 
             app.UseMvc();

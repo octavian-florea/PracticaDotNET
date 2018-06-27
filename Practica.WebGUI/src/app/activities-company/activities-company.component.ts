@@ -3,6 +3,7 @@ import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 import { ActivityService } from '../services/activity.service';
 import { Subscription } from 'rxjs';
 import { CompanyActivityTable } from '../models/company-activity-table.model';
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'pr-activities-company',
@@ -18,7 +19,7 @@ export class ActivitiesCompanyComponent implements OnInit, OnDestroy {
   subscriptionList: Subscription[] = [];
   
   constructor(private _activityService: ActivityService) {
-    this.subscriptionList.push(this._activityService.getActivitiesByUserHttp().subscribe(
+    this.subscriptionList.push(this._activityService.getActivitiesByUserHttp().take(1).subscribe(
       (res:any[]) => {
         res.forEach( (element) => {
           let row:CompanyActivityTable = {

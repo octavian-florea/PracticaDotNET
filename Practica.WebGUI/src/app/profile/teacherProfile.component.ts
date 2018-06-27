@@ -7,7 +7,8 @@ import { AuthService } from "../services/auth.service";
 @Component({
   selector: 'pr-teacher-profile',
   templateUrl: './teacherProfile.component.html',
-  styleUrls: ['./teacherProfile.component.css']
+  styleUrls: ['./teacherProfile.component.css'],
+  host: {'class': 'pr-full-width'}
 })
 export class TeacherProfileComponent implements OnInit, OnDestroy {
 

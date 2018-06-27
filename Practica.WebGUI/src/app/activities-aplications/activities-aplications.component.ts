@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Activity } from '../models/activity.model';
 import { Subscription } from 'rxjs/Subscription';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { AplicationService } from '../services/aplication.service';
-import { Aplication } from '../models/aplication.model';
-import { ActivityDetailsComponent } from '../activity-details/activity-details.component';
 import { ActivatedRoute } from '@angular/router';
+import { CompanyAplicationTable } from '../models/company-aplication-table.model';
+import { Status } from '../models/status.enum';
+import 'rxjs/add/operator/take';
+import { AplicationDetailsComponent } from '../aplication-details/aplication-details.component';
 
 @Component({
   selector: 'pr-activities-aplications',
@@ -15,8 +16,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ActivitiesAplicationsComponent implements OnInit, OnDestroy {
 
-  activityTableData: Aplication[];
-  displayedColumns = ['Id','ActivityId','Status','CreatedDate']
+  activityTableData: CompanyAplicationTable[];
+  displayedColumns = ['Id','Status','Name','Email','City','CreatedDate']
   dataSource;
   subscriptionList: Subscription[] = [];
   activityId: string;
@@ -26,19 +27,22 @@ export class ActivitiesAplicationsComponent implements OnInit, OnDestroy {
       params => {this.activityId = params.id;}
     ));
      
-    this.subscriptionList.push(this._aplicationService.getAplicationsByActivityHttp(this.activityId).subscribe(
-      (res:Aplication[]) => {
+    this._aplicationService.getAplicationsByActivityHttp(this.activityId).take(1).subscribe(
+      (res:CompanyAplicationTable[]) => {
+        res.forEach(row =>{
+          row.Status= Status[row.Status];
+        })
         this.activityTableData = res;
-        this.dataSource = new MatTableDataSource<Aplication>(this.activityTableData);
+        this.dataSource = new MatTableDataSource<CompanyAplicationTable>(this.activityTableData);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
       (err) => { }
-    ))
+    )
   }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource<Aplication>(this.activityTableData);
+    this.dataSource = new MatTableDataSource<CompanyAplicationTable>(this.activityTableData);
   }
   ngOnDestroy(){
     this.subscriptionList.forEach(sub =>{
@@ -54,10 +58,25 @@ export class ActivitiesAplicationsComponent implements OnInit, OnDestroy {
     this.dataSource.paginator = this.paginator;
   }
 
-  openActivityDialog(activityId: string){
-    this._dialog.open(ActivityDetailsComponent, {
-      data: {id: activityId, companyName: ''} ,width : '90%'
+  openAplicationDialog(aplicationId: string){
+    let dialogRef = this._dialog.open(AplicationDetailsComponent, {
+      data: {id: aplicationId} ,width : '90%'
     });
+    dialogRef.afterClosed().take(1)
+      .subscribe(() => {
+        this._aplicationService.getAplicationsByActivityHttp(this.activityId).take(1).subscribe(
+          (res:CompanyAplicationTable[]) => {
+            res.forEach(row =>{
+              row.Status= Status[row.Status];
+            })
+            this.activityTableData = res;
+            this.dataSource = new MatTableDataSource<CompanyAplicationTable>(this.activityTableData);
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
+          },
+          (err) => { }
+        )
+      })
   }
 
 }

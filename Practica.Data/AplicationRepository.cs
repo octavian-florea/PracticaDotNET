@@ -23,13 +23,19 @@ namespace Practica.Data
 
         public Aplication Get(int id)
         {
-            return _context.Aplications.Where(c => c.Id == id).FirstOrDefault();
+            return _context.Aplications
+                .Include(c => c.Activity)
+                .Include(c => c.PracticaUser.StudentProfile)
+                .Include(c => c.Faculty)
+                .Where(c => c.Id == id).FirstOrDefault();
         }
 
         public IEnumerable<Aplication> GetAllByActivity(int activityId)
         {
-            return _context.Aplications.Include(c => c.Activity)
-               .Where(c => c.ActivityId == activityId).ToList();
+            return _context.Aplications
+                .Include(c => c.Activity)
+                .Include(c => c.PracticaUser.StudentProfile)
+                .Where(c => c.ActivityId == activityId).ToList();
         }
 
         public IEnumerable<Aplication> GetAllByActivityAndStudent(string studentId, int activityId)

@@ -3,8 +3,10 @@ import { Activity } from '../models/activity.model';
 import { Subscription } from 'rxjs/Subscription';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { AplicationService } from '../services/aplication.service';
-import { Aplication } from '../models/aplication.model';
 import { ActivityDetailsComponent } from '../activity-details/activity-details.component';
+import 'rxjs/add/operator/take';
+import { Status } from '../models/status.enum';
+import { CompanyAplicationTable } from '../models/company-aplication-table.model';
 
 @Component({
   selector: 'pr-aplications-student',
@@ -14,25 +16,28 @@ import { ActivityDetailsComponent } from '../activity-details/activity-details.c
 })
 export class AplicationsStudentComponent implements OnInit, OnDestroy {
 
-  activityTableData: Aplication[];
-  displayedColumns = ['Id','ActivityId','Status','CreatedDate']
+  activityTableData: CompanyAplicationTable[];
+  displayedColumns = ['Id','Status','ActivityType','ActivityTitle','CreatedDate']
   dataSource;
   subscriptionList: Subscription[] = [];
   
   constructor(private _aplicationService: AplicationService, public _dialog : MatDialog) {
-    this.subscriptionList.push(this._aplicationService.getAplicationsByUserHttp().subscribe(
-      (res:Aplication[]) => {
+    this._aplicationService.getAplicationsByUserHttp().take(1).subscribe(
+      (res:CompanyAplicationTable[]) => {
+        res.forEach(row =>{
+          row.Status= Status[row.Status];
+        })
         this.activityTableData = res;
-        this.dataSource = new MatTableDataSource<Aplication>(this.activityTableData);
+        this.dataSource = new MatTableDataSource<CompanyAplicationTable>(this.activityTableData);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       },
       (err) => { }
-    ))
+    )
   }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource<Aplication>(this.activityTableData);
+    this.dataSource = new MatTableDataSource<CompanyAplicationTable>(this.activityTableData);
   }
   ngOnDestroy(){
     this.subscriptionList.forEach(sub =>{

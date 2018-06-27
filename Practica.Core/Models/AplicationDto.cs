@@ -26,5 +26,21 @@ namespace Practica.Core
         public DateTime CreatedDate { get; set; }
 
         public DateTime ModifiedStateDate { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public string City { get; set; }
+
+        public string Telephone { get; set; }
+
+        public string Email { get; set; }
+
+        public string Faculty { get; set; }
+
+        public string ActivityTitle { get; set; }
+
+        public string ActivityType { get; set; }
     }
 }

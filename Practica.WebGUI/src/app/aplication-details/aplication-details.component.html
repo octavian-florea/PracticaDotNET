@@ -1,0 +1,57 @@
+
+<h2 mat-dialog-title>
+  Detalii aplicare la {{aplication.ActivityTitle}} 
+  <span class='pr-fill-space'></span>
+  <button mat-icon-button mat-dialog-close tabindex="-1">
+    <mat-icon class="material-icons">close</mat-icon>
+  </button>
+</h2>
+<mat-dialog-content>
+    <h1 class='pr-activity-details-title'>{{aplication.Name}} <small>(Status:{{aplication.Status}})</small></h1>
+    <div class='pr-activity-details-tags pr-m-b-20'>
+      <table>
+        <tr>
+          <td><strong>Data aplicare</strong></td> 
+          <td>{{aplication.CreatedDate | date:'dd.MM.yyyy'}}</td>
+        </tr>
+        <tr>
+            <td><strong>Status</strong></td> 
+            <td>{{aplication.Status}}</td>
+        </tr>
+        <tr>
+            <td><strong>Facultate</strong></td> 
+            <td>{{aplication.Faculty}}</td>
+        </tr>
+        <tr>
+            <td><strong>Specializare</strong></td> 
+            <td>{{aplication.Specialization}}</td>
+        </tr>
+        <tr>
+            <td><strong>Anul de studiu</strong></td> 
+            <td>{{aplication.StudyYear}}</td>
+        </tr>
+        <tr>
+            <td><strong>Telefon</strong></td> 
+            <td>{{aplication.Telephone}}</td>
+        </tr>
+        <tr>
+          <td><strong>Email</strong></td> 
+          <td>{{aplication.Email}}</td>
+        </tr>
+        <tr>
+          <td><strong>Oras</strong></td> 
+          <td>{{aplication.City}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class='pr-activity-details-description pr-m-b-20'>
+        <pre>{{aplication.Description}}</pre>
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close type="button" tabindex="-1">Inchide</button>
+  <span class='pr-fill-space'></span>
+  <button mat-raised-button class='pr-m-r-10' color='warn' type="button"  (click)="declineStudent()"><mat-icon>thumb_down</mat-icon> Respinge</button>
+  <button mat-raised-button color='primary' type="button"   (click)="acceptStudent()" tabindex="-1"><mat-icon>thumb_up</mat-icon> Accepta</button>
+</mat-dialog-actions>

@@ -23,25 +23,25 @@
       <!-- start date Column -->
       <ng-container matColumnDef="StartDate">
         <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Data inceput </mat-header-cell>
-        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.StartDate |  date:'MM/dd/yyyy'}} </mat-cell>
+        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.StartDate |  date:'dd.MM.yyyy'}} </mat-cell>
       </ng-container>
 
       <!-- end date Column -->
       <ng-container matColumnDef="EndDate">
         <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Data sfarsit </mat-header-cell>
-        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.EndDate |  date:'MM/dd/yyyy'}} </mat-cell>
+        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.EndDate |  date:'dd.MM.yyyy'}} </mat-cell>
       </ng-container>
 
       <!-- publis Column -->
       <ng-container matColumnDef="PublishDate">
         <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Data publicare </mat-header-cell>
-        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.PublishDate |  date:'MM/dd/yyyy'}} </mat-cell>
+        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.PublishDate |  date:'dd.MM.yyyy'}} </mat-cell>
       </ng-container>
 
       <!-- expiration Column -->
       <ng-container matColumnDef="ExpirationDate">
         <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Data expirare </mat-header-cell>
-        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.ExpirationDate |  date:'MM/dd/yyyy'}} </mat-cell>
+        <mat-cell fxFlex="90px" *matCellDef="let element"> {{element.ExpirationDate |  date:'dd.MM.yyyy'}} </mat-cell>
       </ng-container>
 
       <!-- city Column -->
@@ -52,7 +52,7 @@
 
       <!-- aplications Column -->
       <ng-container matColumnDef="NrAplications">
-        <mat-header-cell fxFlex="50px" fxLayoutAlign="center center" *matHeaderCellDef mat-sort-header> Nr. aplicatii </mat-header-cell>
+        <mat-header-cell fxFlex="50px" fxLayoutAlign="center center" *matHeaderCellDef mat-sort-header> Nr. aplicari </mat-header-cell>
         <mat-cell fxFlex="50px" fxLayoutAlign="center center" *matCellDef="let element"> <a [routerLink]="['/aplications/activity/'+element.Id]">{{element.NrAplications}}</a> </mat-cell>
       </ng-container>
   

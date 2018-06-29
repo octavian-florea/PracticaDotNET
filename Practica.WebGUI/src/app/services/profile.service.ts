@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map'
 import { CompanyProfile } from '../models/company-profile.model';
 import { Router } from '@angular/router';
 import { StudentProfile } from '../models/student-profile.model';
+import 'rxjs/add/operator/take';
 
 @Injectable()
 export class ProfileService{
@@ -28,11 +29,11 @@ export class ProfileService{
     }
 
     getCompanyProfileHttp(){
-        return this._http.get(this.rootURL+'api/company/profile');
+        return this._http.get(this.rootURL+'api/company/profile').take(1);
     }
 
     getCompanyProfileHttpById(id:string){
-        return this._http.get(this.rootURL+'api/company/profile/'+id);
+        return this._http.get(this.rootURL+'api/company/profile/'+id).take(1);
     }
 
     putCompanyProfileHttp(companyProfile: CompanyProfile):void {
@@ -42,7 +43,7 @@ export class ProfileService{
             formData.append(key, companyProfile[key]);
           });
 
-        this._http.put(this.rootURL+'api/company/profile',formData).subscribe(
+        this._http.put(this.rootURL+'api/company/profile',formData).take(1).subscribe(
             (res:any) => { 
                 this.router.navigate(['']);
             },
@@ -53,11 +54,11 @@ export class ProfileService{
 
     // ============ STUDENT ZONE =========================================
     getStudentProfileHttp(){
-        return this._http.get(this.rootURL+'api/student/profile');
+        return this._http.get(this.rootURL+'api/student/profile').take(1);
     }
 
     putStudentProfileHttp(studentProfile: StudentProfile):void {
-        this._http.put(this.rootURL+'api/student/profile',studentProfile).subscribe(
+        this._http.put(this.rootURL+'api/student/profile',studentProfile).take(1).subscribe(
             (res:any) => { 
                 this.router.navigate(['']);
             },
@@ -68,11 +69,11 @@ export class ProfileService{
 
     // ============ TEACHER ZONE =========================================
     getTeacherProfileHttp(){
-        return this._http.get('http://localhost:64196/api/profiles/techers');
+        return this._http.get('http://localhost:64196/api/profiles/techers').take(1);
     }
 
     putTeacherProfileHttp(profile):void {
-        this._http.put('http://localhost:64196/api/profiles/techers/',{}).subscribe(
+        this._http.put('http://localhost:64196/api/profiles/techers/',{}).take(1).subscribe(
             (res:any) => { 
                 this.router.navigate(['']);
             },

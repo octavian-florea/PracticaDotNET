@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import * as decode from 'jwt-decode';
 import { User } from '../models/user.model';
+import 'rxjs/add/operator/take';
 
 @Injectable()
 export class AuthService{
@@ -27,11 +28,11 @@ export class AuthService{
     }
 
     getEmailExistsHttp(email:string){
-        return this._http.get(this.rootURL+'api/auth/emailexists/'+email);
+        return this._http.get(this.rootURL+'api/auth/emailexists/'+email).take(1);
     }
 
     registerHttp(user: object): void{
-        this._http.post(this.rootURL+'api/auth/register', user).subscribe(
+        this._http.post(this.rootURL+'api/auth/register', user).take(1).subscribe(
             (res:any) => { 
                 this.login(res);
             },
@@ -40,7 +41,7 @@ export class AuthService{
     }
 
     loginHttp(user: object): void{
-        this._http.post(this.rootURL+'api/auth/login', user).subscribe(
+        this._http.post(this.rootURL+'api/auth/login', user).take(1).subscribe(
             (res:any) => { 
                 this.login(res);
             },

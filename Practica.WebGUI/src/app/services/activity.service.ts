@@ -6,6 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { ActivityDto } from '../models/activity-dto.model';
 import { Search } from '../models/search.model';
 import * as moment from 'moment';
+import 'rxjs/add/operator/take';
 
 @Injectable()
 export class ActivityService{
@@ -109,7 +110,7 @@ export class ActivityService{
     }
 
     getActivityHttp(id: string): Observable<Object>{
-        return this._http.get(this.rootURL+'/api/activities/'+id);
+        return this._http.get(this.rootURL+'/api/activities/'+id).take(1);
     }
 
     getActivitiesHttp(searchObj: Search): Observable<Object>{
@@ -117,15 +118,15 @@ export class ActivityService{
         for (var key in searchObj) {
             data[key] = searchObj[key];
         }
-        return this._http.get(this.rootURL+'/api/activities',{params: data});
+        return this._http.get(this.rootURL+'/api/activities',{params: data}).take(1);
     }
 
     getActivitiesByUserHttp(): Observable<Object>{
-        return this._http.get(this.rootURL+'/api/activities/user');
+        return this._http.get(this.rootURL+'/api/activities/user').take(1);
     }
 
     postActivityHttp(activity: ActivityDto): void{
-        this._http.post(this.rootURL+'/api/activities', activity).subscribe(
+        this._http.post(this.rootURL+'/api/activities', activity).take(1).subscribe(
             (res:any) => { 
                 this.router.navigate(['/activities-company']);
             },
@@ -134,7 +135,7 @@ export class ActivityService{
     }
 
     putActivityHttp(activity: ActivityDto): void{
-        this._http.put(this.rootURL+'/api/activities/'+activity.Id, activity).subscribe(
+        this._http.put(this.rootURL+'/api/activities/'+activity.Id, activity).take(1).subscribe(
             (res:any) => { 
                 this.router.navigate(['/activities-company']);
             },
@@ -143,7 +144,7 @@ export class ActivityService{
     }
 
     deleteActivityHttp(id: string): void{
-        this._http.delete(this.rootURL+'/api/activities/'+id).subscribe(
+        this._http.delete(this.rootURL+'/api/activities/'+id).take(1).subscribe(
             (res:any) => { 
                 this.router.navigate(['/activities-company']);
             },

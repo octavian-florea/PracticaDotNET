@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AplicationCreateDto } from '../models/aplication-create-dto.model';
 import { CompanyAplicationTable } from '../models/company-aplication-table.model';
 import * as moment from 'moment';
+import 'rxjs/add/operator/take';
 
 @Injectable()
 export class AplicationService implements OnDestroy {
@@ -45,30 +46,30 @@ export class AplicationService implements OnDestroy {
   }
 
   getAplications(id: string): Observable<Object>{
-    return this._http.get(this.rootURL+'api/aplications/'+id);
+    return this._http.get(this.rootURL+'api/aplications/'+id).take(1);
   }
 
   getAplicationsByUserHttp(): Observable<Object>{
-    return this._http.get(this.rootURL+'api/aplications/user');
+    return this._http.get(this.rootURL+'api/aplications/user').take(1);
   }
 
   getAplicationsByActivityHttp(id: string){
-    return this._http.get(this.rootURL+'api/aplications/activities/'+id);
+    return this._http.get(this.rootURL+'api/aplications/activities/'+id).take(1);
   }
 
   getAplicationsByActivityAndUserHttp(id: string){
-    return this._http.get(this.rootURL+'api/aplications/activities/'+id+'/user/');
+    return this._http.get(this.rootURL+'api/aplications/activities/'+id+'/user/').take(1);
   }
 
   postAplicationHttp(aplication: AplicationCreateDto){
-    return this._http.post(this.rootURL+'api/aplications', aplication);
+    return this._http.post(this.rootURL+'api/aplications', aplication).take(1);
   }
 
   putAplicationStatusHttp(id, status:number){
-    return this._http.put(this.rootURL+'api/aplications/'+id, {Status: status});
+    return this._http.put(this.rootURL+'api/aplications/'+id, {Status: status}).take(1);
   }
 
   deleteAplicationHttp(id: string){
-    return this._http.delete(this.rootURL+'api/aplications/'+id);
+    return this._http.delete(this.rootURL+'api/aplications/'+id).take(1);
   }
 }
